@@ -13,21 +13,15 @@ _global_script_classes=[ {
 "class": "Settings",
 "language": "GDScript",
 "path": "res://scripts/Settings.gd"
-}, {
-"base": "Node2D",
-"class": "SettingsOLD",
-"language": "GDScript",
-"path": "res://scripts/SettingsOLD.gd"
 } ]
 _global_script_class_icons={
-"Settings": "",
-"SettingsOLD": ""
+"Settings": ""
 }
 
 [application]
 
 config/name="aimbooster"
-run/main_scene="res://scenes/MainMenu.tscn"
+run/main_scene="res://scenes/Root.tscn"
 config/icon="res://graphical/icon.png"
 
 [display]
