@@ -1,9 +1,13 @@
 [gd_scene load_steps=7 format=2]
 
-[ext_resource path="res://CopyrightLabel.tscn" type="PackedScene" id=1]
-[ext_resource path="res://comic.ttf" type="DynamicFontData" id=2]
-[ext_resource path="res://SettingsMenu.gd" type="Script" id=3]
-[ext_resource path="res://GameAudio.tscn" type="PackedScene" id=4]
+[ext_resource path="res://scenes/CopyrightLabel.tscn" type="PackedScene" id=1]
+[ext_resource path="res://graphical/Orange Juice.ttf" type="DynamicFontData" id=2]
+[ext_resource path="res://scripts/SettingsMenu.gd" type="Script" id=3]
+[ext_resource path="res://scenes/GameAudio.tscn" type="PackedScene" id=4]
+
+
+
+
 
 [sub_resource type="DynamicFont" id=1]
 size = 28

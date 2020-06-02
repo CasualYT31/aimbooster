@@ -1,8 +1,11 @@
 [gd_scene load_steps=7 format=2]
 
-[ext_resource path="res://title.png" type="Texture" id=1]
-[ext_resource path="res://comic.ttf" type="DynamicFontData" id=2]
-[ext_resource path="res://CopyrightLabel.tscn" type="PackedScene" id=3]
+[ext_resource path="res://graphical/title.png" type="Texture" id=1]
+[ext_resource path="res://graphical/Orange Juice.ttf" type="DynamicFontData" id=2]
+[ext_resource path="res://scenes/CopyrightLabel.tscn" type="PackedScene" id=3]
+
+
+
 
 [sub_resource type="DynamicFont" id=1]
 size = 48
