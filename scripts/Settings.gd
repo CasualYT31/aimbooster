@@ -89,6 +89,9 @@ func setFullscreen(newval):
 func getFullscreen():
 	return fullscreen
 
+func gotoPreviousMenu():
+	call_deferred("_switchToMenu", previousMenu)
+
 func openMainMenu():
 	call_deferred("_switchToMenu", Menu.MAIN)
 
