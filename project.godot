@@ -8,14 +8,9 @@
 
 config_version=4
 
-_global_script_classes=[ {
-"base": "Node",
-"class": "Settings",
-"language": "GDScript",
-"path": "res://scripts/Settings.gd"
-} ]
+_global_script_classes=[  ]
 _global_script_class_icons={
-"Settings": ""
+
 }
 
 [application]
@@ -23,6 +18,10 @@ _global_script_class_icons={
 config/name="aimbooster"
 run/main_scene="res://scenes/Root.tscn"
 config/icon="res://graphical/icon.png"
+
+[autoload]
+
+Settings="*res://scripts/Settings.gd"
 
 [display]
 

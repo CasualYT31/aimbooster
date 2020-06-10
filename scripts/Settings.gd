@@ -1,7 +1,5 @@
 extends Node
 
-class_name Settings
-
 const INFINITE_LIVES: int = 0
 const INFINITE_TIME: float = -1.0
 
@@ -13,6 +11,11 @@ export var time: float = INFINITE_TIME setget setTime, getTime
 export var fullscreen: bool = OS.window_fullscreen setget setFullscreen, getFullscreen
 
 enum Audio {BG, HIT, MISS}
+enum Menu {NONE, MAIN, SETTINGS, GAME, STATISTICS}
+
+var currentMenu: int = Menu.NONE
+var previousMenu: int = Menu.NONE
+var menuNode = null
 
 func playAudio(id):
 	if (id == Audio.BG):
@@ -85,3 +88,38 @@ func setFullscreen(newval):
 
 func getFullscreen():
 	return fullscreen
+
+func openMainMenu():
+	call_deferred("_switchToMenu", Menu.MAIN)
+
+func openSettingsMenu():
+	call_deferred("_switchToMenu", Menu.SETTINGS)
+
+func openGame():
+	call_deferred("_switchToMenu", Menu.GAME)
+
+func openStatisticsMenu():
+	call_deferred("_switchToMenu", Menu.STATISTICS)
+
+# use call_deferred() to ensure that this method is called at a later time,
+# when deleting the current scene will be OK
+# please don't call this outside of this script file...
+# wish there was a way to enforce that but oh well... you can't have everything...
+func _switchToMenu(id):
+	var path = "res://scenes/"
+	match id:
+		Menu.MAIN:
+			path += "MainMenu.tscn"
+		Menu.SETTINGS:
+			path += "SettingsMenu.tscn"
+		Menu.GAME:
+			path += "GameMenu.tscn"
+		Menu.STATISTICS:
+			path += "StatisticsMenu.tscn"
+	previousMenu = currentMenu
+	currentMenu = id
+	if (menuNode != null):
+		remove_child(menuNode)
+		menuNode.free()
+	menuNode = load(path).instance()
+	add_child(menuNode)
