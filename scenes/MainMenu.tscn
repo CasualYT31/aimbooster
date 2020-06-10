@@ -1,8 +1,9 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://graphical/title.png" type="Texture" id=1]
 [ext_resource path="res://graphical/Orange Juice.ttf" type="DynamicFontData" id=2]
 [ext_resource path="res://scenes/CopyrightLabel.tscn" type="PackedScene" id=3]
+[ext_resource path="res://scripts/MainMenu.gd" type="Script" id=4]
 
 [sub_resource type="DynamicFont" id=1]
 size = 48
@@ -19,6 +20,7 @@ font_data = ExtResource( 2 )
 [node name="Control" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
+script = ExtResource( 4 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -85,3 +87,6 @@ text = "End Game"
 margin_top = 838.0
 margin_right = 1680.0
 margin_bottom = 840.0
+[connection signal="pressed" from="MarginContainer/VBoxContainer/VBoxContainer/StartGame" to="." method="_on_StartGame_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/VBoxContainer/Settings" to="." method="_on_Settings_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/VBoxContainer/EndGame" to="." method="_on_EndGame_pressed"]

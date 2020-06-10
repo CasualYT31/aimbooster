@@ -1,10 +1,11 @@
 [gd_scene load_steps=3 format=2]
 
-[ext_resource path="res://comic.ttf" type="DynamicFontData" id=1]
+[sub_resource type="DynamicFontData" id=1]
+font_path = "res://graphical/Orange Juice.ttf"
 
-[sub_resource type="DynamicFont" id=1]
+[sub_resource type="DynamicFont" id=2]
 size = 20
-font_data = ExtResource( 1 )
+font_data = SubResource( 1 )
 
 [node name="CopyrightLabel" type="MarginContainer"]
 margin_right = 40.0
@@ -14,9 +15,9 @@ __meta__ = {
 }
 
 [node name="Label" type="Label" parent="."]
-margin_top = 10.0
-margin_right = 160.0
-margin_bottom = 30.0
-custom_fonts/font = SubResource( 1 )
+margin_top = 19.0
+margin_right = 40.0
+margin_bottom = 21.0
+custom_fonts/font = SubResource( 2 )
 text = "Copyright (C) 2020"
 align = 2
