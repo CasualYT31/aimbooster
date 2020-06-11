@@ -13,8 +13,8 @@ export var fullscreen: bool = OS.window_fullscreen setget setFullscreen, getFull
 enum Audio {BG, HIT, MISS}
 enum Menu {NONE, MAIN, SETTINGS, GAME, STATISTICS}
 
-var currentMenu: int = Menu.NONE
-var previousMenu: int = Menu.NONE
+export var currentMenu: int = Menu.NONE setget setCurrentMenu, getCurrentMenu
+export var previousMenu: int = Menu.NONE setget , getPreviousMenu
 var menuNode = null
 
 func playAudio(id):
@@ -24,6 +24,8 @@ func playAudio(id):
 		get_node("HitShot").play()
 	elif (id == Audio.MISS):
 		get_node("MissedShot").play()
+	else:
+		OS.alert("Invalid ID given for playAudio(): " + str(id))
 
 func setSoundVolume(newval):
 	if (newval > 100.0):
@@ -89,20 +91,14 @@ func setFullscreen(newval):
 func getFullscreen():
 	return fullscreen
 
-func gotoPreviousMenu():
-	call_deferred("_switchToMenu", previousMenu)
+func setCurrentMenu(newval):
+	call_deferred("_switchToMenu", newval)
 
-func openMainMenu():
-	call_deferred("_switchToMenu", Menu.MAIN)
+func getCurrentMenu():
+	return currentMenu
 
-func openSettingsMenu():
-	call_deferred("_switchToMenu", Menu.SETTINGS)
-
-func openGame():
-	call_deferred("_switchToMenu", Menu.GAME)
-
-func openStatisticsMenu():
-	call_deferred("_switchToMenu", Menu.STATISTICS)
+func getPreviousMenu():
+	return previousMenu
 
 # use call_deferred() to ensure that this method is called at a later time,
 # when deleting the current scene will be OK
@@ -119,6 +115,9 @@ func _switchToMenu(id):
 			path += "GameMenu.tscn"
 		Menu.STATISTICS:
 			path += "StatisticsMenu.tscn"
+		_:
+			OS.alert("Invalid menu ID: " + str(id))
+			return
 	previousMenu = currentMenu
 	currentMenu = id
 	if (menuNode != null):
