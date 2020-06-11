@@ -3,7 +3,7 @@
 [ext_resource path="res://scenes/CopyrightLabel.tscn" type="PackedScene" id=1]
 [ext_resource path="res://graphical/Orange Juice.ttf" type="DynamicFontData" id=2]
 [ext_resource path="res://scripts/SettingsMenu.gd" type="Script" id=3]
-[ext_resource path="res://scenes/Settings.tscn" type="PackedScene" id=4]
+[ext_resource path="res://scenes/GameAudio.tscn" type="PackedScene" id=4]
 
 [sub_resource type="DynamicFont" id=1]
 size = 32
@@ -312,4 +312,6 @@ margin_right = 1680.0
 margin_bottom = 840.0
 
 [node name="GameAudio" parent="." instance=ExtResource( 4 )]
+[connection signal="value_changed" from="MarginContainer/VBoxContainer/GridContainer/SoundVolume" to="." method="_on_SoundVolume_value_changed"]
+[connection signal="value_changed" from="MarginContainer/VBoxContainer/GridContainer/MusicVolume" to="." method="_on_MusicVolume_value_changed"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/GridContainer/BackButton" to="." method="_on_BackButton_pressed"]
