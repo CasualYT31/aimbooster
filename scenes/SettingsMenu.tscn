@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=21 format=2]
 
 [ext_resource path="res://scenes/CopyrightLabel.tscn" type="PackedScene" id=1]
 [ext_resource path="res://graphical/Orange Juice.ttf" type="DynamicFontData" id=2]
@@ -6,189 +6,310 @@
 [ext_resource path="res://scenes/Settings.tscn" type="PackedScene" id=4]
 
 [sub_resource type="DynamicFont" id=1]
-size = 28
+size = 32
 font_data = ExtResource( 2 )
 
 [sub_resource type="DynamicFont" id=2]
-size = 28
+size = 32
 font_data = ExtResource( 2 )
 
-[sub_resource type="DynamicFontData" id=3]
-font_path = "res://graphical/Orange Juice.ttf"
+[sub_resource type="DynamicFont" id=3]
+size = 32
+font_data = ExtResource( 2 )
 
 [sub_resource type="DynamicFont" id=4]
 size = 32
-font_data = SubResource( 3 )
+font_data = ExtResource( 2 )
+
+[sub_resource type="DynamicFont" id=5]
+size = 32
+font_data = ExtResource( 2 )
+
+[sub_resource type="DynamicFont" id=6]
+size = 32
+font_data = ExtResource( 2 )
+
+[sub_resource type="DynamicFont" id=7]
+size = 32
+font_data = ExtResource( 2 )
+
+[sub_resource type="DynamicFont" id=8]
+size = 32
+font_data = ExtResource( 2 )
+
+[sub_resource type="DynamicFont" id=9]
+size = 32
+font_data = ExtResource( 2 )
+
+[sub_resource type="DynamicFont" id=10]
+size = 32
+font_data = ExtResource( 2 )
+
+[sub_resource type="DynamicFont" id=11]
+size = 32
+font_data = ExtResource( 2 )
+
+[sub_resource type="DynamicFont" id=12]
+size = 32
+font_data = ExtResource( 2 )
+
+[sub_resource type="DynamicFont" id=13]
+size = 32
+font_data = ExtResource( 2 )
+
+[sub_resource type="DynamicFont" id=14]
+size = 32
+font_data = ExtResource( 2 )
+
+[sub_resource type="DynamicFont" id=15]
+size = 32
+font_data = ExtResource( 2 )
+
+[sub_resource type="DynamicFont" id=16]
+size = 32
+font_data = ExtResource( 2 )
 
 [node name="Control" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-mouse_filter = 1
 script = ExtResource( 3 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="GridContainer" type="GridContainer" parent="."]
-margin_left = 757.0
+[node name="MarginContainer" type="MarginContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 120.0
 margin_top = 120.0
-margin_right = 1162.0
-margin_bottom = 960.0
-size_flags_horizontal = 4
-custom_constants/vseparation = 15
-custom_constants/hseparation = 50
-columns = 2
+margin_right = -120.0
+margin_bottom = -120.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="SoundLabel" type="Label" parent="GridContainer"]
-margin_right = 171.0
-margin_bottom = 28.0
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+margin_right = 1680.0
+margin_bottom = 840.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="GridContainer" type="GridContainer" parent="MarginContainer/VBoxContainer"]
+margin_left = 581.0
+margin_right = 1099.0
+margin_bottom = 362.0
+size_flags_horizontal = 4
+size_flags_vertical = 2
+custom_constants/vseparation = 20
+custom_constants/hseparation = 20
+columns = 3
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="SoundLabel" type="Label" parent="MarginContainer/VBoxContainer/GridContainer"]
+margin_right = 194.0
+margin_bottom = 32.0
+size_flags_horizontal = 8
 custom_fonts/font = SubResource( 1 )
 text = "Sound Volume"
 
-[node name="SoundVolume" type="HSlider" parent="GridContainer"]
-margin_left = 221.0
-margin_right = 405.0
-margin_bottom = 16.0
-tick_count = 100
-ticks_on_borders = true
+[node name="SoundVolume" type="HSlider" parent="MarginContainer/VBoxContainer/GridContainer"]
+margin_left = 214.0
+margin_right = 422.0
+margin_bottom = 32.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
 
-[node name="MusicLabel" type="Label" parent="GridContainer"]
-margin_top = 43.0
-margin_right = 171.0
-margin_bottom = 71.0
-custom_fonts/font = SubResource( 1 )
+[node name="SoundValueLabel" type="Label" parent="MarginContainer/VBoxContainer/GridContainer"]
+margin_left = 442.0
+margin_right = 518.0
+margin_bottom = 32.0
+custom_fonts/font = SubResource( 2 )
+
+[node name="MusicLabel" type="Label" parent="MarginContainer/VBoxContainer/GridContainer"]
+margin_left = 7.0
+margin_top = 52.0
+margin_right = 194.0
+margin_bottom = 84.0
+size_flags_horizontal = 8
+custom_fonts/font = SubResource( 3 )
 text = "Music Volume"
 
-[node name="MusicVolume" type="HSlider" parent="GridContainer"]
-margin_left = 221.0
-margin_top = 43.0
-margin_right = 405.0
-margin_bottom = 59.0
+[node name="MusicVolume" type="HSlider" parent="MarginContainer/VBoxContainer/GridContainer"]
+margin_left = 214.0
+margin_top = 52.0
+margin_right = 422.0
+margin_bottom = 84.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
 
-[node name="ShootLabel" type="Label" parent="GridContainer"]
-margin_top = 89.0
-margin_right = 171.0
-margin_bottom = 117.0
-custom_fonts/font = SubResource( 1 )
+[node name="MusicValueLabel" type="Label" parent="MarginContainer/VBoxContainer/GridContainer"]
+margin_left = 442.0
+margin_top = 52.0
+margin_right = 518.0
+margin_bottom = 84.0
+custom_fonts/font = SubResource( 4 )
+
+[node name="ShootLabel" type="Label" parent="MarginContainer/VBoxContainer/GridContainer"]
+margin_left = 16.0
+margin_top = 107.0
+margin_right = 194.0
+margin_bottom = 139.0
+size_flags_horizontal = 8
+custom_fonts/font = SubResource( 5 )
 text = "Shoot Button"
 
-[node name="ShootContainer" type="HBoxContainer" parent="GridContainer"]
-margin_left = 221.0
-margin_top = 86.0
-margin_right = 405.0
-margin_bottom = 120.0
-
-[node name="LeftButton" type="Button" parent="GridContainer/ShootContainer"]
-margin_right = 90.0
-margin_bottom = 34.0
+[node name="ShootContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/GridContainer"]
+margin_left = 214.0
+margin_top = 104.0
+margin_right = 422.0
+margin_bottom = 142.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-custom_fonts/font = SubResource( 2 )
+
+[node name="ShootLeft" type="Button" parent="MarginContainer/VBoxContainer/GridContainer/ShootContainer"]
+margin_right = 102.0
+margin_bottom = 38.0
+size_flags_horizontal = 3
+size_flags_vertical = 4
+custom_fonts/font = SubResource( 6 )
 text = "Left"
 
-[node name="RightButton" type="Button" parent="GridContainer/ShootContainer"]
-margin_left = 94.0
-margin_right = 184.0
-margin_bottom = 34.0
+[node name="ShootRight" type="Button" parent="MarginContainer/VBoxContainer/GridContainer/ShootContainer"]
+margin_left = 106.0
+margin_right = 208.0
+margin_bottom = 38.0
 size_flags_horizontal = 3
-size_flags_vertical = 3
-custom_fonts/font = SubResource( 2 )
+size_flags_vertical = 4
+custom_fonts/font = SubResource( 7 )
 text = "Right"
 
-[node name="ModeLabel" type="Label" parent="GridContainer"]
-margin_top = 138.0
-margin_right = 171.0
-margin_bottom = 166.0
-custom_fonts/font = SubResource( 1 )
+[node name="ShootFiller" type="Control" parent="MarginContainer/VBoxContainer/GridContainer"]
+margin_left = 442.0
+margin_top = 104.0
+margin_right = 518.0
+margin_bottom = 142.0
+
+[node name="ModeLabel" type="Label" parent="MarginContainer/VBoxContainer/GridContainer"]
+margin_left = 38.0
+margin_top = 165.0
+margin_right = 194.0
+margin_bottom = 197.0
+size_flags_horizontal = 8
+custom_fonts/font = SubResource( 8 )
 text = "Game Mode"
 
-[node name="ModeContainer" type="HBoxContainer" parent="GridContainer"]
-margin_left = 221.0
-margin_top = 135.0
-margin_right = 405.0
-margin_bottom = 169.0
-
-[node name="NormalButton" type="Button" parent="GridContainer/ModeContainer"]
-margin_right = 93.0
-margin_bottom = 34.0
-size_flags_horizontal = 3
+[node name="ModeContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/GridContainer"]
+margin_left = 214.0
+margin_top = 162.0
+margin_right = 422.0
+margin_bottom = 200.0
 size_flags_vertical = 3
-custom_fonts/font = SubResource( 2 )
+
+[node name="ModeNormal" type="Button" parent="MarginContainer/VBoxContainer/GridContainer/ModeContainer"]
+margin_right = 106.0
+margin_bottom = 38.0
+size_flags_horizontal = 3
+size_flags_vertical = 4
+custom_fonts/font = SubResource( 9 )
 text = "Normal"
 
-[node name="EnemyButton" type="Button" parent="GridContainer/ModeContainer"]
-margin_left = 97.0
-margin_right = 184.0
-margin_bottom = 34.0
+[node name="ModeEnemy" type="Button" parent="MarginContainer/VBoxContainer/GridContainer/ModeContainer"]
+margin_left = 110.0
+margin_right = 208.0
+margin_bottom = 38.0
 size_flags_horizontal = 3
-size_flags_vertical = 3
-custom_fonts/font = SubResource( 2 )
+size_flags_vertical = 4
+custom_fonts/font = SubResource( 10 )
 text = "Enemy"
 
-[node name="LivesLabel" type="Label" parent="GridContainer"]
-margin_top = 184.0
-margin_right = 171.0
-margin_bottom = 212.0
-custom_fonts/font = SubResource( 1 )
+[node name="ModeFiller" type="Control" parent="MarginContainer/VBoxContainer/GridContainer"]
+margin_left = 442.0
+margin_top = 162.0
+margin_right = 518.0
+margin_bottom = 200.0
+
+[node name="LivesLabel" type="Label" parent="MarginContainer/VBoxContainer/GridContainer"]
+margin_left = 120.0
+margin_top = 220.0
+margin_right = 194.0
+margin_bottom = 252.0
+size_flags_horizontal = 8
+custom_fonts/font = SubResource( 11 )
 text = "Lives"
 
-[node name="LivesSlider" type="HSlider" parent="GridContainer"]
-margin_left = 221.0
-margin_top = 184.0
-margin_right = 405.0
-margin_bottom = 200.0
-max_value = 9.0
+[node name="Lives" type="HSlider" parent="MarginContainer/VBoxContainer/GridContainer"]
+margin_left = 214.0
+margin_top = 220.0
+margin_right = 422.0
+margin_bottom = 252.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
 
-[node name="TimeLabel" type="Label" parent="GridContainer"]
-margin_top = 227.0
-margin_right = 171.0
-margin_bottom = 255.0
-custom_fonts/font = SubResource( 1 )
+[node name="LivesValueLabel" type="Label" parent="MarginContainer/VBoxContainer/GridContainer"]
+margin_left = 442.0
+margin_top = 220.0
+margin_right = 518.0
+margin_bottom = 252.0
+custom_fonts/font = SubResource( 12 )
+
+[node name="TimeLabel" type="Label" parent="MarginContainer/VBoxContainer/GridContainer"]
+margin_left = 129.0
+margin_top = 272.0
+margin_right = 194.0
+margin_bottom = 304.0
+size_flags_horizontal = 8
+custom_fonts/font = SubResource( 13 )
 text = "Time"
 
-[node name="TimeSlider" type="HSlider" parent="GridContainer"]
-margin_left = 221.0
-margin_top = 227.0
-margin_right = 405.0
-margin_bottom = 243.0
-min_value = -1.0
-max_value = 600.0
+[node name="Time" type="HSlider" parent="MarginContainer/VBoxContainer/GridContainer"]
+margin_left = 214.0
+margin_top = 272.0
+margin_right = 422.0
+margin_bottom = 304.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
 
-[node name="FullLabel" type="Label" parent="GridContainer"]
-margin_top = 270.0
-margin_right = 171.0
-margin_bottom = 298.0
-custom_fonts/font = SubResource( 1 )
+[node name="TimeValueLabel" type="Label" parent="MarginContainer/VBoxContainer/GridContainer"]
+margin_left = 442.0
+margin_top = 272.0
+margin_right = 518.0
+margin_bottom = 304.0
+custom_fonts/font = SubResource( 14 )
+
+[node name="FullscreenLabel" type="Label" parent="MarginContainer/VBoxContainer/GridContainer"]
+margin_left = 50.0
+margin_top = 327.0
+margin_right = 194.0
+margin_bottom = 359.0
+size_flags_horizontal = 8
+custom_fonts/font = SubResource( 15 )
 text = "Full Screen"
 
-[node name="FullCheckbox" type="CheckBox" parent="GridContainer"]
-margin_left = 221.0
-margin_top = 270.0
-margin_right = 405.0
-margin_bottom = 298.0
+[node name="Fullscreen" type="CheckBox" parent="MarginContainer/VBoxContainer/GridContainer"]
+margin_left = 214.0
+margin_top = 324.0
+margin_right = 422.0
+margin_bottom = 362.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
 
-[node name="BlankFiller" type="Label" parent="GridContainer"]
-margin_top = 325.0
-margin_right = 171.0
-margin_bottom = 339.0
-
-[node name="BackButton" type="Button" parent="GridContainer"]
-margin_left = 221.0
-margin_top = 313.0
-margin_right = 405.0
-margin_bottom = 351.0
-custom_fonts/font = SubResource( 4 )
+[node name="BackButton" type="Button" parent="MarginContainer/VBoxContainer/GridContainer"]
+margin_left = 442.0
+margin_top = 324.0
+margin_right = 518.0
+margin_bottom = 362.0
+size_flags_horizontal = 3
+size_flags_vertical = 4
+custom_fonts/font = SubResource( 16 )
 text = "Back"
 
-[node name="CopyrightLabel" parent="." instance=ExtResource( 1 )]
-margin_left = 120.0
-margin_top = 120.0
-margin_right = 1800.0
-margin_bottom = 960.0
+[node name="CopyrightLabel" parent="MarginContainer/VBoxContainer" instance=ExtResource( 1 )]
+margin_top = 820.0
+margin_right = 1680.0
+margin_bottom = 840.0
 
 [node name="GameAudio" parent="." instance=ExtResource( 4 )]
-[connection signal="value_changed" from="GridContainer/SoundVolume" to="." method="_on_SoundVolume_value_changed"]
-[connection signal="pressed" from="GridContainer/BackButton" to="." method="_on_BackButton_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/GridContainer/BackButton" to="." method="_on_BackButton_pressed"]

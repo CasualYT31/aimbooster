@@ -12,4 +12,4 @@ func _draw():
 	get_node("GameAudio/HitShot").play()
 
 func _on_BackButton_pressed():
-	Settings.gotoPreviousMenu()
+	Settings.currentMenu = Settings.previousMenu

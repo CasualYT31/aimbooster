@@ -1,4 +1,4 @@
 extends Node
 
 func _ready():
-	Settings.openMainMenu()
+	Settings.currentMenu = Settings.Menu.MAIN
