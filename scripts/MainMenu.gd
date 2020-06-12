@@ -1,5 +1,8 @@
 extends Control
 
+func _ready():
+	Settings.playAudio(Settings.Audio.BG)
+
 func _on_StartGame_pressed():
 	Settings.currentMenu = Settings.Menu.GAME
 

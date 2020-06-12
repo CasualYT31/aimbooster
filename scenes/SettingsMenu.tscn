@@ -314,4 +314,5 @@ margin_bottom = 840.0
 [node name="GameAudio" parent="." instance=ExtResource( 4 )]
 [connection signal="value_changed" from="MarginContainer/VBoxContainer/GridContainer/SoundVolume" to="." method="_on_SoundVolume_value_changed"]
 [connection signal="value_changed" from="MarginContainer/VBoxContainer/GridContainer/MusicVolume" to="." method="_on_MusicVolume_value_changed"]
+[connection signal="toggled" from="MarginContainer/VBoxContainer/GridContainer/Fullscreen" to="." method="_on_Fullscreen_toggled"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/GridContainer/BackButton" to="." method="_on_BackButton_pressed"]
