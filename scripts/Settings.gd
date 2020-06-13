@@ -1,7 +1,7 @@
 extends Node
 
 const INFINITE_LIVES: int = 0
-const INFINITE_TIME: float = -1.0
+const INFINITE_TIME: float = 0.0
 
 export var soundVolume: float = 50.0 setget setSoundVolume, getSoundVolume
 export var musicVolume: float = 50.0 setget setMusicVolume, getMusicVolume
