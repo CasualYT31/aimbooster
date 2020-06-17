@@ -21,7 +21,7 @@ config/icon="res://graphical/icon.png"
 
 [autoload]
 
-Settings="*res://scripts/Settings.gd"
+Global="*res://scripts/Global.gd"
 
 [display]
 

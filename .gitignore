@@ -1,3 +1,5 @@
 *.lnk
 *.import
 .import/
+./settings.json
+./window_size.json
