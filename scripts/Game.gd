@@ -22,6 +22,7 @@ func _on_SettingsMenu_go_back_to_game_menu():
 func _removeSettingsMenu():
 	get_node("SettingsMenu").remove_child(settingsMenu)
 	settingsMenu.free()
+	# some sort of reloading of settings here ...
 	_makeAllVisible(true)
 
 func _makeAllVisible(flag):
