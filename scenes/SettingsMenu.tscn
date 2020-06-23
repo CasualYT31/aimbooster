@@ -95,9 +95,9 @@ __meta__ = {
 }
 
 [node name="GridContainer" type="GridContainer" parent="MarginContainer/VBoxContainer"]
-margin_left = 569.0
-margin_right = 1111.0
-margin_bottom = 362.0
+margin_left = 440.0
+margin_right = 1240.0
+margin_bottom = 418.0
 size_flags_horizontal = 4
 size_flags_vertical = 2
 custom_constants/vseparation = 20
@@ -108,209 +108,208 @@ __meta__ = {
 }
 
 [node name="SoundLabel" type="Label" parent="MarginContainer/VBoxContainer/GridContainer"]
-margin_right = 194.0
-margin_bottom = 32.0
+margin_right = 299.0
+margin_bottom = 40.0
 size_flags_horizontal = 8
 custom_fonts/font = SubResource( 1 )
 text = "Sound Volume"
 
 [node name="SoundVolume" type="HSlider" parent="MarginContainer/VBoxContainer/GridContainer"]
-margin_left = 214.0
-margin_right = 422.0
-margin_bottom = 32.0
+margin_left = 319.0
+margin_right = 630.0
+margin_bottom = 40.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="SoundValueLabel" type="Label" parent="MarginContainer/VBoxContainer/GridContainer"]
-margin_left = 442.0
-margin_right = 542.0
-margin_bottom = 32.0
+margin_left = 650.0
+margin_right = 800.0
+margin_bottom = 40.0
 custom_fonts/font = SubResource( 2 )
 
 [node name="MusicLabel" type="Label" parent="MarginContainer/VBoxContainer/GridContainer"]
-margin_left = 7.0
-margin_top = 52.0
-margin_right = 194.0
-margin_bottom = 84.0
+margin_left = 9.0
+margin_top = 60.0
+margin_right = 299.0
+margin_bottom = 100.0
 size_flags_horizontal = 8
 custom_fonts/font = SubResource( 3 )
 text = "Music Volume"
 
 [node name="MusicVolume" type="HSlider" parent="MarginContainer/VBoxContainer/GridContainer"]
-margin_left = 214.0
-margin_top = 52.0
-margin_right = 422.0
-margin_bottom = 84.0
+margin_left = 319.0
+margin_top = 60.0
+margin_right = 630.0
+margin_bottom = 100.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="MusicValueLabel" type="Label" parent="MarginContainer/VBoxContainer/GridContainer"]
-margin_left = 442.0
-margin_top = 52.0
-margin_right = 542.0
-margin_bottom = 84.0
+margin_left = 650.0
+margin_top = 60.0
+margin_right = 800.0
+margin_bottom = 100.0
 custom_fonts/font = SubResource( 4 )
 
 [node name="ShootLabel" type="Label" parent="MarginContainer/VBoxContainer/GridContainer"]
-margin_left = 16.0
-margin_top = 107.0
-margin_right = 194.0
-margin_bottom = 139.0
+margin_left = 33.0
+margin_top = 123.0
+margin_right = 299.0
+margin_bottom = 163.0
 size_flags_horizontal = 8
 custom_fonts/font = SubResource( 5 )
 text = "Shoot Button"
 
 [node name="ShootContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/GridContainer"]
-margin_left = 214.0
-margin_top = 104.0
-margin_right = 422.0
-margin_bottom = 142.0
+margin_left = 319.0
+margin_top = 120.0
+margin_right = 630.0
+margin_bottom = 166.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="ShootLeft" type="Button" parent="MarginContainer/VBoxContainer/GridContainer/ShootContainer"]
-margin_right = 102.0
-margin_bottom = 38.0
+margin_right = 153.0
+margin_bottom = 46.0
 size_flags_horizontal = 3
 size_flags_vertical = 4
 custom_fonts/font = SubResource( 6 )
 text = "Left"
 
 [node name="ShootRight" type="Button" parent="MarginContainer/VBoxContainer/GridContainer/ShootContainer"]
-margin_left = 106.0
-margin_right = 208.0
-margin_bottom = 38.0
+margin_left = 157.0
+margin_right = 311.0
+margin_bottom = 46.0
 size_flags_horizontal = 3
 size_flags_vertical = 4
 custom_fonts/font = SubResource( 7 )
 text = "Right"
 
 [node name="ShootFiller" type="Control" parent="MarginContainer/VBoxContainer/GridContainer"]
-margin_left = 442.0
-margin_top = 104.0
-margin_right = 542.0
-margin_bottom = 142.0
+margin_left = 650.0
+margin_top = 120.0
+margin_right = 800.0
+margin_bottom = 166.0
 
 [node name="ModeLabel" type="Label" parent="MarginContainer/VBoxContainer/GridContainer"]
-margin_left = 38.0
-margin_top = 165.0
-margin_right = 194.0
-margin_bottom = 197.0
+margin_left = 52.0
+margin_top = 189.0
+margin_right = 299.0
+margin_bottom = 229.0
 size_flags_horizontal = 8
 custom_fonts/font = SubResource( 8 )
 text = "Game Mode"
 
 [node name="ModeContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/GridContainer"]
-margin_left = 214.0
-margin_top = 162.0
-margin_right = 422.0
-margin_bottom = 200.0
+margin_left = 319.0
+margin_top = 186.0
+margin_right = 630.0
+margin_bottom = 232.0
 size_flags_vertical = 3
 
 [node name="ModeNormal" type="Button" parent="MarginContainer/VBoxContainer/GridContainer/ModeContainer"]
-margin_right = 106.0
-margin_bottom = 38.0
+margin_right = 153.0
+margin_bottom = 46.0
 size_flags_horizontal = 3
 size_flags_vertical = 4
 custom_fonts/font = SubResource( 9 )
 text = "Normal"
 
 [node name="ModeEnemy" type="Button" parent="MarginContainer/VBoxContainer/GridContainer/ModeContainer"]
-margin_left = 110.0
-margin_right = 208.0
-margin_bottom = 38.0
+margin_left = 157.0
+margin_right = 311.0
+margin_bottom = 46.0
 size_flags_horizontal = 3
 size_flags_vertical = 4
 custom_fonts/font = SubResource( 10 )
 text = "Enemy"
 
 [node name="ModeFiller" type="Control" parent="MarginContainer/VBoxContainer/GridContainer"]
-margin_left = 442.0
-margin_top = 162.0
-margin_right = 542.0
-margin_bottom = 200.0
+margin_left = 650.0
+margin_top = 186.0
+margin_right = 800.0
+margin_bottom = 232.0
 
 [node name="LivesLabel" type="Label" parent="MarginContainer/VBoxContainer/GridContainer"]
-margin_left = 120.0
-margin_top = 220.0
-margin_right = 194.0
-margin_bottom = 252.0
+margin_left = 186.0
+margin_top = 252.0
+margin_right = 299.0
+margin_bottom = 292.0
 size_flags_horizontal = 8
 custom_fonts/font = SubResource( 11 )
 text = "Lives"
 
 [node name="Lives" type="HSlider" parent="MarginContainer/VBoxContainer/GridContainer"]
-margin_left = 214.0
-margin_top = 220.0
-margin_right = 422.0
-margin_bottom = 252.0
+margin_left = 319.0
+margin_top = 252.0
+margin_right = 630.0
+margin_bottom = 292.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 max_value = 10.0
 
 [node name="LivesValueLabel" type="Label" parent="MarginContainer/VBoxContainer/GridContainer"]
-margin_left = 442.0
-margin_top = 220.0
-margin_right = 542.0
-margin_bottom = 252.0
+margin_left = 650.0
+margin_top = 252.0
+margin_right = 800.0
+margin_bottom = 292.0
 custom_fonts/font = SubResource( 12 )
 
 [node name="TimeLabel" type="Label" parent="MarginContainer/VBoxContainer/GridContainer"]
-margin_left = 129.0
-margin_top = 272.0
-margin_right = 194.0
-margin_bottom = 304.0
+margin_left = 204.0
+margin_top = 312.0
+margin_right = 299.0
+margin_bottom = 352.0
 size_flags_horizontal = 8
 custom_fonts/font = SubResource( 13 )
 text = "Time"
 
 [node name="Time" type="HSlider" parent="MarginContainer/VBoxContainer/GridContainer"]
-margin_left = 214.0
-margin_top = 272.0
-margin_right = 422.0
-margin_bottom = 304.0
+margin_left = 319.0
+margin_top = 312.0
+margin_right = 630.0
+margin_bottom = 352.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 max_value = 10.0
-step = 1.0
 
 [node name="TimeValueLabel" type="Label" parent="MarginContainer/VBoxContainer/GridContainer"]
-margin_left = 442.0
-margin_top = 272.0
-margin_right = 542.0
-margin_bottom = 304.0
+margin_left = 650.0
+margin_top = 312.0
+margin_right = 800.0
+margin_bottom = 352.0
 custom_fonts/font = SubResource( 14 )
 
 [node name="FullscreenLabel" type="Label" parent="MarginContainer/VBoxContainer/GridContainer"]
-margin_left = 50.0
-margin_top = 327.0
-margin_right = 194.0
-margin_bottom = 359.0
+margin_left = 74.0
+margin_top = 375.0
+margin_right = 299.0
+margin_bottom = 415.0
 size_flags_horizontal = 8
 custom_fonts/font = SubResource( 15 )
 text = "Full Screen"
 
 [node name="Fullscreen" type="CheckBox" parent="MarginContainer/VBoxContainer/GridContainer"]
-margin_left = 214.0
-margin_top = 324.0
-margin_right = 422.0
-margin_bottom = 362.0
+margin_left = 319.0
+margin_top = 372.0
+margin_right = 630.0
+margin_bottom = 418.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="BackButton" type="Button" parent="MarginContainer/VBoxContainer/GridContainer"]
-margin_left = 442.0
-margin_top = 324.0
-margin_right = 542.0
-margin_bottom = 362.0
-rect_min_size = Vector2( 100, 0 )
+margin_left = 650.0
+margin_top = 372.0
+margin_right = 800.0
+margin_bottom = 418.0
+rect_min_size = Vector2( 150, 0 )
 size_flags_horizontal = 3
 size_flags_vertical = 4
 custom_fonts/font = SubResource( 16 )
 text = "Back"
 
 [node name="CopyrightLabel" parent="MarginContainer/VBoxContainer" instance=ExtResource( 4 )]
-margin_top = 820.0
+margin_top = 815.0
 margin_right = 1680.0
 margin_bottom = 840.0
 [connection signal="value_changed" from="MarginContainer/VBoxContainer/GridContainer/SoundVolume" to="." method="_on_SoundVolume_value_changed"]

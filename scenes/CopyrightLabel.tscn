@@ -15,9 +15,9 @@ __meta__ = {
 }
 
 [node name="Label" type="Label" parent="."]
-margin_top = 19.0
-margin_right = 40.0
-margin_bottom = 21.0
+margin_top = 7.0
+margin_right = 241.0
+margin_bottom = 32.0
 custom_fonts/font = SubResource( 2 )
 text = "Copyright (C) 2020"
 align = 2
