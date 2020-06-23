@@ -40,3 +40,4 @@ func _switchToMenu(id):
 		menuNode.free()
 	menuNode = load(path).instance()
 	add_child(menuNode)
+	menuNode.raise()

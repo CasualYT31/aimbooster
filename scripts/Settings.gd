@@ -14,6 +14,9 @@ export var fullscreen: bool = OS.window_fullscreen setget setFullscreen, getFull
 
 # constructor: loads settings file and updates variables
 func _init():
+	read()
+
+func read():
 	var file = File.new()
 	if !file.file_exists(SETTINGS_FILE_PATH):
 		OS.alert("Settings file does not yet exist: reverting to defaults and saving...")
