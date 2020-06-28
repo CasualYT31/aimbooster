@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://scripts/Root.gd" type="Script" id=1]
-[ext_resource path="res://graphical/background.png" type="Texture" id=2]
+[ext_resource path="res://graphical/1920x1080-orange-color-wheel-solid-color-background.jpg" type="Texture" id=2]
 [ext_resource path="res://audio/Mistake the Getaway.ogg" type="AudioStream" id=3]
 
 [node name="Root" type="Node"]
