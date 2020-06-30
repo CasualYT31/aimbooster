@@ -1,10 +1,28 @@
 extends Control
 
+var Statistics = preload("res://scripts/Statistics.gd")
+var Settings = preload("res://scripts/Settings.gd")
+
+var statistics
+# keeps track of the length of the game, not including pausing
+# should be initialised to OS.get_unix_time() in _ready(),
+# and a signal should be sent every second to this script,
+# which increments this value by 1 if unpaused
+# NOTE: IN THE NEW GAME SCENE, A TIMER NODE IS REQUIRED
+var currentTime: int
+
 var settingsMenu
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	pass # Replace with function body.
+	# load game settings ONCE at the beginning and disregard for the rest of
+	# execution: this means that, even if a player were to edit the script
+	# mid-game, the game will run as expected and will not change
+	var settings = Settings.new()
+	# initialise statistics object
+	statistics = Statistics.new(settings.lives, settings.time)
+	# start the time counter
+	currentTime = OS.get_unix_time()
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 #func _process(delta):
