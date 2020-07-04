@@ -5,14 +5,7 @@ var Settings = preload("res://scripts/Settings.gd")
 var tracker: bool = false
 
 func _ready():
-	# remember old window size
-	var file = File.new()
-	if file.file_exists("res://window_size.json"):
-		if file.open("res://window_size.json", File.READ) == 0:
-			var data = parse_json(file.get_line())
-			OS.set_window_size(Vector2(data["x"], data["y"]))
-			file.close()
-	# open main menu
+	Global.recallWindowPosition()
 	Global.currentMenu = Global.Menu.MAIN
 
 # manages background music continuously.
@@ -30,3 +23,8 @@ func _process(_delta):
 		if (!tracker):
 			musicNode.play()
 			tracker = true
+
+func _notification(what):
+	if (what == MainLoop.NOTIFICATION_WM_QUIT_REQUEST):
+		Global.retainWindowPosition()
+		get_tree().quit()

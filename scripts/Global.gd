@@ -41,3 +41,32 @@ func _switchToMenu(id):
 	menuNode = load(path).instance()
 	add_child(menuNode)
 	menuNode.raise()
+
+func recallWindowPosition():
+	var file = File.new()
+	if file.file_exists("res://window_size.json"):
+		if file.open("res://window_size.json", File.READ) == 0:
+			var data = parse_json(file.get_line())
+			if (!data.has("w")):
+				data["w"] = 1920
+			if (!data.has("h")):
+				data["h"] = 1080
+			if (!data.has("x")):
+				data["x"] = 0
+			if (!data.has("y")):
+				data["y"] = 0
+			OS.set_window_size(Vector2(data["w"], data["h"]))
+			OS.set_window_position(Vector2(data["x"], data["y"]))
+			file.close()
+
+func retainWindowPosition():
+	var data = {
+		x = OS.get_window_position().x,
+		y = OS.get_window_position().y,
+		w = OS.get_window_size().x,
+		h = OS.get_window_size().y
+	}
+	var file = File.new()
+	if file.open("res://window_size.json", File.WRITE) == 0:
+		file.store_line(to_json(data))
+		file.close()
