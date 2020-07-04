@@ -127,13 +127,6 @@ text = "Quit Game"
 
 [node name="SecondCounter" type="Timer" parent="."]
 autostart = true
-
-[node name="Label" type="Label" parent="."]
-margin_right = 40.0
-margin_bottom = 14.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
 [connection signal="pressed" from="GameGUI/PauseMenu/MenuContainer/ContinueButton" to="." method="_on_ContinueButton_pressed"]
 [connection signal="pressed" from="GameGUI/PauseMenu/MenuContainer/SettingsButton" to="." method="_on_SettingsButton_pressed"]
 [connection signal="pressed" from="GameGUI/PauseMenu/MenuContainer/QuitButton" to="." method="_on_QuitButton_pressed"]
