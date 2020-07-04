@@ -98,8 +98,8 @@ __meta__ = {
 }
 
 [node name="GridContainer" type="GridContainer" parent="MarginContainer/VBoxContainer"]
-margin_left = 452.0
-margin_right = 1228.0
+margin_left = 418.0
+margin_right = 1261.0
 margin_bottom = 400.0
 size_flags_horizontal = 4
 size_flags_vertical = 2
@@ -119,14 +119,14 @@ text = "Sound Volume"
 
 [node name="SoundVolume" type="HSlider" parent="MarginContainer/VBoxContainer/GridContainer"]
 margin_left = 319.0
-margin_right = 606.0
+margin_right = 673.0
 margin_bottom = 40.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="SoundValueLabel" type="Label" parent="MarginContainer/VBoxContainer/GridContainer"]
-margin_left = 626.0
-margin_right = 776.0
+margin_left = 693.0
+margin_right = 843.0
 margin_bottom = 40.0
 custom_fonts/font = SubResource( 2 )
 
@@ -142,15 +142,15 @@ text = "Music Volume"
 [node name="MusicVolume" type="HSlider" parent="MarginContainer/VBoxContainer/GridContainer"]
 margin_left = 319.0
 margin_top = 60.0
-margin_right = 606.0
+margin_right = 673.0
 margin_bottom = 100.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="MusicValueLabel" type="Label" parent="MarginContainer/VBoxContainer/GridContainer"]
-margin_left = 626.0
+margin_left = 693.0
 margin_top = 60.0
-margin_right = 776.0
+margin_right = 843.0
 margin_bottom = 100.0
 custom_fonts/font = SubResource( 4 )
 
@@ -166,13 +166,13 @@ text = "Shoot Button"
 [node name="ShootContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/GridContainer"]
 margin_left = 319.0
 margin_top = 120.0
-margin_right = 606.0
+margin_right = 673.0
 margin_bottom = 160.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="ShootLeft" type="Button" parent="MarginContainer/VBoxContainer/GridContainer/ShootContainer"]
-margin_right = 141.0
+margin_right = 175.0
 margin_bottom = 40.0
 size_flags_horizontal = 3
 size_flags_vertical = 4
@@ -183,8 +183,8 @@ custom_fonts/font = SubResource( 6 )
 text = "Left"
 
 [node name="ShootRight" type="Button" parent="MarginContainer/VBoxContainer/GridContainer/ShootContainer"]
-margin_left = 145.0
-margin_right = 287.0
+margin_left = 179.0
+margin_right = 354.0
 margin_bottom = 40.0
 size_flags_horizontal = 3
 size_flags_vertical = 4
@@ -195,9 +195,9 @@ custom_fonts/font = SubResource( 7 )
 text = "Right"
 
 [node name="ShootFiller" type="Control" parent="MarginContainer/VBoxContainer/GridContainer"]
-margin_left = 626.0
+margin_left = 693.0
 margin_top = 120.0
-margin_right = 776.0
+margin_right = 843.0
 margin_bottom = 160.0
 
 [node name="ModeLabel" type="Label" parent="MarginContainer/VBoxContainer/GridContainer"]
@@ -212,13 +212,14 @@ text = "Game Mode"
 [node name="ModeContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/GridContainer"]
 margin_left = 319.0
 margin_top = 180.0
-margin_right = 606.0
+margin_right = 673.0
 margin_bottom = 220.0
 size_flags_vertical = 3
 
 [node name="ModeNormal" type="Button" parent="MarginContainer/VBoxContainer/GridContainer/ModeContainer"]
-margin_right = 141.0
+margin_right = 175.0
 margin_bottom = 40.0
+rect_min_size = Vector2( 175, 0 )
 size_flags_horizontal = 3
 size_flags_vertical = 4
 custom_styles/hover = ExtResource( 5 )
@@ -228,9 +229,10 @@ custom_fonts/font = SubResource( 9 )
 text = "Normal"
 
 [node name="ModeEnemy" type="Button" parent="MarginContainer/VBoxContainer/GridContainer/ModeContainer"]
-margin_left = 145.0
-margin_right = 287.0
+margin_left = 179.0
+margin_right = 354.0
 margin_bottom = 40.0
+rect_min_size = Vector2( 175, 0 )
 size_flags_horizontal = 3
 size_flags_vertical = 4
 custom_styles/hover = ExtResource( 5 )
@@ -240,9 +242,9 @@ custom_fonts/font = SubResource( 10 )
 text = "Enemy"
 
 [node name="ModeFiller" type="Control" parent="MarginContainer/VBoxContainer/GridContainer"]
-margin_left = 626.0
+margin_left = 693.0
 margin_top = 180.0
-margin_right = 776.0
+margin_right = 843.0
 margin_bottom = 220.0
 
 [node name="LivesLabel" type="Label" parent="MarginContainer/VBoxContainer/GridContainer"]
@@ -257,16 +259,16 @@ text = "Lives"
 [node name="Lives" type="HSlider" parent="MarginContainer/VBoxContainer/GridContainer"]
 margin_left = 319.0
 margin_top = 240.0
-margin_right = 606.0
+margin_right = 673.0
 margin_bottom = 280.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 max_value = 10.0
 
 [node name="LivesValueLabel" type="Label" parent="MarginContainer/VBoxContainer/GridContainer"]
-margin_left = 626.0
+margin_left = 693.0
 margin_top = 240.0
-margin_right = 776.0
+margin_right = 843.0
 margin_bottom = 280.0
 custom_fonts/font = SubResource( 12 )
 
@@ -282,16 +284,16 @@ text = "Time"
 [node name="Time" type="HSlider" parent="MarginContainer/VBoxContainer/GridContainer"]
 margin_left = 319.0
 margin_top = 300.0
-margin_right = 606.0
+margin_right = 673.0
 margin_bottom = 340.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 max_value = 10.0
 
 [node name="TimeValueLabel" type="Label" parent="MarginContainer/VBoxContainer/GridContainer"]
-margin_left = 626.0
+margin_left = 693.0
 margin_top = 300.0
-margin_right = 776.0
+margin_right = 843.0
 margin_bottom = 340.0
 custom_fonts/font = SubResource( 14 )
 
@@ -307,15 +309,15 @@ text = "Full Screen"
 [node name="Fullscreen" type="CheckBox" parent="MarginContainer/VBoxContainer/GridContainer"]
 margin_left = 319.0
 margin_top = 360.0
-margin_right = 606.0
+margin_right = 673.0
 margin_bottom = 400.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="BackButton" type="Button" parent="MarginContainer/VBoxContainer/GridContainer"]
-margin_left = 626.0
+margin_left = 693.0
 margin_top = 360.0
-margin_right = 776.0
+margin_right = 843.0
 margin_bottom = 400.0
 rect_min_size = Vector2( 150, 0 )
 size_flags_horizontal = 3

@@ -4,6 +4,7 @@ var Statistics = preload("res://scripts/Statistics.gd")
 var Settings = preload("res://scripts/Settings.gd")
 
 var statistics
+var settings
 # keeps track of the length of the game, not including pausing
 var startTime: int = OS.get_unix_time()
 var currentTime: int
@@ -27,7 +28,7 @@ func _updateLivesDisplay():
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	var settings = Settings.new()
+	settings = Settings.new()
 	statistics = Statistics.new(settings.lives, settings.time)
 	currentTime = startTime - 1
 	_on_SecondCounter_timeout()
@@ -47,7 +48,7 @@ func _unhandled_input(event):
 				_pause()
 
 func _makeAllVisible(flag):
-	get_node("GameGUI/PauseMenu").visible = flag
+	get_node("GameGUI").visible = flag
 
 func _on_SecondCounter_timeout():
 	currentTime += 1
@@ -74,7 +75,16 @@ func _on_SettingsMenu_go_back_to_game_menu():
 func _removeSettingsMenu():
 	remove_child(settingsMenu)
 	settingsMenu.free()
-	# some sort of reloading of settings here ...
+	# reload settings here
+	# we must ensure that certain settings remain the same,
+	# so temporarily store them now then apply them to the new settings object
+	var currentEnemyModeSetting = settings.isEnemyMode
+	var currentLivesSetting = settings.lives
+	var currentTimeSetting = settings.time
+	settings = Settings.new()
+	settings.isEnemyMode = currentEnemyModeSetting
+	settings.lives = currentLivesSetting
+	settings.time = currentTimeSetting
 	_makeAllVisible(true)
 
 func _on_QuitButton_pressed():
