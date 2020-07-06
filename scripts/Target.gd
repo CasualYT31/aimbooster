@@ -2,13 +2,15 @@ extends Sprite
 
 enum Type {RED, ORANGE, YELLOW, GREEN, BLUE, PURPLE}
 
+#enum
+
 var type: int setget , getType
 
 func getType():
 	return type
 
 # constructor: creates a new target
-func _init(targetType: int):
+func _init(targetType: int, health: int):
 	match targetType:
 		Type.RED:
 			modulate = ColorN("red", 1.0)
