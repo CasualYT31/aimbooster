@@ -138,6 +138,7 @@ custom_fonts/font = SubResource( 6 )
 text = "Quit Game"
 
 [node name="SecondCounter" type="Timer" parent="."]
+wait_time = 0.001
 autostart = true
 [connection signal="pressed" from="GameGUI/PauseMenu/MenuContainer/ContinueButton" to="." method="_on_ContinueButton_pressed"]
 [connection signal="pressed" from="GameGUI/PauseMenu/MenuContainer/SettingsButton" to="." method="_on_SettingsButton_pressed"]
