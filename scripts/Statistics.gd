@@ -57,6 +57,7 @@ func getScheduledLength():
 # thanks to volzhs:
 # https://godotengine.org/qa/3641/how-display-elapsed-time-in-game?show=3642#a3642
 func getActualLength():
+# warning-ignore:integer_division
 	var minutes = actualLength / 60
 	var seconds = actualLength % 60
 	return "%02d : %02d" % [minutes, seconds]
@@ -74,7 +75,9 @@ func getMaximumPoints():
 	return maximumPoints
 
 func calculateAccuracy():
+# warning-ignore:integer_division
 	return self.totalHits / self.totalClicks
 
 func calculatePointPercentage():
+# warning-ignore:integer_division
 	return self.totalPoints / self.maximumPoints
