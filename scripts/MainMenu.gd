@@ -1,7 +1,5 @@
 extends Control
 
-signal quit_game
-
 func _on_StartGame_pressed():
 	Global.currentMenu = Global.Menu.GAME
 

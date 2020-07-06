@@ -8,6 +8,7 @@ var settings
 # keeps track of the length of the game, not including pausing
 var startTime: int = OS.get_unix_time()
 var currentTime: int
+var spawnTimerVal: int
 var lives: int
 
 var settingsMenu
@@ -51,7 +52,13 @@ func _makeAllVisible(flag):
 	get_node("GameGUI").visible = flag
 
 func _on_SecondCounter_timeout():
+	
 	currentTime += 1
+	
+	# Spawn timer, (idk how to init the target xD)
+	#if currentTime%5 == 0:
+		#pass
+	
 	var minutes: String = str((currentTime - startTime) / 60)
 	if len(minutes) == 1:
 		minutes = "0" + minutes
