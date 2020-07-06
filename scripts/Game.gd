@@ -6,8 +6,7 @@ var Settings = preload("res://scripts/Settings.gd")
 var statistics
 var settings
 # keeps track of the length of the game, not including pausing
-var currentTime: int
-var seconds: int
+var seconds: float
 var minutes: int
 var spawnTimerVal: int
 var lives: int
@@ -32,10 +31,8 @@ func _updateLivesDisplay():
 func _ready():
 	settings = Settings.new()
 	statistics = Statistics.new(settings.lives, settings.time)
-	currentTime = -1
-	seconds = 0
+	seconds = 55
 	minutes = 0
-	_on_SecondCounter_timeout()
 	lives = settings.lives
 	_updateLivesDisplay()
 
@@ -57,25 +54,18 @@ func _makeAllVisible(flag):
 var strSeconds: String = "00"
 var strMinutes: String = "00"
 
-func _on_SecondCounter_timeout():
+func _process(delta):
 	
-	currentTime += 1
+	seconds += delta
+	strSeconds = str(int(seconds))
 	
-	if currentTime % 100 == 0:
-		seconds += 1
-		strSeconds = str(seconds)
-	if seconds % 60 == 0:
+	if int(seconds) == 60:
+		seconds = 0
 		minutes += 1
 		strMinutes = str(minutes)
-	
-	#Spawn timer, (idk how to init the target xD)
-	#if currentTime%5 == 0:
-	#	pass
-	
-	#var minutes: String = str((currentTime / 10000))
+
 	if len(strMinutes) == 1:
 		strMinutes = "0" + strMinutes
-	#var seconds: String = str(fmod(currentTime / 100, 60))
 	if len(strSeconds) == 1:
 		strSeconds = "0" + strSeconds
 	get_node("GameGUI/HUD/TimeLabel").text = "Time: " + strMinutes + ":" + strSeconds
