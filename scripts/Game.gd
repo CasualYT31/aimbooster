@@ -36,10 +36,6 @@ func _ready():
 	lives = settings.lives
 	_updateLivesDisplay()
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-#func _process(delta):
-#	pass
-
 func _unhandled_input(event):
 	if event is InputEventKey:
 		if event.pressed and event.scancode == KEY_ESCAPE:
@@ -69,6 +65,7 @@ func _process(delta):
 	if len(strSeconds) == 1:
 		strSeconds = "0" + strSeconds
 	get_node("GameGUI/HUD/TimeLabel").text = "Time: " + strMinutes + ":" + strSeconds
+
 
 func _on_ContinueButton_pressed():
 	_unpause()

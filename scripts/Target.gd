@@ -1,8 +1,23 @@
 extends Sprite
 
+var Settings = preload("res://scripts/Settings.gd")
+
+var health: int
+var leftToShoot: bool
+var buttonToShoot
+
 enum Type {RED, ORANGE, YELLOW, GREEN, BLUE, PURPLE}
 
 var type: int setget , getType
+
+func _ready():
+	var settings = Settings.new()
+	settings.isLeftButtonToShoot()
+	
+	if settings.isLeftButtonToShoot == true:
+		buttonToShoot = BUTTON_LEFT
+	else:
+		buttonToShoot = BUTTON_RIGHT 
 
 func getType():
 	return type
@@ -11,36 +26,33 @@ func _init(targetType: int, health: int, x: float, y: float):
 	match targetType:
 		Type.RED:
 			modulate = ColorN("red", 1.0)
+			var targetHealth: int = health
 		Type.ORANGE:
 			modulate = ColorN("orange", 1.0)
 			scale = Vector2(0.9, 0.9)
+			var targetHealth: int = health
 		Type.YELLOW:
 			modulate = ColorN("yellow", 1.0)
 			scale = Vector2(0.8, 0.8)
+			var targetHealth: int = health
 		Type.GREEN:
 			modulate = ColorN("green", 1.0)
 			scale = Vector2(0.7, 0.7)
+			var targetHealth: int = health
 		Type.BLUE:
 			modulate = ColorN("blue", 1.0)
 			scale = Vector2(0.6, 0.6)
+			var targetHealth: int = health
 		Type.PURPLE:
 			modulate = ColorN("purple", 1.0)
 			scale = Vector2(0.5, 0.5)
+			var targetHealth: int = health
 		_:
 			OS.alert("Invalid target type!")
 
-# Called when the node enters the scene tree for the first time.
-func _ready():
-	pass # Replace with function body.
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-# warning-ignore:unused_argument
-func _process(delta):
-	pass
-
 # on click within defined area, it will print "Clicked"
-#func _on_Area2D_input_event(viewport, event, shape_idx):
-	 #if event.type == InputEvent.MOUSE_BUTTON \
-	#and event.button_index == BUTTON_LEFT \
-	#and event.pressed:
-		#print("Clicked")
+func _on_Area2D_input_event(viewport, event, shape_idx, targetHealth: int):
+	if event.type == InputEvent.MOUSE_BUTTON \
+	and event.button_index == buttonToShoot \
+	and event.pressed:
+		targetHealth-=1

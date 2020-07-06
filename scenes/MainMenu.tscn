@@ -8,15 +8,15 @@
 [ext_resource path="res://graphical/ButtonStyles/ButtonNormal.stylebox" type="StyleBox" id=6]
 [ext_resource path="res://graphical/ButtonStyles/ButtonPressed.stylebox" type="StyleBox" id=7]
 
+[sub_resource type="DynamicFont" id=1]
+size = 48
+font_data = ExtResource( 2 )
+
 [sub_resource type="DynamicFont" id=2]
 size = 48
 font_data = ExtResource( 2 )
 
 [sub_resource type="DynamicFont" id=3]
-size = 48
-font_data = ExtResource( 2 )
-
-[sub_resource type="DynamicFont" id=4]
 size = 48
 font_data = ExtResource( 2 )
 
@@ -74,7 +74,7 @@ margin_bottom = 122.0
 custom_styles/hover = ExtResource( 3 )
 custom_styles/pressed = ExtResource( 7 )
 custom_styles/normal = ExtResource( 6 )
-custom_fonts/font = SubResource( 2 )
+custom_fonts/font = SubResource( 1 )
 text = "Start Game"
 
 [node name="Settings" type="Button" parent="MarginContainer/VBoxContainer/VBoxContainer"]
@@ -84,7 +84,7 @@ margin_bottom = 231.0
 custom_styles/hover = ExtResource( 3 )
 custom_styles/pressed = ExtResource( 7 )
 custom_styles/normal = ExtResource( 6 )
-custom_fonts/font = SubResource( 3 )
+custom_fonts/font = SubResource( 2 )
 text = "Settings"
 
 [node name="EndGame" type="Button" parent="MarginContainer/VBoxContainer/VBoxContainer"]
@@ -94,7 +94,7 @@ margin_bottom = 340.0
 custom_styles/hover = ExtResource( 3 )
 custom_styles/pressed = ExtResource( 7 )
 custom_styles/normal = ExtResource( 6 )
-custom_fonts/font = SubResource( 4 )
+custom_fonts/font = SubResource( 3 )
 text = "End Game"
 
 [node name="CopyrightLabel" parent="MarginContainer/VBoxContainer" instance=ExtResource( 5 )]
