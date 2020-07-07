@@ -136,6 +136,8 @@ custom_styles/pressed = ExtResource( 3 )
 custom_styles/normal = ExtResource( 4 )
 custom_fonts/font = SubResource( 6 )
 text = "Quit Game"
+
+[node name="TargetParent" type="Node2D" parent="."]
 [connection signal="pressed" from="GameGUI/PauseMenu/MenuContainer/ContinueButton" to="." method="_on_ContinueButton_pressed"]
 [connection signal="pressed" from="GameGUI/PauseMenu/MenuContainer/SettingsButton" to="." method="_on_SettingsButton_pressed"]
 [connection signal="pressed" from="GameGUI/PauseMenu/MenuContainer/QuitButton" to="." method="_on_QuitButton_pressed"]
