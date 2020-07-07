@@ -1,6 +1,7 @@
 extends Node
 
 enum Menu {NONE, MAIN, SETTINGS, GAME, STATISTICS}
+enum TargetType {RED, ORANGE, YELLOW, GREEN, BLUE, PURPLE}
 
 export var currentMenu: int = Menu.NONE setget setCurrentMenu, getCurrentMenu
 export var previousMenu: int = Menu.NONE setget , getPreviousMenu

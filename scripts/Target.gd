@@ -5,14 +5,15 @@ extends Area2D
 # so other tasks that need to be carried out by Game.gd should be done there,
 # using these signals to identify when they need to be carried out
 signal target_hit
-#signal target_miss
+# warning-ignore:unused_signal
+signal target_miss
 
 var leftToShoot: bool
 var buttonToShoot
+var internalTimer: float
+var inPausedState: bool = false
 
 var Settings = preload("res://scripts/Settings.gd")
-
-enum Type {RED, ORANGE, YELLOW, GREEN, BLUE, PURPLE}
 
 export var type: int setget , getType
 export var startPosition: Vector2 setget , getStartPosition
@@ -22,13 +23,7 @@ export var activeDuration: float setget , getActiveDuration
 export var targetHealth: int setget , getHealth
 
 func _ready():
-	var settings = Settings.new()
-	settings.isLeftButtonToShoot()
-	
-	if settings.isLeftButtonToShoot == true:
-		buttonToShoot = BUTTON_LEFT
-	else:
-		buttonToShoot = BUTTON_RIGHT
+	pass
 
 func getType():
 	return type
@@ -54,29 +49,36 @@ func hit():
 		emit_signal("target_hit")
 
 # constructor
-func _init(targetType: int, health: int, startPos: Vector2, endPos: Vector2, howLongToKeepOnScreen: float):
+func new(targetType: int, health: int, startPos: Vector2, endPos: Vector2, howLongToKeepOnScreen: float):
 	match targetType:
-		Type.RED:
+		Global.TargetType.RED:
 			modulate = ColorN("red", 1.0)
 			# no scaling applied to the biggest size
-		Type.ORANGE:
+		Global.TargetType.ORANGE:
 			modulate = ColorN("orange", 1.0)
 			scale = Vector2(0.9, 0.9)
-		Type.YELLOW:
+		Global.TargetType.YELLOW:
 			modulate = ColorN("yellow", 1.0)
 			scale = Vector2(0.8, 0.8)
-		Type.GREEN:
+		Global.TargetType.GREEN:
 			modulate = ColorN("green", 1.0)
 			scale = Vector2(0.7, 0.7)
-		Type.BLUE:
+		Global.TargetType.BLUE:
 			modulate = ColorN("blue", 1.0)
 			scale = Vector2(0.6, 0.6)
-		Type.PURPLE:
+		Global.TargetType.PURPLE:
 			modulate = ColorN("purple", 1.0)
 			scale = Vector2(0.5, 0.5)
 		_:
 			OS.alert("Invalid target type!")
 	targetHealth = health
-	startPosition = startPos
 	endPosition = endPos
 	activeDuration = howLongToKeepOnScreen
+	position = startPos
+
+func _process(delta):
+	if inPausedState:
+		internalTimer += delta
+
+func _on_Game_TogglePause():
+	inPausedState = !inPausedState

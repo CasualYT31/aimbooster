@@ -7,6 +7,7 @@ var Settings = preload("res://scripts/Settings.gd")
 var settings = Settings.new()
 
 var firstFullscreenPress := true
+var firstFPSCounterPress := true
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -23,6 +24,7 @@ func _ready():
 	get_node("MarginContainer/VBoxContainer/GridContainer/Fullscreen").pressed = settings.fullscreen
 	firstFullscreenPress = false
 	get_node("MarginContainer/VBoxContainer/GridContainer/FPSCounterButton").pressed = settings.fpsCounter
+	firstFPSCounterPress = false
 	# if coming from the game menu, we need to DISABLE certain setting controls
 	# I've used CURRENT menu, not PREVIOUS menu, because I realised that if we
 	# switched to the settings menu from the games menu using Global.setCurrentMenu(),
@@ -146,5 +148,6 @@ func _on_Fullscreen_toggled(_button_pressed):
 		settings.save()
 
 func _on_FPSCounterButton_toggled(_button_pressed):
-	settings.fpsCounter = !settings.fpsCounter
-	settings.save()
+	if !firstFPSCounterPress:
+		settings.fpsCounter = !settings.fpsCounter
+		settings.save()

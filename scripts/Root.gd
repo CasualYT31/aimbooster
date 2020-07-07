@@ -9,6 +9,7 @@ onready var fpsNode = get_node("FPSCounter")
 func _ready():
 	Global.recallWindowPosition()
 	Global.currentMenu = Global.Menu.MAIN
+	randomize()
 
 # manages background music continuously.
 # there is a danger that alert dialogs will be produced continuously

@@ -1,5 +1,7 @@
 extends Control
 
+signal toggle_pause
+
 var Statistics = preload("res://scripts/Statistics.gd")
 var Settings = preload("res://scripts/Settings.gd")
 var Target = preload("res://scenes/Target.tscn")
@@ -16,7 +18,7 @@ var minutes: int = 0
 
 # spawning timing variables
 var spawnTimerCounter: float = 0.0
-var timeUntilNextSpawn: float = 3.25
+var timeUntilNextSpawn: float = 3.0
 # variables that define difficulty
 # chance variables will be a %age from 0-100
 # they represent a chance of a property being a certain way
@@ -44,9 +46,11 @@ func _isPaused():
 
 func _pause():
 	get_node("GameGUI/PauseMenu").visible = true
+	emit_signal("toggle_pause")
 
 func _unpause():
 	get_node("GameGUI/PauseMenu").visible = false
+	emit_signal("toggle_pause")
 
 func _updateLivesDisplay():
 	get_node("GameGUI/HUD/LivesLabel").text = "Lives: " + (str(lives) if lives > 0 else "Inf")
@@ -93,12 +97,13 @@ func _targetSpawnManager():
 		var targetType: int = _generateNewTargetType()
 		var targetHealth: int = _generateNewTargetHealth(targetType)
 		var targetStartPosition: Vector2 = _generateNewTargetPosition()
-		var targetEndPosition: Vector2
+		var targetEndPosition: Vector2 = _generateNewTargetPosition()
 		if _newTargetShouldBeAnimate():
-			targetEndPosition = targetStartPosition
-		else:
 			targetEndPosition = _generateNewTargetPosition()
-		var newTarget = Target.new(targetType, targetHealth, targetStartPosition, targetEndPosition, activeLifeOfTarget)
+		else:
+			targetEndPosition = targetStartPosition
+		var newTarget = Target.instance()
+		newTarget.new(targetType, targetHealth, targetStartPosition, targetEndPosition, activeLifeOfTarget)
 		get_node("TargetParent").add_child(newTarget)
 		
 		# probably connect a signal here which is sent by Target when it is killed
@@ -115,37 +120,37 @@ func _increaseDifficulty():
 func _generateNewTargetType():
 	var random: int = randi() % 100 + 1 # random number between 1 and 100
 	if random <= chanceOfRedTarget:
-		return Target.Type.RED
+		return Global.TargetType.RED
 	elif random <= chanceOfRedTarget + chanceOfOrangeTarget:
-		return Target.Type.ORANGE
+		return Global.TargetType.ORANGE
 	elif random <= chanceOfRedTarget + chanceOfOrangeTarget + chanceOfYellowTarget:
-		return Target.Type.YELLOW
+		return Global.TargetType.YELLOW
 	elif random <= chanceOfRedTarget + chanceOfOrangeTarget + chanceOfYellowTarget + chanceOfGreenTarget:
-		return Target.Type.GREEN
+		return Global.TargetType.GREEN
 	elif random <= chanceOfRedTarget + chanceOfOrangeTarget + chanceOfYellowTarget + chanceOfGreenTarget + chanceOfBlueTarget:
-		return Target.Type.BLUE
+		return Global.TargetType.BLUE
 	else:
-		return Target.Type.PURPLE
+		return Global.TargetType.PURPLE
 
 func _generateNewTargetHealth(targetType: int):
 	if settings.isEnemyMode:
 		match targetType:
-			Target.Type.RED, Target.Type.ORANGE:
+			Global.TargetType.RED, Global.TargetType.ORANGE:
 				return 2
-			Target.Type.YELLOW, Target.Type.GREEN:
+			Global.TargetType.YELLOW, Global.TargetType.GREEN:
 				return 3
-			Target.Type.BLUE, Target.Type.PURPLE:
+			Global.TargetType.BLUE, Global.TargetType.PURPLE:
 				return 4
 	else:
 		return 1
 
 func _generateNewTargetPosition():
-	return Vector2(randi() % int(OS.get_window_size().x), randi() % int(OS.get_window_size().y))
+	return Vector2(float(randi() % int(OS.get_window_size().x)), float(randi() % int(OS.get_window_size().y)))
 
 func _newTargetShouldBeAnimate():
 	return (randi() % 100 + 1) <= chanceOfStationaryTarget
 
-func _incrementTimeCounters(delta: float):
+func _incrementTimeCounters(delta):
 	if !_isPaused():
 		seconds += delta
 		spawnTimerCounter += delta
