@@ -5,7 +5,7 @@ extends Area2D
 # so other tasks that need to be carried out by Game.gd should be done there,
 # using these signals to identify when they need to be carried out
 signal target_hit
-signal target_miss
+#signal target_miss
 
 var leftToShoot: bool
 var buttonToShoot

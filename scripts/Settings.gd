@@ -11,6 +11,7 @@ export var isEnemyMode: bool = false setget setEnemyMode, getEnemyMode
 export var lives: int = 3 setget setLives, getLives
 export var time: int = INFINITE_TIME setget setTime, getTime
 export var fullscreen: bool = OS.window_fullscreen setget setFullscreen, getFullscreen
+export var fpsCounter: bool = true setget setFPSVisible, getFPSVisible
 
 # constructor: loads settings file and updates variables
 func _init():
@@ -42,6 +43,8 @@ func read():
 				self.time = data["time"]
 			if (data.has("fullscreen")):
 				self.fullscreen = data["fullscreen"]
+			if (data.has("fpscounter")):
+				self.fpsCounter = data["fpscounter"]
 			file.close()
 
 # saves settings to file
@@ -53,7 +56,8 @@ func save():
 		enemymode = self.isEnemyMode,
 		lives = self.lives,
 		time = self.time,
-		fullscreen = self.fullscreen
+		fullscreen = self.fullscreen,
+		fpscounter = self.fpsCounter
 	}
 	var file = File.new()
 	if file.open(SETTINGS_FILE_PATH, File.WRITE) != 0:
@@ -122,3 +126,9 @@ func setFullscreen(newval):
 
 func getFullscreen():
 	return fullscreen
+
+func setFPSVisible(newval):
+	fpsCounter = newval
+
+func getFPSVisible():
+	return fpsCounter

@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=2]
+[gd_scene load_steps=24 format=2]
 
 [ext_resource path="res://graphical/ButtonStyles/ButtonNormal.stylebox" type="StyleBox" id=1]
 [ext_resource path="res://graphical/Orange Juice.ttf" type="DynamicFontData" id=2]
@@ -71,6 +71,10 @@ font_data = ExtResource( 2 )
 size = 32
 font_data = ExtResource( 2 )
 
+[sub_resource type="DynamicFont" id=17]
+size = 32
+font_data = ExtResource( 2 )
+
 [node name="Control" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -100,7 +104,7 @@ __meta__ = {
 [node name="GridContainer" type="GridContainer" parent="MarginContainer/VBoxContainer"]
 margin_left = 418.0
 margin_right = 1261.0
-margin_bottom = 400.0
+margin_bottom = 460.0
 size_flags_horizontal = 4
 size_flags_vertical = 2
 custom_constants/vseparation = 20
@@ -314,18 +318,41 @@ margin_bottom = 400.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="BackButton" type="Button" parent="MarginContainer/VBoxContainer/GridContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer/GridContainer"]
 margin_left = 693.0
 margin_top = 360.0
 margin_right = 843.0
 margin_bottom = 400.0
+
+[node name="FPSCounterLabel" type="Label" parent="MarginContainer/VBoxContainer/GridContainer"]
+margin_top = 420.0
+margin_right = 299.0
+margin_bottom = 460.0
+custom_fonts/font = SubResource( 16 )
+text = "FPS-Counter"
+align = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="FPSCounterButton" type="CheckBox" parent="MarginContainer/VBoxContainer/GridContainer"]
+margin_left = 319.0
+margin_top = 420.0
+margin_right = 673.0
+margin_bottom = 460.0
+
+[node name="BackButton" type="Button" parent="MarginContainer/VBoxContainer/GridContainer"]
+margin_left = 693.0
+margin_top = 420.0
+margin_right = 843.0
+margin_bottom = 460.0
 rect_min_size = Vector2( 150, 0 )
 size_flags_horizontal = 3
 size_flags_vertical = 4
 custom_styles/hover = ExtResource( 5 )
 custom_styles/pressed = ExtResource( 6 )
 custom_styles/normal = ExtResource( 1 )
-custom_fonts/font = SubResource( 16 )
+custom_fonts/font = SubResource( 17 )
 text = "Back"
 
 [node name="CopyrightLabel" parent="MarginContainer/VBoxContainer" instance=ExtResource( 4 )]
@@ -341,4 +368,5 @@ margin_bottom = 840.0
 [connection signal="value_changed" from="MarginContainer/VBoxContainer/GridContainer/Lives" to="." method="_on_Lives_value_changed"]
 [connection signal="value_changed" from="MarginContainer/VBoxContainer/GridContainer/Time" to="." method="_on_Time_value_changed"]
 [connection signal="toggled" from="MarginContainer/VBoxContainer/GridContainer/Fullscreen" to="." method="_on_Fullscreen_toggled"]
+[connection signal="toggled" from="MarginContainer/VBoxContainer/GridContainer/FPSCounterButton" to="." method="_on_FPSCounterButton_toggled"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/GridContainer/BackButton" to="." method="_on_BackButton_pressed"]

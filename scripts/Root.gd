@@ -3,6 +3,8 @@ extends Node
 var Settings = preload("res://scripts/Settings.gd")
 
 var tracker: bool = false
+onready var musicNode = get_node("BGM")
+onready var fpsNode = get_node("FPSCounter")
 
 func _ready():
 	Global.recallWindowPosition()
@@ -13,8 +15,7 @@ func _ready():
 # if loading settings fails, then the subsequent saving fails, continuously...
 # see Settings._init() and Settings.save()
 func _process(_delta):
-	var settings = Settings.new() # calls Settings._init()
-	var musicNode = get_node("BGM")
+	var settings = Settings.new()
 	musicNode.volume_db = settings.getMusicVolumeAsDb()
 	if settings.musicVolume < 1.0:
 		musicNode.stop()
@@ -23,6 +24,7 @@ func _process(_delta):
 		if (!tracker):
 			musicNode.play()
 			tracker = true
+	fpsNode.visible = settings.getFPSVisible()
 
 func _notification(what):
 	if (what == MainLoop.NOTIFICATION_WM_QUIT_REQUEST):

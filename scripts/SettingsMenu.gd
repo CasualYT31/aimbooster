@@ -22,6 +22,7 @@ func _ready():
 	_updateTimeLabel()
 	get_node("MarginContainer/VBoxContainer/GridContainer/Fullscreen").pressed = settings.fullscreen
 	firstFullscreenPress = false
+	get_node("MarginContainer/VBoxContainer/GridContainer/FPSCounterButton").pressed = settings.fpsCounter
 	# if coming from the game menu, we need to DISABLE certain setting controls
 	# I've used CURRENT menu, not PREVIOUS menu, because I realised that if we
 	# switched to the settings menu from the games menu using Global.setCurrentMenu(),
@@ -143,3 +144,7 @@ func _on_Fullscreen_toggled(_button_pressed):
 	if !firstFullscreenPress:
 		settings.fullscreen = !settings.fullscreen
 		settings.save()
+
+func _on_FPSCounterButton_toggled(_button_pressed):
+	settings.fpsCounter = !settings.fpsCounter
+	settings.save()
