@@ -6,8 +6,8 @@ var Settings = preload("res://scripts/Settings.gd")
 var statistics
 var settings
 # keeps track of the length of the game, not including pausing
-var seconds: float
-var minutes: int
+var seconds: float = 0.0
+var minutes: int = 0
 var spawnTimerVal: int
 var lives: int
 
@@ -18,11 +18,9 @@ func _isPaused():
 
 func _pause():
 	get_node("GameGUI/PauseMenu").visible = true
-	get_node("SecondCounter").stop()
 
 func _unpause():
 	get_node("GameGUI/PauseMenu").visible = false
-	get_node("SecondCounter").start()
 
 func _updateLivesDisplay():
 	get_node("GameGUI/HUD/LivesLabel").text = "Lives: " + (str(lives) if lives > 0 else "Inf")
@@ -31,8 +29,6 @@ func _updateLivesDisplay():
 func _ready():
 	settings = Settings.new()
 	statistics = Statistics.new(settings.lives, settings.time)
-	seconds = 55
-	minutes = 0
 	lives = settings.lives
 	_updateLivesDisplay()
 
@@ -47,25 +43,20 @@ func _unhandled_input(event):
 func _makeAllVisible(flag):
 	get_node("GameGUI").visible = flag
 
-var strSeconds: String = "00"
-var strMinutes: String = "00"
-
 func _process(delta):
-	
-	seconds += delta
-	strSeconds = str(int(seconds))
-	
+	# HUD timer
+	if !_isPaused():
+		seconds += delta
+	var strSeconds = str(int(seconds))
 	if int(seconds) == 60:
-		seconds = 0
+		seconds = 0.0
 		minutes += 1
-		strMinutes = str(minutes)
-
+	var strMinutes = str(minutes)
 	if len(strMinutes) == 1:
 		strMinutes = "0" + strMinutes
 	if len(strSeconds) == 1:
 		strSeconds = "0" + strSeconds
 	get_node("GameGUI/HUD/TimeLabel").text = "Time: " + strMinutes + ":" + strSeconds
-
 
 func _on_ContinueButton_pressed():
 	_unpause()
