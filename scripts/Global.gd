@@ -41,7 +41,9 @@ func _switchToMenu(id):
 		menuNode.free()
 	menuNode = load(path).instance()
 	add_child(menuNode)
-	menuNode.raise()
+	var test = load("res://scenes/Target.tscn").instance()
+	add_child(test)
+	# menuNode.raise() # not even sure if this is necessary anymore?
 
 func recallWindowPosition():
 	var file = File.new()

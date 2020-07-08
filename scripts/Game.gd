@@ -87,7 +87,7 @@ func _targetSpawnManager():
 		statistics.increaseMaxScore(targetHealth)
 		var newTarget = Target.instance()
 		newTarget.initialiseTarget(settings, targetType, targetHealth, targetStartPosition, targetEndPosition, activeLifeOfTarget)
-		get_node("TargetParent").add_child(newTarget)
+		$TargetParent.add_child(newTarget)
 		var err = str(newTarget.connect("target_hit", self, "_on_target_hit")) + ","
 		err += str(newTarget.connect("target_miss", self, "_on_target_miss")) + ","
 		err += str(newTarget.connect("target_destroy", self, "_on_target_destroy")) + ","

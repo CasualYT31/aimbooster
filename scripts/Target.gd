@@ -75,14 +75,14 @@ func initialiseTarget(settingsReference, targetType: int, health: int, startPos:
 	activeDuration = howLongToKeepOnScreen
 	position = startPos
 
-func _process(delta):
-	internalTimer += delta
-	if internalTimer >= activeDuration:
-		get_parent().remove_child(self)
-		emit_signal("target_miss")
+#func _process(delta):
+#	internalTimer += delta
+#	if internalTimer >= activeDuration:
+#		get_parent().remove_child(self)
+#		emit_signal("target_miss")
+#	pass
 
 func _on_Area2D_input_event(viewport, event, shape_idx):
-	OS.alert("test")
 	if event is InputEventMouseButton:
 		if event.is_pressed():
 			print("Object hit")

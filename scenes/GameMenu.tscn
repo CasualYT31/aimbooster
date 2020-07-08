@@ -41,10 +41,13 @@ font_data = ExtResource( 1 )
 [node name="GameMenu" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
+mouse_filter = 2
 script = ExtResource( 2 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="TargetParent" type="Node2D" parent="."]
 
 [node name="StartCountdown" type="Label" parent="."]
 anchor_top = 0.5
@@ -58,56 +61,60 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="TargetParent" type="Node2D" parent="."]
-
 [node name="GameGUI" type="VBoxContainer" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
+margin_right = 12.0
+margin_bottom = 40.0
+mouse_filter = 2
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="HUD" type="HBoxContainer" parent="GameGUI"]
-margin_right = 1920.0
+margin_right = 1932.0
 margin_bottom = 40.0
+mouse_filter = 2
 size_flags_horizontal = 3
 size_flags_vertical = 0
 
 [node name="EmptyLabel1" type="Label" parent="GameGUI/HUD"]
 margin_top = 13.0
-margin_right = 477.0
+margin_right = 480.0
 margin_bottom = 27.0
 size_flags_horizontal = 3
 
 [node name="TimeLabel" type="Label" parent="GameGUI/HUD"]
-margin_left = 481.0
-margin_right = 958.0
+margin_left = 484.0
+margin_right = 964.0
 margin_bottom = 40.0
 size_flags_horizontal = 3
 custom_fonts/font = SubResource( 2 )
 align = 3
 
 [node name="LivesLabel" type="Label" parent="GameGUI/HUD"]
-margin_left = 962.0
-margin_right = 1439.0
+margin_left = 968.0
+margin_right = 1448.0
 margin_bottom = 40.0
 size_flags_horizontal = 3
 custom_fonts/font = SubResource( 3 )
 align = 3
 
 [node name="EmptyLabel2" type="Label" parent="GameGUI/HUD"]
-margin_left = 1443.0
+margin_left = 1452.0
 margin_top = 13.0
-margin_right = 1920.0
+margin_right = 1932.0
 margin_bottom = 27.0
 size_flags_horizontal = 3
 
 [node name="PauseMenu" type="MarginContainer" parent="GameGUI"]
 pause_mode = 2
-margin_left = 816.0
-margin_top = 374.0
-margin_right = 1103.0
-margin_bottom = 749.0
+visible = false
+margin_left = 822.0
+margin_top = 394.0
+margin_right = 1109.0
+margin_bottom = 769.0
+mouse_filter = 2
 size_flags_horizontal = 4
 size_flags_vertical = 6
 __meta__ = {
