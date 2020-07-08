@@ -11,7 +11,6 @@ signal target_miss
 var leftToShoot: bool
 var buttonToShoot
 var internalTimer: float
-var inPausedState: bool = false
 
 var Settings = preload("res://scripts/Settings.gd")
 
@@ -77,15 +76,10 @@ func initialiseTarget(targetType: int, health: int, startPos: Vector2, endPos: V
 	position = startPos
 
 func _process(delta):
-	if !inPausedState:
-		internalTimer += delta
+	internalTimer += delta
 	if internalTimer >= activeDuration:
 		get_parent().remove_child(self)
 		emit_signal("target_miss")
-
-func _on_Game_TogglePause():
-	inPausedState = !inPausedState
-
 
 func _on_Area2D_input_event(viewport, event, shape_idx):
 	

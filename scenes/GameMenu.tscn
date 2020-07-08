@@ -101,6 +101,7 @@ size_flags_horizontal = 3
 
 [node name="PauseMenu" type="MarginContainer" parent="GameGUI"]
 pause_mode = 2
+visible = false
 margin_left = 816.0
 margin_top = 371.0
 margin_right = 1103.0

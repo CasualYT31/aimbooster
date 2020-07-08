@@ -1,8 +1,5 @@
 extends Control
 
-# Signals
-signal toggle_pause # signal emitted when the pause state is toggled
-
 # Classes
 var Statistics = preload("res://scripts/Statistics.gd")
 var Settings = preload("res://scripts/Settings.gd")
@@ -71,11 +68,10 @@ func _process(delta):
 
 # Functions - Timing
 func _incrementTimeCounters(delta):
-	if !_isPaused():
-		entireLengthOfGame += delta
-		if entireLengthOfGame >= 0:
-			seconds += delta
-			spawnTimerCounter += delta
+	entireLengthOfGame += delta
+	if entireLengthOfGame >= 0:
+		seconds += delta
+		spawnTimerCounter += delta
 
 # Functions - Target Management
 # returns TRUE if a target was spawned, FALSE if not
@@ -90,11 +86,10 @@ func _targetSpawnManager():
 		var newTarget = Target.instance()
 		newTarget.initialiseTarget(targetType, targetHealth, targetStartPosition, targetEndPosition, activeLifeOfTarget)
 		get_node("TargetParent").add_child(newTarget)
-		var err1 = connect("toggle_pause", newTarget, "_on_Game_TogglePause")
-		var err2 = newTarget.connect("target_hit", self, "_on_target_hit")
-		var err3 = newTarget.connect("target_miss", self, "_on_target_miss")
-		if err1 != OK || err2 != OK || err3 != OK:
-			OS.alert("There was a serious error when attempting to create a target. Debug info: " + str(err1) + ", " + str(err2) + ", " + str(err3))
+		var err1 = newTarget.connect("target_hit", self, "_on_target_hit")
+		var err2 = newTarget.connect("target_miss", self, "_on_target_miss")
+		if err1 != OK || err2 != OK:
+			OS.alert("There was a serious error when attempting to create a target. Debug info: " + str(err1) + ", " + str(err2))
 		spawnTimerCounter = 0.0
 		return true
 	else:
@@ -156,21 +151,15 @@ func _on_target_miss():
 func _unhandled_input(event):
 	if event is InputEventKey:
 		if event.pressed and event.scancode == KEY_ESCAPE:
-			if _isPaused():
-				_unpause()
-			else:
-				_pause()
-
-func _isPaused():
-	return get_node("GameGUI/PauseMenu").visible || gameHasEnded
+			_pause() # user can no longer press Escape to unpause once paused...
 
 func _pause():
 	get_node("GameGUI/PauseMenu").visible = true
-	emit_signal("toggle_pause")
+	get_tree().paused = true
 
 func _unpause():
 	get_node("GameGUI/PauseMenu").visible = false
-	emit_signal("toggle_pause")
+	get_tree().paused = false
 
 # Functions - GUI Updating
 func _updateLivesDisplay():
@@ -244,4 +233,5 @@ func _on_EndButton_pressed():
 	_endGame()
 
 func _on_QuitButton_pressed():
+	get_tree().paused = false
 	Global.currentMenu = Global.Menu.MAIN
