@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://scripts/Root.gd" type="Script" id=1]
 [ext_resource path="res://graphical/1920x1080-orange-color-wheel-solid-color-background.jpg" type="Texture" id=2]
 [ext_resource path="res://audio/Mistake the Getaway.ogg" type="AudioStream" id=3]
 [ext_resource path="res://scenes/FPSCounter.tscn" type="PackedScene" id=4]
+[ext_resource path="res://scenes/Target.tscn" type="PackedScene" id=5]
 
 [node name="Root" type="Node"]
 pause_mode = 2
@@ -26,3 +27,5 @@ __meta__ = {
 }
 
 [node name="FPSCounter" parent="." instance=ExtResource( 4 )]
+
+[node name="Area2D" parent="." instance=ExtResource( 5 )]

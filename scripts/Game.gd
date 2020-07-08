@@ -1,5 +1,8 @@
 extends Control
 
+# Signals
+signal open_main_menu
+
 # Classes
 var Statistics = preload("res://scripts/Statistics.gd")
 var Settings = preload("res://scripts/Settings.gd")
@@ -237,7 +240,8 @@ func _on_ContinueButton_pressed():
 func _on_SettingsButton_pressed():
 	_makeAllVisible(false)
 	settingsMenu = load("res://scenes/SettingsMenu.tscn").instance()
-	settingsMenu.connect("go_back_to_game_menu", self, "_on_SettingsMenu_go_back_to_game_menu")
+	settingsMenu.limit = true
+	settingsMenu.connect("open_previous_menu", self, "_on_SettingsMenu_go_back_to_game_menu")
 	add_child(settingsMenu)
 
 func _on_SettingsMenu_go_back_to_game_menu():
@@ -245,7 +249,7 @@ func _on_SettingsMenu_go_back_to_game_menu():
 
 func _removeSettingsMenu():
 	remove_child(settingsMenu)
-	settingsMenu.free()
+	settingsMenu.queue_free()
 	# reload settings here
 	# we must ensure that certain settings remain the same,
 	# so temporarily store them now then apply them to the new settings object
@@ -264,4 +268,4 @@ func _on_EndButton_pressed():
 
 func _on_QuitButton_pressed():
 	get_tree().paused = false
-	Global.currentMenu = Global.Menu.MAIN
+	emit_signal("open_main_menu")

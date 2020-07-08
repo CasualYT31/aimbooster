@@ -1,6 +1,8 @@
 extends Control
 
-signal go_back_to_game_menu
+signal open_previous_menu
+
+export var limit := false
 
 var Settings = preload("res://scripts/Settings.gd")
 
@@ -25,14 +27,7 @@ func _ready():
 	firstFullscreenPress = false
 	get_node("MarginContainer/VBoxContainer/GridContainer/FPSCounterButton").pressed = settings.fpsCounter
 	firstFPSCounterPress = false
-	# if coming from the game menu, we need to DISABLE certain setting controls
-	# I've used CURRENT menu, not PREVIOUS menu, because I realised that if we
-	# switched to the settings menu from the games menu using Global.setCurrentMenu(),
-	# then the state of the game would be lost, which we don't want
-	# instead we can instance this settings menu from the games menu and retain game state
-	# this means that Global "thinks" we are still in the game menu, so currentMenu is used
-	# please also see _on_BackButton_pressed()
-	if (Global.currentMenu == Global.Menu.GAME):
+	if (limit):
 		get_node("MarginContainer/VBoxContainer/GridContainer/ModeContainer/ModeNormal").disabled = true
 		get_node("MarginContainer/VBoxContainer/GridContainer/ModeContainer/ModeEnemy").disabled = true
 		get_node("MarginContainer/VBoxContainer/GridContainer/Lives").editable = false
@@ -93,14 +88,7 @@ func _updateTimeLabel():
 		get_node("MarginContainer/VBoxContainer/GridContainer/TimeValueLabel").text = str(settings.time) + (" min" if settings.time == 1 else " mins")
 
 func _on_BackButton_pressed():
-	if (Global.currentMenu == Global.Menu.GAME):
-		# send some signal or something which the game scene listens for:
-		# sending this signal should signify that the instanced settings menu
-		# is to be destroyed
-		# please also see _ready()
-		emit_signal("go_back_to_game_menu")
-	else:
-		Global.currentMenu = Global.previousMenu
+	emit_signal("open_previous_menu")
 
 func _on_SoundVolume_value_changed(value):
 	settings.soundVolume = value
