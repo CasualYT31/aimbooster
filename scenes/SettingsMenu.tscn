@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=2]
+[gd_scene load_steps=25 format=2]
 
 [ext_resource path="res://graphical/ButtonStyles/ButtonNormal.stylebox" type="StyleBox" id=1]
 [ext_resource path="res://graphical/Orange Juice.ttf" type="DynamicFontData" id=2]
@@ -6,6 +6,7 @@
 [ext_resource path="res://scenes/CopyrightLabel.tscn" type="PackedScene" id=4]
 [ext_resource path="res://graphical/ButtonStyles/ButtonsHover.stylebox" type="StyleBox" id=5]
 [ext_resource path="res://graphical/ButtonStyles/ButtonPressed.stylebox" type="StyleBox" id=6]
+[ext_resource path="res://graphical/ButtonStyles/ButtonDisabled.stylebox" type="StyleBox" id=7]
 
 [sub_resource type="DynamicFont" id=1]
 size = 32
@@ -229,6 +230,7 @@ size_flags_horizontal = 3
 size_flags_vertical = 4
 custom_styles/hover = ExtResource( 5 )
 custom_styles/pressed = ExtResource( 6 )
+custom_styles/disabled = ExtResource( 7 )
 custom_styles/normal = ExtResource( 1 )
 custom_fonts/font = SubResource( 9 )
 text = "Normal"
@@ -242,6 +244,7 @@ size_flags_horizontal = 3
 size_flags_vertical = 4
 custom_styles/hover = ExtResource( 5 )
 custom_styles/pressed = ExtResource( 6 )
+custom_styles/disabled = ExtResource( 7 )
 custom_styles/normal = ExtResource( 1 )
 custom_fonts/font = SubResource( 10 )
 text = "Enemy"

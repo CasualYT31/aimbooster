@@ -54,19 +54,19 @@ func initialiseTarget(settingsReference, targetType: int, health: int, startPos:
 			# no scaling applied to the biggest size
 		Global.TargetType.ORANGE:
 			modulate = ColorN("orange", 1.0)
-			scale = Vector2(0.9, 0.9)
+			scale = Vector2(1.4, 1.4)
 		Global.TargetType.YELLOW:
 			modulate = ColorN("yellow", 1.0)
-			scale = Vector2(0.8, 0.8)
+			scale = Vector2(1.3, 1.3)
 		Global.TargetType.GREEN:
 			modulate = ColorN("green", 1.0)
-			scale = Vector2(0.7, 0.7)
+			scale = Vector2(1.2, 1.2)
 		Global.TargetType.BLUE:
 			modulate = ColorN("blue", 1.0)
-			scale = Vector2(0.6, 0.6)
+			scale = Vector2(1.1, 1.1)
 		Global.TargetType.PURPLE:
 			modulate = ColorN("purple", 1.0)
-			scale = Vector2(0.5, 0.5)
+			scale = Vector2(1.0, 1.0)
 		_:
 			OS.alert("Invalid target type!")
 	targetHealth = health

@@ -25,7 +25,7 @@ var seconds: float = 0.0
 var minutes: int = 0
 # spawn timing variables
 var spawnTimerCounter: float = 0.0 # timer that counts the number of seconds since last spawn
-var timeUntilNextSpawn: float = 1.0 # defines the length of time that must elapse until next spawn
+var timeUntilNextSpawn: float = 3.0 # defines the length of time that must elapse until next spawn
 
 # Variables - Difficulty Data
 # variables that define difficulty
@@ -48,7 +48,7 @@ var chanceOfPurpleTarget: int = 0
 var chanceOfStationaryTarget: int = 100
 # how long the target should remain on screen for
 # this value is to be gradually made smaller when adjusting difficulty
-var activeLifeOfTarget: float = 5.0 # timeUntilNextSpawn
+var activeLifeOfTarget: float = 1.5 # timeUntilNextSpawn
 
 # Variables - Game Over State Data
 # flag which signifies if the game has ended or not
@@ -102,7 +102,7 @@ func _targetSpawnManager():
 		return false
 
 func _generateNewTargetType():
-	var random: int = randi() % 100 + 1 # random number between 1 and 100
+	var random: int = (randi() % 100) + 1 # random number between 1 and 100
 	if random <= chanceOfRedTarget:
 		return Global.TargetType.RED
 	elif random <= chanceOfRedTarget + chanceOfOrangeTarget:
@@ -135,12 +135,36 @@ func _newTargetShouldBeAnimate():
 	return (randi() % 100 + 1) <= chanceOfStationaryTarget
 
 # Functions - Difficulty Management
-func _increaseDifficulty():
 	# adjust the following variables:
 	# target type chance group - ensure they all add up to 100!!
 	# target stationary chance
 	# decrease both activeLifeOfTarget and timeUntilNextSpawn by a small random amount
-	pass
+func _increaseDifficulty():
+	if timeUntilNextSpawn >= 0.2:
+		timeUntilNextSpawn -= .02
+	if activeLifeOfTarget >= 0.3:
+		activeLifeOfTarget -= .02
+		
+	if chanceOfRedTarget >= chanceOfOrangeTarget:
+		chanceOfRedTarget -= 2
+		chanceOfOrangeTarget += 2
+		
+	elif chanceOfOrangeTarget >= chanceOfYellowTarget:
+		chanceOfOrangeTarget -= 2
+		chanceOfYellowTarget += 2
+		
+	elif chanceOfYellowTarget >= chanceOfGreenTarget:
+		chanceOfYellowTarget -= 2
+		chanceOfGreenTarget += 2
+		
+	elif chanceOfGreenTarget >= chanceOfBlueTarget:
+		chanceOfGreenTarget -= 2
+		chanceOfBlueTarget += 2
+		
+	else:
+		chanceOfBlueTarget -= 2
+		chanceOfPurpleTarget += 2
+
 
 # Functions - Target Signal Handlers
 func _on_target_hit():

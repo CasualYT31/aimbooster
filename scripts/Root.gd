@@ -7,6 +7,7 @@ var SettingsScene = preload("res://scenes/SettingsMenu.tscn")
 var GameScene = preload("res://scenes/GameMenu.tscn")
 
 var tracker: bool = false
+
 onready var musicNode = get_node("BGM")
 onready var fpsNode = get_node("FPSCounter")
 
