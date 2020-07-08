@@ -5,14 +5,12 @@ extends Area2D
 # so other tasks that need to be carried out by Game.gd should be done there,
 # using these signals to identify when they need to be carried out
 signal target_hit
-# warning-ignore:unused_signal
 signal target_miss
+signal target_destroy
+signal click_made
 
-var leftToShoot: bool
-var buttonToShoot
 var internalTimer: float
-
-var Settings = preload("res://scripts/Settings.gd")
+var referenceToSettings # so that the shoot button can be read via the reference and be up to date always
 
 export var type: int setget , getType
 export var startPosition: Vector2 setget , getStartPosition
@@ -43,12 +41,14 @@ func getHealth():
 # if the health is at or below 0, it will remove itself
 func hit():
 	targetHealth -= 1
+	emit_signal("target_hit")
 	if targetHealth <= 0:
 		get_parent().remove_child(self)
-		emit_signal("target_hit")
+		emit_signal("target_destroy")
 
 # constructor
-func initialiseTarget(targetType: int, health: int, startPos: Vector2, endPos: Vector2, howLongToKeepOnScreen: float):
+func initialiseTarget(settingsReference, targetType: int, health: int, startPos: Vector2, endPos: Vector2, howLongToKeepOnScreen: float):
+	referenceToSettings = settingsReference
 	match targetType:
 		Global.TargetType.RED:
 			modulate = ColorN("red", 1.0)
@@ -82,7 +82,7 @@ func _process(delta):
 		emit_signal("target_miss")
 
 func _on_Area2D_input_event(viewport, event, shape_idx):
-	
+	OS.alert("test")
 	if event is InputEventMouseButton:
 		if event.is_pressed():
 			print("Object hit")

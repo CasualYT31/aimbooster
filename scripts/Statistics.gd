@@ -8,15 +8,13 @@ export var totalHits: int setget , getTotalHits
 export var totalClicks: int setget , getTotalClicks
 export var totalPoints: int setget , getTotalPoints
 export var maximumPoints: int setget , getMaximumPoints
-
-var timeStart = 0
+export var totalTargetsDestroyed: int setget , getTotalTargetsDestroyed
 
 # instantiates the class, ready for live tracking of stats
 # length is in MINUTES: just use settings value directly here
 func _init(initLives: int, initLength: int):
 	livesStartedAt = initLives
 	scheduledLength = initLength
-	timeStart = OS.get_unix_time()
 
 # supposed to be called once the game is over
 # you provide the lives the player ended up with,
@@ -27,12 +25,16 @@ func finishGame(finalLives: int, finalLength: int):
 	actualLength = finalLength
 
 # supposed to be called when a click in-game is made
-# the game calculates whether it was a hit or not,
-# then informs the statistics object of this
-func aClickWasMade(wasAHit: bool):
+func aClickWasMade():
 	totalClicks += 1
-	if wasAHit:
-		totalHits += 1
+
+# supposed to be called when a hit is made
+func aHitWasMade():
+	totalHits += 1
+
+# supposed to be called when a target's health reaches 0
+func aTargetWasDestroyed():
+	totalTargetsDestroyed += 1
 
 # supposed to be called every time a target is created
 # this keeps track of the max number of points that a player could earn in this
@@ -73,6 +75,9 @@ func getTotalPoints():
 
 func getMaximumPoints():
 	return maximumPoints
+
+func getTotalTargetsDestroyed():
+	return totalTargetsDestroyed
 
 func calculateAccuracy():
 # warning-ignore:integer_division

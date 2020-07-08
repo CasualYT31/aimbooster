@@ -47,8 +47,11 @@ __meta__ = {
 }
 
 [node name="StartCountdown" type="Label" parent="."]
+anchor_top = 0.5
 anchor_right = 1.0
-anchor_bottom = 1.0
+anchor_bottom = 0.5
+margin_top = -120.0
+margin_bottom = 120.0
 custom_fonts/font = SubResource( 1 )
 align = 1
 __meta__ = {
@@ -101,11 +104,10 @@ size_flags_horizontal = 3
 
 [node name="PauseMenu" type="MarginContainer" parent="GameGUI"]
 pause_mode = 2
-visible = false
 margin_left = 816.0
-margin_top = 371.0
+margin_top = 374.0
 margin_right = 1103.0
-margin_bottom = 752.0
+margin_bottom = 749.0
 size_flags_horizontal = 4
 size_flags_vertical = 6
 __meta__ = {
@@ -114,7 +116,7 @@ __meta__ = {
 
 [node name="MenuContainer" type="VBoxContainer" parent="GameGUI/PauseMenu"]
 margin_right = 287.0
-margin_bottom = 381.0
+margin_bottom = 375.0
 size_flags_horizontal = 4
 size_flags_vertical = 4
 custom_constants/separation = 30
@@ -150,14 +152,17 @@ text = "Settings"
 [node name="EndButton" type="Button" parent="GameGUI/PauseMenu/MenuContainer"]
 margin_top = 247.0
 margin_right = 287.0
-margin_bottom = 302.0
+margin_bottom = 296.0
+custom_styles/hover = ExtResource( 5 )
+custom_styles/pressed = ExtResource( 3 )
+custom_styles/normal = ExtResource( 4 )
 custom_fonts/font = SubResource( 8 )
 text = "End Game"
 
 [node name="QuitButton" type="Button" parent="GameGUI/PauseMenu/MenuContainer"]
-margin_top = 332.0
+margin_top = 326.0
 margin_right = 287.0
-margin_bottom = 381.0
+margin_bottom = 375.0
 custom_styles/hover = ExtResource( 5 )
 custom_styles/pressed = ExtResource( 3 )
 custom_styles/normal = ExtResource( 4 )

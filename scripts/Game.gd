@@ -64,7 +64,7 @@ func _process(delta):
 	_updateTimeDisplay()
 	if _targetSpawnManager():
 		_increaseDifficulty()
-	_checkIfGameOver()
+	_checkIfGameOver(delta)
 
 # Functions - Timing
 func _incrementTimeCounters(delta):
@@ -84,13 +84,16 @@ func _targetSpawnManager():
 		var targetHealth: int = _generateNewTargetHealth(targetType)
 		var targetStartPosition: Vector2 = _generateNewTargetPosition()
 		var targetEndPosition: Vector2 = _generateNewTargetPosition() if _newTargetShouldBeAnimate() else targetStartPosition
+		statistics.increaseMaxScore(targetHealth)
 		var newTarget = Target.instance()
-		newTarget.initialiseTarget(targetType, targetHealth, targetStartPosition, targetEndPosition, activeLifeOfTarget)
+		newTarget.initialiseTarget(settings, targetType, targetHealth, targetStartPosition, targetEndPosition, activeLifeOfTarget)
 		get_node("TargetParent").add_child(newTarget)
-		var err1 = newTarget.connect("target_hit", self, "_on_target_hit")
-		var err2 = newTarget.connect("target_miss", self, "_on_target_miss")
-		if err1 != OK || err2 != OK:
-			OS.alert("There was a serious error when attempting to create a target. Debug info: " + str(err1) + ", " + str(err2))
+		var err = str(newTarget.connect("target_hit", self, "_on_target_hit")) + ","
+		err += str(newTarget.connect("target_miss", self, "_on_target_miss")) + ","
+		err += str(newTarget.connect("target_destroy", self, "_on_target_destroy")) + ","
+		err += str(newTarget.connect("click_made", self, "_on_click_made"))
+		if err != "0,0,0,0": # remember to update this if more connect() statements are issued!
+			OS.alert("There was a serious error when attempting to create a target. Debug info: " + err)
 		spawnTimerCounter = 0.0
 		return true
 	else:
@@ -140,6 +143,7 @@ func _increaseDifficulty():
 # Functions - Target Signal Handlers
 func _on_target_hit():
 	statistics.increasePlayerScore(1)
+	statistics.aHitWasMade()
 
 func _on_target_miss():
 	lives -= 1
@@ -147,12 +151,19 @@ func _on_target_miss():
 		lives = 0
 	_updateLivesDisplay()
 
+func _on_target_destroy():
+	statistics.aTargetWasDestroyed()
+
+func _on_click_made():
+	statistics.aClickWasMade()
+
 # Functions - Pausing
 # Note: Game is also "paused" if it has ended
 func _unhandled_input(event):
-	if event is InputEventKey:
-		if event.pressed and event.scancode == KEY_ESCAPE:
-			_pause() # user can no longer press Escape to unpause once paused...
+	if !gameHasEnded: # prevent user from pausing if the game has ended
+		if event is InputEventKey:
+			if event.pressed and event.scancode == KEY_ESCAPE:
+				_pause() # user can no longer press Escape to unpause once paused...
 
 func _isPaused():
 	return get_tree().paused || gameHasEnded
@@ -172,9 +183,10 @@ func _updateLivesDisplay():
 func _updateTimeDisplay():
 	get_node("GameGUI/HUD/TimeLabel").text = "Time: 00:00"
 	if entireLengthOfGame < 0:
-		get_node("StartCountdown").text = str(abs(int(entireLengthOfGame)))
+		get_node("StartCountdown").text = str(abs(int(entireLengthOfGame)) + 1)
 	else:
-		get_node("StartCountdown").text = ""
+		if $StartCountdown.text == "1": # not the best way of doing it...
+			get_node("StartCountdown").text = ""
 		var strSeconds = str(int(seconds))
 		if int(seconds) == 60:
 			seconds = 0.0
@@ -192,7 +204,8 @@ func _makeAllVisible(flag):
 	get_node("TargetParent").visible = flag
 
 # Functions - Game Over Checking
-func _checkIfGameOver():
+func _checkIfGameOver(delta):
+	# condition 1: see _on_EndButton_pressed
 	# condition 2: if a time limit is set, and the time is up, end game
 	# REMEMBER THAT THE TIME VARIABLE STORED IN SETTINGS IS IN __MINUTES__!
 	if settings.time != settings.INFINITE_TIME && entireLengthOfGame > settings.time * 60:
@@ -200,10 +213,22 @@ func _checkIfGameOver():
 	# condition 3: if a lives limit is set, and lives has reached 0, end game
 	if settings.lives != settings.INFINITE_LIVES && lives == 0:
 		_endGame()
+	# if game has ended, increment internal timer anyway so that we can time Game Over! segment
+	if gameHasEnded:
+		entireLengthOfGame += delta
+		if entireLengthOfGame >= 3.0:
+			_makeAllVisible(false)
+			# generate statistics menu in some way - control should be handed off to there
+			# for now, just go back to the main menu
+			_on_QuitButton_pressed()
 
 # should be called when the game is over
 func _endGame():
-	gameHasEnded = true
+	if !gameHasEnded:
+		gameHasEnded = true
+		$StartCountdown.text = "Game Over!"
+		statistics.finishGame(lives, entireLengthOfGame)
+		entireLengthOfGame = 0.0 # reset internal timer so that game over! segment can be timed from 0.0
 
 # Functions - GUI Signal Handlers
 func _on_ContinueButton_pressed():
@@ -235,6 +260,7 @@ func _removeSettingsMenu():
 
 func _on_EndButton_pressed():
 	_endGame()
+	_unpause()
 
 func _on_QuitButton_pressed():
 	get_tree().paused = false
