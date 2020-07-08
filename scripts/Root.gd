@@ -44,7 +44,6 @@ func _openMainMenu():
 	mainMenu.connect("open_settings_menu", self, "_on_MainMenu_open_settings_menu")
 	mainMenu.connect("open_game_menu", self, "_on_MainMenu_open_game_menu")
 	add_child(mainMenu)
-	print_tree()
 
 func _openSettingsMenu():
 	settingsMenu = SettingsScene.instance()

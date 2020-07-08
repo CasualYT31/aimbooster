@@ -7,7 +7,6 @@ extends Area2D
 signal target_hit
 signal target_miss
 signal target_destroy
-signal click_made
 
 var internalTimer: float
 var referenceToSettings # so that the shoot button can be read via the reference and be up to date always
@@ -75,16 +74,13 @@ func initialiseTarget(settingsReference, targetType: int, health: int, startPos:
 	activeDuration = howLongToKeepOnScreen
 	position = startPos
 
-#func _process(delta):
-#	internalTimer += delta
-#	if internalTimer >= activeDuration:
-#		get_parent().remove_child(self)
-#		emit_signal("target_miss")
-#	pass
+func _process(delta):
+	internalTimer += delta
+	if internalTimer >= activeDuration:
+		get_parent().remove_child(self)
+		emit_signal("target_miss")
 
-func _on_Area2D_input_event(viewport, event, shape_idx):
+func _on_Area2D_input_event(_viewport, event, _shape_idx):
 	if event is InputEventMouseButton:
-		if event.is_pressed():
-			print("Object hit")
-		else:
-			print("Object released")
+		if event.is_pressed() && event.button_index == (BUTTON_LEFT if referenceToSettings.isLeftButtonToShoot else BUTTON_RIGHT):
+			hit()

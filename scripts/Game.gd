@@ -48,7 +48,7 @@ var chanceOfPurpleTarget: int = 0
 var chanceOfStationaryTarget: int = 100
 # how long the target should remain on screen for
 # this value is to be gradually made smaller when adjusting difficulty
-var activeLifeOfTarget: float = timeUntilNextSpawn
+var activeLifeOfTarget: float = 5.0 # timeUntilNextSpawn
 
 # Variables - Game Over State Data
 # flag which signifies if the game has ended or not
@@ -93,9 +93,8 @@ func _targetSpawnManager():
 		$TargetParent.add_child(newTarget)
 		var err = str(newTarget.connect("target_hit", self, "_on_target_hit")) + ","
 		err += str(newTarget.connect("target_miss", self, "_on_target_miss")) + ","
-		err += str(newTarget.connect("target_destroy", self, "_on_target_destroy")) + ","
-		err += str(newTarget.connect("click_made", self, "_on_click_made"))
-		if err != "0,0,0,0": # remember to update this if more connect() statements are issued!
+		err += str(newTarget.connect("target_destroy", self, "_on_target_destroy"))
+		if err != "0,0,0": # remember to update this if more connect() statements are issued!
 			OS.alert("There was a serious error when attempting to create a target. Debug info: " + err)
 		spawnTimerCounter = 0.0
 		return true
@@ -147,6 +146,9 @@ func _increaseDifficulty():
 func _on_target_hit():
 	statistics.increasePlayerScore(1)
 	statistics.aHitWasMade()
+	# undo "target miss" that registers in _unhandled_input()
+	lives += 1
+	_updateLivesDisplay()
 
 func _on_target_miss():
 	lives -= 1
@@ -157,25 +159,28 @@ func _on_target_miss():
 func _on_target_destroy():
 	statistics.aTargetWasDestroyed()
 
-func _on_click_made():
-	statistics.aClickWasMade()
-
-# Functions - Pausing
+# Functions - Pausing and Click Handling
 # Note: Game is also "paused" if it has ended
 func _unhandled_input(event):
-	if !gameHasEnded: # prevent user from pausing if the game has ended
+	if !_isPaused():
 		if event is InputEventKey:
 			if event.pressed and event.scancode == KEY_ESCAPE:
 				_pause() # user can no longer press Escape to unpause once paused...
+		if event is InputEventMouseButton:
+			if entireLengthOfGame >= 0.0 && event.is_pressed() && event.button_index == (BUTTON_LEFT if settings.isLeftButtonToShoot else BUTTON_RIGHT):
+				statistics.aClickWasMade()
+				_on_target_miss()
 
 func _isPaused():
 	return get_tree().paused || gameHasEnded
 
 func _pause():
+	$TargetParent.visible = false
 	get_node("GameGUI/PauseMenu").visible = true
 	get_tree().paused = true
 
 func _unpause():
+	$TargetParent.visible = true
 	get_node("GameGUI/PauseMenu").visible = false
 	get_tree().paused = false
 
@@ -230,6 +235,7 @@ func _endGame():
 	if !gameHasEnded:
 		gameHasEnded = true
 		$StartCountdown.text = "Game Over!"
+		$TargetParent.visible = false
 		statistics.finishGame(lives, entireLengthOfGame)
 		entireLengthOfGame = 0.0 # reset internal timer so that game over! segment can be timed from 0.0
 

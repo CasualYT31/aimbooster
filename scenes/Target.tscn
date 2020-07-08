@@ -6,6 +6,7 @@
 [sub_resource type="CircleShape2D" id=1]
 
 [node name="Area2D" type="Area2D"]
+pause_mode = 1
 script = ExtResource( 2 )
 
 [node name="Sprite" type="Sprite" parent="."]
