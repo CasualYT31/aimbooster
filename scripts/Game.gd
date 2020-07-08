@@ -1,24 +1,33 @@
 extends Control
 
-signal toggle_pause
+# Signals
+signal toggle_pause # signal emitted when the pause state is toggled
 
+# Classes
 var Statistics = preload("res://scripts/Statistics.gd")
 var Settings = preload("res://scripts/Settings.gd")
 var Target = preload("res://scenes/Target.tscn")
 
+# Complex Objects
 var statistics
 var settings
 var settingsMenu
 
+# Variables - Live User Data
+# tracks the number of lives the player is currently at
 var lives: int = 0
 
+# Variables - Timing Data
 # keeps track of the length of the game, not including pausing
-var seconds: float = -3.0
+var entireLengthOfGame: float = -3.0
+# HUD timer variables
+var seconds: float = 0.0
 var minutes: int = 0
+# spawn timing variables
+var spawnTimerCounter: float = 0.0 # timer that counts the number of seconds since last spawn
+var timeUntilNextSpawn: float = 1.0 # defines the length of time that must elapse until next spawn
 
-# spawning timing variables
-var spawnTimerCounter: float = 0.0
-var timeUntilNextSpawn: float = 1.0
+# Variables - Difficulty Data
 # variables that define difficulty
 # chance variables will be a %age from 0-100
 # they represent a chance of a property being a certain way
@@ -41,62 +50,35 @@ var chanceOfStationaryTarget: int = 100
 # this value is to be gradually made smaller when adjusting difficulty
 var activeLifeOfTarget: float = timeUntilNextSpawn
 
-func _isPaused():
-	return get_node("GameGUI/PauseMenu").visible
+# Variables - Game Over State Data
+# flag which signifies if the game has ended or not
+var gameHasEnded := false
 
-func _pause():
-	get_node("GameGUI/PauseMenu").visible = true
-	emit_signal("toggle_pause")
-
-func _unpause():
-	get_node("GameGUI/PauseMenu").visible = false
-	emit_signal("toggle_pause")
-
-func _updateLivesDisplay():
-	get_node("GameGUI/HUD/LivesLabel").text = "Lives: " + (str(lives) if lives > 0 else "Inf")
-
-func _updateTimeDisplay():
-	get_node("GameGUI/HUD/TimeLabel").text = "Time: 00:00"
-	if seconds <= 0:
-		get_node("StartCountdown").text = str(abs(int(seconds)))
-	if seconds >= 0:
-		get_node("StartCountdown").text = ""
-		var strSeconds = str(int(seconds))
-		if int(seconds) == 60:
-			seconds = 0.0
-			minutes += 1
-		var strMinutes = str(minutes)
-		if len(strMinutes) == 1:
-			strMinutes = "0" + strMinutes
-		if len(strSeconds) == 1:
-			strSeconds = "0" + strSeconds
-		get_node("GameGUI/HUD/TimeLabel").text = "Time: " + strMinutes + ":" + strSeconds
-
-# Called when the node enters the scene tree for the first time.
+# Functions - Initialisation
 func _ready():
 	settings = Settings.new()
 	statistics = Statistics.new(settings.lives, settings.time)
 	lives = settings.lives
 	_updateLivesDisplay()
 
-func _unhandled_input(event):
-	if event is InputEventKey:
-		if event.pressed and event.scancode == KEY_ESCAPE:
-			if _isPaused():
-				_unpause()
-			else:
-				_pause()
-
-func _makeAllVisible(flag):
-	get_node("GameGUI").visible = flag
-	get_node("StartCountdown").visible = flag
-	get_node("TargetParent").visible = flag
-
+# Functions - Game Loop
 func _process(delta):
 	_incrementTimeCounters(delta)
 	_updateTimeDisplay()
-	_targetSpawnManager()
+	if _targetSpawnManager():
+		_increaseDifficulty()
+	_checkIfGameOver()
 
+# Functions - Timing
+func _incrementTimeCounters(delta):
+	if !_isPaused():
+		entireLengthOfGame += delta
+		if entireLengthOfGame >= 0:
+			seconds += delta
+			spawnTimerCounter += delta
+
+# Functions - Target Management
+# returns TRUE if a target was spawned, FALSE if not
 func _targetSpawnManager():
 	if spawnTimerCounter >= timeUntilNextSpawn:
 		# spawn a target here!
@@ -104,29 +86,19 @@ func _targetSpawnManager():
 		var targetType: int = _generateNewTargetType()
 		var targetHealth: int = _generateNewTargetHealth(targetType)
 		var targetStartPosition: Vector2 = _generateNewTargetPosition()
-		var targetEndPosition: Vector2 = _generateNewTargetPosition()
-		if _newTargetShouldBeAnimate():
-			targetEndPosition = _generateNewTargetPosition()
-		else:
-			targetEndPosition = targetStartPosition
+		var targetEndPosition: Vector2 = _generateNewTargetPosition() if _newTargetShouldBeAnimate() else targetStartPosition
 		var newTarget = Target.instance()
-		newTarget.new(targetType, targetHealth, targetStartPosition, targetEndPosition, activeLifeOfTarget)
+		newTarget.initialiseTarget(targetType, targetHealth, targetStartPosition, targetEndPosition, activeLifeOfTarget)
 		get_node("TargetParent").add_child(newTarget)
-# warning-ignore:return_value_discarded
-		connect("toggle_pause", newTarget, "_on_Game_TogglePause")
-		newTarget.connect("target_hit", self, "_on_target_hit")
-		newTarget.connect("target_miss", self, "_on_target_miss")
-		
-		# probably connect a signal here which is sent by Target when it is killed
+		var err1 = connect("toggle_pause", newTarget, "_on_Game_TogglePause")
+		var err2 = newTarget.connect("target_hit", self, "_on_target_hit")
+		var err3 = newTarget.connect("target_miss", self, "_on_target_miss")
+		if err1 != OK || err2 != OK || err3 != OK:
+			OS.alert("There was a serious error when attempting to create a target. Debug info: " + str(err1) + ", " + str(err2) + ", " + str(err3))
 		spawnTimerCounter = 0.0
-		_increaseDifficulty()
-
-func _increaseDifficulty():
-	# adjust the following variables:
-	# target type chance group - ensure they all add up to 100!!
-	# target stationary chance
-	# decrease both activeLifeOfTarget and timeUntilNextSpawn by a small random amount
-	pass
+		return true
+	else:
+		return false
 
 func _generateNewTargetType():
 	var random: int = randi() % 100 + 1 # random number between 1 and 100
@@ -161,11 +133,86 @@ func _generateNewTargetPosition():
 func _newTargetShouldBeAnimate():
 	return (randi() % 100 + 1) <= chanceOfStationaryTarget
 
-func _incrementTimeCounters(delta):
-	if !_isPaused():
-		seconds += delta
-		spawnTimerCounter += delta
+# Functions - Difficulty Management
+func _increaseDifficulty():
+	# adjust the following variables:
+	# target type chance group - ensure they all add up to 100!!
+	# target stationary chance
+	# decrease both activeLifeOfTarget and timeUntilNextSpawn by a small random amount
+	pass
 
+# Functions - Target Signal Handlers
+func _on_target_hit():
+	statistics.increasePlayerScore(1)
+
+func _on_target_miss():
+	lives -= 1
+	if lives < 0:
+		lives = 0
+	_updateLivesDisplay()
+
+# Functions - Pausing
+# Note: Game is also "paused" if it has ended
+func _unhandled_input(event):
+	if event is InputEventKey:
+		if event.pressed and event.scancode == KEY_ESCAPE:
+			if _isPaused():
+				_unpause()
+			else:
+				_pause()
+
+func _isPaused():
+	return get_node("GameGUI/PauseMenu").visible || gameHasEnded
+
+func _pause():
+	get_node("GameGUI/PauseMenu").visible = true
+	emit_signal("toggle_pause")
+
+func _unpause():
+	get_node("GameGUI/PauseMenu").visible = false
+	emit_signal("toggle_pause")
+
+# Functions - GUI Updating
+func _updateLivesDisplay():
+	get_node("GameGUI/HUD/LivesLabel").text = "Lives: " + (str(lives) if lives > 0 || settings.lives != settings.INFINITE_LIVES else "Inf")
+
+func _updateTimeDisplay():
+	get_node("GameGUI/HUD/TimeLabel").text = "Time: 00:00"
+	if entireLengthOfGame < 0:
+		get_node("StartCountdown").text = str(abs(int(entireLengthOfGame)))
+	else:
+		get_node("StartCountdown").text = ""
+		var strSeconds = str(int(seconds))
+		if int(seconds) == 60:
+			seconds = 0.0
+			minutes += 1
+		var strMinutes = str(minutes)
+		if len(strMinutes) == 1:
+			strMinutes = "0" + strMinutes
+		if len(strSeconds) == 1:
+			strSeconds = "0" + strSeconds
+		get_node("GameGUI/HUD/TimeLabel").text = "Time: " + strMinutes + ":" + strSeconds
+
+func _makeAllVisible(flag):
+	get_node("GameGUI").visible = flag
+	get_node("StartCountdown").visible = flag
+	get_node("TargetParent").visible = flag
+
+# Functions - Game Over Checking
+func _checkIfGameOver():
+	# condition 2: if a time limit is set, and the time is up, end game
+	# REMEMBER THAT THE TIME VARIABLE STORED IN SETTINGS IS IN __MINUTES__!
+	if settings.time != settings.INFINITE_TIME && entireLengthOfGame > settings.time * 60:
+		_endGame()
+	# condition 3: if a lives limit is set, and lives has reached 0, end game
+	if settings.lives != settings.INFINITE_LIVES && lives == 0:
+		_endGame()
+
+# should be called when the game is over
+func _endGame():
+	gameHasEnded = true
+
+# Functions - GUI Signal Handlers
 func _on_ContinueButton_pressed():
 	_unpause()
 
@@ -193,12 +240,8 @@ func _removeSettingsMenu():
 	settings.time = currentTimeSetting
 	_makeAllVisible(true)
 
+func _on_EndButton_pressed():
+	_endGame()
+
 func _on_QuitButton_pressed():
 	Global.currentMenu = Global.Menu.MAIN
-
-func _on_target_hit():
-	statistics.increasePlayerScore(1)
-
-func _on_target_miss():
-	lives -= 1
-	_updateLivesDisplay()

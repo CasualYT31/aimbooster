@@ -49,7 +49,7 @@ func hit():
 		emit_signal("target_hit")
 
 # constructor
-func new(targetType: int, health: int, startPos: Vector2, endPos: Vector2, howLongToKeepOnScreen: float):
+func initialiseTarget(targetType: int, health: int, startPos: Vector2, endPos: Vector2, howLongToKeepOnScreen: float):
 	match targetType:
 		Global.TargetType.RED:
 			modulate = ColorN("red", 1.0)
