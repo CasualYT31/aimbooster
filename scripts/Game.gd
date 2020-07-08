@@ -13,12 +13,12 @@ var settingsMenu
 var lives: int = 0
 
 # keeps track of the length of the game, not including pausing
-var seconds: float = 0.0
+var seconds: float = -3.0
 var minutes: int = 0
 
 # spawning timing variables
 var spawnTimerCounter: float = 0.0
-var timeUntilNextSpawn: float = 3.0
+var timeUntilNextSpawn: float = 1.0
 # variables that define difficulty
 # chance variables will be a %age from 0-100
 # they represent a chance of a property being a certain way
@@ -39,7 +39,7 @@ var chanceOfPurpleTarget: int = 0
 var chanceOfStationaryTarget: int = 100
 # how long the target should remain on screen for
 # this value is to be gradually made smaller when adjusting difficulty
-var activeLifeOfTarget: float = 3.0
+var activeLifeOfTarget: float = timeUntilNextSpawn
 
 func _isPaused():
 	return get_node("GameGUI/PauseMenu").visible
@@ -56,16 +56,21 @@ func _updateLivesDisplay():
 	get_node("GameGUI/HUD/LivesLabel").text = "Lives: " + (str(lives) if lives > 0 else "Inf")
 
 func _updateTimeDisplay():
-	var strSeconds = str(int(seconds))
-	if int(seconds) == 60:
-		seconds = 0.0
-		minutes += 1
-	var strMinutes = str(minutes)
-	if len(strMinutes) == 1:
-		strMinutes = "0" + strMinutes
-	if len(strSeconds) == 1:
-		strSeconds = "0" + strSeconds
-	get_node("GameGUI/HUD/TimeLabel").text = "Time: " + strMinutes + ":" + strSeconds
+	get_node("GameGUI/HUD/TimeLabel").text = "Time: 00:00"
+	if seconds <= 0:
+		get_node("StartCountdown").text = str(abs(int(seconds)))
+	if seconds >= 0:
+		get_node("StartCountdown").text = ""
+		var strSeconds = str(int(seconds))
+		if int(seconds) == 60:
+			seconds = 0.0
+			minutes += 1
+		var strMinutes = str(minutes)
+		if len(strMinutes) == 1:
+			strMinutes = "0" + strMinutes
+		if len(strSeconds) == 1:
+			strSeconds = "0" + strSeconds
+		get_node("GameGUI/HUD/TimeLabel").text = "Time: " + strMinutes + ":" + strSeconds
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -84,6 +89,8 @@ func _unhandled_input(event):
 
 func _makeAllVisible(flag):
 	get_node("GameGUI").visible = flag
+	get_node("StartCountdown").visible = flag
+	get_node("TargetParent").visible = flag
 
 func _process(delta):
 	_incrementTimeCounters(delta)
@@ -105,6 +112,10 @@ func _targetSpawnManager():
 		var newTarget = Target.instance()
 		newTarget.new(targetType, targetHealth, targetStartPosition, targetEndPosition, activeLifeOfTarget)
 		get_node("TargetParent").add_child(newTarget)
+# warning-ignore:return_value_discarded
+		connect("toggle_pause", newTarget, "_on_Game_TogglePause")
+		newTarget.connect("target_hit", self, "_on_target_hit")
+		newTarget.connect("target_miss", self, "_on_target_miss")
 		
 		# probably connect a signal here which is sent by Target when it is killed
 		spawnTimerCounter = 0.0
@@ -184,3 +195,10 @@ func _removeSettingsMenu():
 
 func _on_QuitButton_pressed():
 	Global.currentMenu = Global.Menu.MAIN
+
+func _on_target_hit():
+	statistics.increasePlayerScore(1)
+
+func _on_target_miss():
+	lives -= 1
+	_updateLivesDisplay()

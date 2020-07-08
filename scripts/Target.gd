@@ -77,8 +77,20 @@ func new(targetType: int, health: int, startPos: Vector2, endPos: Vector2, howLo
 	position = startPos
 
 func _process(delta):
-	if inPausedState:
+	if !inPausedState:
 		internalTimer += delta
+	if internalTimer >= activeDuration:
+		get_parent().remove_child(self)
+		emit_signal("target_miss")
 
 func _on_Game_TogglePause():
 	inPausedState = !inPausedState
+
+
+func _on_Area2D_input_event(viewport, event, shape_idx):
+	
+	if event is InputEventMouseButton:
+		if event.is_pressed():
+			print("Object hit")
+		else:
+			print("Object released")
