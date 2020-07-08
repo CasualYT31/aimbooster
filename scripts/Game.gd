@@ -68,10 +68,11 @@ func _process(delta):
 
 # Functions - Timing
 func _incrementTimeCounters(delta):
-	entireLengthOfGame += delta
-	if entireLengthOfGame >= 0:
-		seconds += delta
-		spawnTimerCounter += delta
+	if !_isPaused():
+		entireLengthOfGame += delta
+		if entireLengthOfGame >= 0:
+			seconds += delta
+			spawnTimerCounter += delta
 
 # Functions - Target Management
 # returns TRUE if a target was spawned, FALSE if not
@@ -152,6 +153,9 @@ func _unhandled_input(event):
 	if event is InputEventKey:
 		if event.pressed and event.scancode == KEY_ESCAPE:
 			_pause() # user can no longer press Escape to unpause once paused...
+
+func _isPaused():
+	return get_tree().paused || gameHasEnded
 
 func _pause():
 	get_node("GameGUI/PauseMenu").visible = true
