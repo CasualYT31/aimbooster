@@ -30,10 +30,8 @@ var minutes: int = 0
 var spawnTimerCounter: float = 0.0 # timer that counts the number of seconds since last spawn
 var timeUntilNextSpawn: float = 3.0 # <<<defined value in _ready
 
-var decreaseDiffucultyDivisor: float = 0.0
-
 # Variables - Difficulty Data
-# variables that define difficulty
+var decreaseDiffucultyDivisor: float = 0.0
 # chance variables will be a %age from 0-100
 # they represent a chance of a property being a certain way
 # i.e. "50% chance of target being red,
@@ -54,10 +52,10 @@ var chanceOfStationaryTarget: int = 100
 # how long the target should remain on screen for
 # this value is to be gradually made smaller when adjusting difficulty
 var activeLifeOfTarget: float = 3.0 # check _ready for value changes <<<< IMPORTANT
+
 # Variables - Game Over State Data
 # flag which signifies if the game has ended or not
 var gameHasEnded := false
-
 var gameOverText: String = " " # Text for end of game message
 
 # Functions - Initialisation
@@ -80,7 +78,7 @@ func _process(delta):
 	_incrementTimeCounters(delta)
 	_updateTimeDisplay()
 	if _targetSpawnManager():
-		pass #_increaseDifficulty()
+		_increaseDifficulty()
 	_checkIfGameOver(delta)
 
 # Functions - Timing
@@ -328,10 +326,12 @@ func _removeSettingsMenu():
 	var currentEnemyModeSetting = settings.isEnemyMode
 	var currentLivesSetting = settings.lives
 	var currentTimeSetting = settings.time
+	var currentDifficultSetting = settings.startDifficulty
 	settings = Settings.new()
 	settings.isEnemyMode = currentEnemyModeSetting
 	settings.lives = currentLivesSetting
 	settings.time = currentTimeSetting
+	settings.startDifficulty = currentDifficultSetting
 	_makeAllVisible(true)
 
 func _on_EndButton_pressed():

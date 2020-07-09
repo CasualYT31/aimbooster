@@ -18,9 +18,6 @@ export var endPosition: Vector2 setget , getEndPosition
 export var activeDuration: float setget , getActiveDuration
 export var targetHealth: int setget , getHealth
 
-func _ready():
-	pass
-
 func getType():
 	return type
 
@@ -35,15 +32,6 @@ func getActiveDuration():
 
 func getHealth():
 	return targetHealth
-
-# call this method to "hit" the target
-# if the health is at or below 0, it will remove itself
-func hit():
-	targetHealth -= 1
-	emit_signal("target_hit")
-	if targetHealth <= 0:
-		get_parent().remove_child(self)
-		emit_signal("target_destroy")
 
 # constructor
 func initialiseTarget(settingsReference, targetType: int, health: int, startPos: Vector2, endPos: Vector2, howLongToKeepOnScreen: float):
@@ -83,4 +71,8 @@ func _process(delta):
 func _on_Area2D_input_event(_viewport, event, _shape_idx):
 	if event is InputEventMouseButton:
 		if event.is_pressed() && event.button_index == (BUTTON_LEFT if referenceToSettings.isLeftButtonToShoot else BUTTON_RIGHT):
-			hit()
+			targetHealth -= 1
+			emit_signal("target_hit")
+			if targetHealth <= 0:
+				get_parent().remove_child(self)
+				emit_signal("target_destroy")
