@@ -48,7 +48,7 @@ var chanceOfBlueTarget: int = 0
 var chanceOfPurpleTarget: int = 0
 # chance of a target being stationary
 # if not stationary, position will be totally random yet confined within the screen
-var chanceOfStationaryTarget: int = 100
+var chanceOfStationaryTarget: int = 0#100
 # how long the target should remain on screen for
 # this value is to be gradually made smaller when adjusting difficulty
 var activeLifeOfTarget: float = 3.0 # check _ready for value changes <<<< IMPORTANT
@@ -97,7 +97,7 @@ func _targetSpawnManager():
 		var targetType: int = _generateNewTargetType()
 		var targetHealth: int = _generateNewTargetHealth(targetType)
 		var targetStartPosition: Vector2 = _generateNewTargetPosition()
-		var targetEndPosition: Vector2 = _generateNewTargetPosition() if _newTargetShouldBeAnimate() else targetStartPosition
+		var targetEndPosition: Vector2 = targetStartPosition if _newTargetShouldBeStationary() else _generateNewTargetPosition()
 		statistics.increaseMaxScore(targetHealth)
 		var newTarget = Target.instance()
 		newTarget.initialiseTarget(settings, targetType, targetHealth, targetStartPosition, targetEndPosition, activeLifeOfTarget)
@@ -143,7 +143,7 @@ func _generateNewTargetHealth(targetType: int):
 func _generateNewTargetPosition():
 	return Vector2(float(randi() % int(OS.get_window_size().x)), float(randi() % int(OS.get_window_size().y)))
 
-func _newTargetShouldBeAnimate():
+func _newTargetShouldBeStationary():
 	return (randi() % 100 + 1) <= chanceOfStationaryTarget
 
 # Functions - Difficulty Management

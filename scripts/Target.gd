@@ -1,4 +1,4 @@
-extends Area2D
+extends Path2D
 
 # these signals are emitted when the target has been either hit or missed
 # in both cases, Target.gd deals with the actual removal of the target object
@@ -60,10 +60,18 @@ func initialiseTarget(settingsReference, targetType: int, health: int, startPos:
 	targetHealth = health
 	endPosition = endPos
 	activeDuration = howLongToKeepOnScreen
-	position = startPos
+	startPosition = startPos
+	# manage positions
+	position = startPosition
+	var newCurve := Curve2D.new()
+	newCurve.add_point(Vector2(0, 0))
+	newCurve.add_point(endPosition - startPosition)
+	print(str(newCurve.get_point_position(0)) + " - " + str(newCurve.get_point_position(1)))
+	set_curve(newCurve)
 
 func _process(delta):
 	internalTimer += delta
+	$PathFollow2D/Area2D.position = curve.interpolate_baked(internalTimer / activeDuration * curve.get_baked_length(), true)
 	if internalTimer >= activeDuration:
 		get_parent().remove_child(self)
 		emit_signal("target_miss")

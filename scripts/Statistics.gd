@@ -26,7 +26,7 @@ func finishGame(finalLives: int, finalLength: int):
 	livesEndedAt = finalLives
 	actualLength = finalLength
 	if actualLength < 0.0:
-		actualLength = 0.0
+		actualLength = 0
 
 # supposed to be called when a click in-game is made
 func aClickWasMade():

@@ -129,6 +129,8 @@ margin_right = 673.0
 margin_bottom = 40.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
+tick_count = 50
+ticks_on_borders = true
 
 [node name="SoundValueLabel" type="Label" parent="MarginContainer/VBoxContainer/GridContainer"]
 margin_left = 693.0
@@ -152,6 +154,8 @@ margin_right = 673.0
 margin_bottom = 100.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
+tick_count = 50
+ticks_on_borders = true
 
 [node name="MusicValueLabel" type="Label" parent="MarginContainer/VBoxContainer/GridContainer"]
 margin_left = 693.0
@@ -272,6 +276,8 @@ margin_bottom = 280.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 max_value = 10.0
+tick_count = 11
+ticks_on_borders = true
 
 [node name="LivesValueLabel" type="Label" parent="MarginContainer/VBoxContainer/GridContainer"]
 margin_left = 693.0
@@ -297,6 +303,8 @@ margin_bottom = 340.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 max_value = 10.0
+tick_count = 11
+ticks_on_borders = true
 
 [node name="TimeValueLabel" type="Label" parent="MarginContainer/VBoxContainer/GridContainer"]
 margin_left = 693.0
@@ -324,6 +332,8 @@ min_value = 1.0
 max_value = 4.0
 step = 0.5
 value = 1.0
+tick_count = 7
+ticks_on_borders = true
 
 [node name="StartDifficultyValueLabel" type="Label" parent="MarginContainer/VBoxContainer/GridContainer"]
 margin_left = 693.0
