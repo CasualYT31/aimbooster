@@ -20,6 +20,9 @@ var lives: int = 0
 # Variables - Timing Data
 # keeps track of the length of the game, not including pausing
 var entireLengthOfGame: float = -3.0
+# keeps track of how long the game is running after unpausing
+# helps combat a "bug" within the Godot engine (input events queuing up in pause mode)
+var targetParentReappearDelay: float = 0.0
 # HUD timer variables
 var seconds: float = 0.0
 var minutes: int = 0
@@ -69,15 +72,20 @@ func _ready():
 func _process(delta):
 	#delta*=10 # time multiplier
 	
+	# delay reappearing targets when unpausing so that the input event queue can be cleared out
+	if targetParentReappearDelay > 0.0 && entireLengthOfGame - targetParentReappearDelay >= 0.0001:
+		$TargetParent.show()
+		targetParentReappearDelay = 0.0
+	
 	_incrementTimeCounters(delta)
 	_updateTimeDisplay()
 	if _targetSpawnManager():
-		_increaseDifficulty()
+		pass #_increaseDifficulty()
 	_checkIfGameOver(delta)
 
 # Functions - Timing
 func _incrementTimeCounters(delta):
-	if !_isPaused():
+	if !_isPaused(): # not likely required but include just to be extra safe...
 		entireLengthOfGame += delta
 		if entireLengthOfGame >= 0:
 			seconds += delta
@@ -217,7 +225,7 @@ func _on_target_destroy():
 # Functions - Pausing and Click Handling
 # Note: Game is also "paused" if it has ended
 func _unhandled_input(event):
-	if !_isPaused():
+	if !_isPaused(): # not likely required but include just to be extra safe...
 		if event is InputEventKey:
 			if event.pressed and event.scancode == KEY_ESCAPE:
 				_pause() # user can no longer press Escape to unpause once paused...
@@ -230,12 +238,12 @@ func _isPaused():
 	return get_tree().paused || gameHasEnded
 
 func _pause():
-	$TargetParent.visible = false
+	$TargetParent.hide()
 	get_node("GameGUI/PauseMenu").visible = true
 	get_tree().paused = true
 
 func _unpause():
-	$TargetParent.visible = true
+	targetParentReappearDelay = entireLengthOfGame # delay reappearing of TargetParent
 	get_node("GameGUI/PauseMenu").visible = false
 	get_tree().paused = false
 
@@ -264,7 +272,6 @@ func _updateTimeDisplay():
 func _makeAllVisible(flag):
 	get_node("GameGUI").visible = flag
 	get_node("StartCountdown").visible = flag
-	get_node("TargetParent").visible = flag
 
 # Functions - Game Over Checking
 func _checkIfGameOver(delta):
