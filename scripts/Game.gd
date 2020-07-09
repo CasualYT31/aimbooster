@@ -66,6 +66,7 @@ func _ready():
 	settings = Settings.new()
 	statistics = Statistics.new(settings.lives, settings.time)
 	lives = settings.lives
+	$GameGUI/HUD/ModeLabel.text = "Enemy Mode" if settings.isEnemyMode else "Normal Mode"
 	_updateLivesDisplay()
 	_determineDifficulty()
 
@@ -210,8 +211,9 @@ func _determineDifficulty():
 
 # Functions - Target Signal Handlers
 func _on_target_hit():
-	$MissSound.seek(0.45)
-	$HitSound.play()
+	if !gameHasEnded:
+		$MissSound.seek(0.45)
+		$HitSound.play()
 	statistics.increasePlayerScore(1)
 	statistics.aHitWasMade()
 	# undo "target miss" that registers in _unhandled_input()
@@ -220,7 +222,8 @@ func _on_target_hit():
 	_updateLivesDisplay()
 
 func _on_target_miss():
-	$MissSound.play()
+	if !gameHasEnded:
+		$MissSound.play()
 	statistics.aMissWasMade()
 	if settings.lives != settings.INFINITE_LIVES:
 		lives -= 1

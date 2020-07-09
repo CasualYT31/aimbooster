@@ -117,6 +117,7 @@ __meta__ = {
 }
 
 [node name="SoundLabel" type="Label" parent="MarginContainer/VBoxContainer/GridContainer"]
+modulate = Color( 0, 0, 0, 1 )
 margin_right = 299.0
 margin_bottom = 40.0
 size_flags_horizontal = 8
@@ -133,12 +134,14 @@ tick_count = 50
 ticks_on_borders = true
 
 [node name="SoundValueLabel" type="Label" parent="MarginContainer/VBoxContainer/GridContainer"]
+modulate = Color( 0, 0, 0, 1 )
 margin_left = 693.0
 margin_right = 843.0
 margin_bottom = 40.0
 custom_fonts/font = SubResource( 2 )
 
 [node name="MusicLabel" type="Label" parent="MarginContainer/VBoxContainer/GridContainer"]
+modulate = Color( 0, 0, 0, 1 )
 margin_left = 9.0
 margin_top = 60.0
 margin_right = 299.0
@@ -158,6 +161,7 @@ tick_count = 50
 ticks_on_borders = true
 
 [node name="MusicValueLabel" type="Label" parent="MarginContainer/VBoxContainer/GridContainer"]
+modulate = Color( 0, 0, 0, 1 )
 margin_left = 693.0
 margin_top = 60.0
 margin_right = 843.0
@@ -165,6 +169,7 @@ margin_bottom = 100.0
 custom_fonts/font = SubResource( 4 )
 
 [node name="ShootLabel" type="Label" parent="MarginContainer/VBoxContainer/GridContainer"]
+modulate = Color( 0, 0, 0, 1 )
 margin_left = 33.0
 margin_top = 120.0
 margin_right = 299.0
@@ -211,6 +216,7 @@ margin_right = 843.0
 margin_bottom = 160.0
 
 [node name="ModeLabel" type="Label" parent="MarginContainer/VBoxContainer/GridContainer"]
+modulate = Color( 0, 0, 0, 1 )
 margin_left = 52.0
 margin_top = 180.0
 margin_right = 299.0
@@ -260,6 +266,7 @@ margin_right = 843.0
 margin_bottom = 220.0
 
 [node name="LivesLabel" type="Label" parent="MarginContainer/VBoxContainer/GridContainer"]
+modulate = Color( 0, 0, 0, 1 )
 margin_left = 186.0
 margin_top = 240.0
 margin_right = 299.0
@@ -280,6 +287,7 @@ tick_count = 11
 ticks_on_borders = true
 
 [node name="LivesValueLabel" type="Label" parent="MarginContainer/VBoxContainer/GridContainer"]
+modulate = Color( 0, 0, 0, 1 )
 margin_left = 693.0
 margin_top = 240.0
 margin_right = 843.0
@@ -287,6 +295,7 @@ margin_bottom = 280.0
 custom_fonts/font = SubResource( 12 )
 
 [node name="TimeLabel" type="Label" parent="MarginContainer/VBoxContainer/GridContainer"]
+modulate = Color( 0, 0, 0, 1 )
 margin_left = 204.0
 margin_top = 300.0
 margin_right = 299.0
@@ -307,6 +316,7 @@ tick_count = 11
 ticks_on_borders = true
 
 [node name="TimeValueLabel" type="Label" parent="MarginContainer/VBoxContainer/GridContainer"]
+modulate = Color( 0, 0, 0, 1 )
 margin_left = 693.0
 margin_top = 300.0
 margin_right = 843.0
@@ -314,6 +324,7 @@ margin_bottom = 340.0
 custom_fonts/font = SubResource( 14 )
 
 [node name="StartDifficultyLabel" type="Label" parent="MarginContainer/VBoxContainer/GridContainer"]
+modulate = Color( 0, 0, 0, 1 )
 margin_top = 360.0
 margin_right = 299.0
 margin_bottom = 400.0
@@ -336,6 +347,7 @@ tick_count = 7
 ticks_on_borders = true
 
 [node name="StartDifficultyValueLabel" type="Label" parent="MarginContainer/VBoxContainer/GridContainer"]
+modulate = Color( 0, 0, 0, 1 )
 margin_left = 693.0
 margin_top = 360.0
 margin_right = 843.0
@@ -343,6 +355,7 @@ margin_bottom = 400.0
 custom_fonts/font = SubResource( 14 )
 
 [node name="FullscreenLabel" type="Label" parent="MarginContainer/VBoxContainer/GridContainer"]
+modulate = Color( 0, 0, 0, 1 )
 margin_left = 74.0
 margin_top = 420.0
 margin_right = 299.0
@@ -366,6 +379,7 @@ margin_right = 843.0
 margin_bottom = 460.0
 
 [node name="FPSCounterLabel" type="Label" parent="MarginContainer/VBoxContainer/GridContainer"]
+modulate = Color( 0, 0, 0, 1 )
 margin_top = 480.0
 margin_right = 299.0
 margin_bottom = 520.0

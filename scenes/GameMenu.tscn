@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=2]
+[gd_scene load_steps=19 format=2]
 
 [ext_resource path="res://graphical/Orange Juice.ttf" type="DynamicFontData" id=1]
 [ext_resource path="res://scripts/Game.gd" type="Script" id=2]
@@ -17,6 +17,10 @@ size = 32
 font_data = ExtResource( 1 )
 
 [sub_resource type="DynamicFont" id=3]
+size = 32
+font_data = ExtResource( 1 )
+
+[sub_resource type="DynamicFont" id=11]
 size = 32
 font_data = ExtResource( 1 )
 
@@ -62,6 +66,7 @@ __meta__ = {
 pause_mode = 1
 
 [node name="StartCountdown" type="Label" parent="."]
+modulate = Color( 0, 0, 0, 1 )
 anchor_top = 0.5
 anchor_right = 1.0
 anchor_bottom = 0.5
@@ -82,6 +87,7 @@ __meta__ = {
 }
 
 [node name="HUD" type="HBoxContainer" parent="GameGUI"]
+modulate = Color( 0, 0, 0, 1 )
 margin_right = 1920.0
 margin_bottom = 40.0
 mouse_filter = 2
@@ -110,12 +116,12 @@ size_flags_horizontal = 3
 custom_fonts/font = SubResource( 3 )
 align = 3
 
-[node name="EmptyLabel2" type="Label" parent="GameGUI/HUD"]
+[node name="ModeLabel" type="Label" parent="GameGUI/HUD"]
 margin_left = 1443.0
-margin_top = 13.0
 margin_right = 1920.0
-margin_bottom = 27.0
+margin_bottom = 40.0
 size_flags_horizontal = 3
+custom_fonts/font = SubResource( 11 )
 
 [node name="PauseMenu" type="MarginContainer" parent="GameGUI"]
 pause_mode = 2
@@ -139,6 +145,7 @@ size_flags_vertical = 4
 custom_constants/separation = 30
 
 [node name="PauseMenuTitle" type="Label" parent="GameGUI/PauseMenu/MenuContainer"]
+modulate = Color( 0, 0, 0, 1 )
 margin_left = 26.0
 margin_right = 261.0
 margin_bottom = 59.0
@@ -194,6 +201,10 @@ margin_right = 1110.0
 margin_bottom = 775.0
 size_flags_horizontal = 4
 size_flags_vertical = 6
+
+[node name="StatisticsMenuBackground" type="ColorRect" parent="GameGUI/StatisticsMenu"]
+margin_right = 300.0
+margin_bottom = 426.0
 
 [node name="StatisticsContainer" type="GridContainer" parent="GameGUI/StatisticsMenu"]
 margin_right = 300.0
