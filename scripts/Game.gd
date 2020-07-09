@@ -30,10 +30,6 @@ var minutes: int = 0
 var spawnTimerCounter: float = 0.0 # timer that counts the number of seconds since last spawn
 var timeUntilNextSpawn: float = 3.0 # <<<defined value in _ready
 
-# Variables - Sound Data
-var playHitSound := false
-var playMissSound := false
-
 # Variables - Difficulty Data
 var decreaseDiffucultyDivisor: float = 0.0
 # chance variables will be a %age from 0-100
@@ -84,7 +80,10 @@ func _process(delta):
 	if _targetSpawnManager():
 		_increaseDifficulty()
 	_checkIfGameOver(delta)
-	_manageSounds()
+	
+	# manage sound volumes
+	$HitSound.volume_db = settings.getSoundVolumeAsDb()
+	$MissSound.volume_db = settings.getSoundVolumeAsDb()
 
 # Functions - Timing
 func _incrementTimeCounters(delta):
@@ -212,7 +211,7 @@ func _determineDifficulty():
 # Functions - Target Signal Handlers
 func _on_target_hit():
 	if !gameHasEnded:
-		$MissSound.seek(0.45)
+		$MissSound.seek(0.45) # prevents miss sound from playing since a miss is registered if a hit is registered, too
 		$HitSound.play()
 	statistics.increasePlayerScore(1)
 	statistics.aHitWasMade()
@@ -327,19 +326,6 @@ func _endGame(gameOverText: String):
 		statistics.finishGame(lives, entireLengthOfGame)
 		_setupStatisticsMenu()
 		entireLengthOfGame = 0.0 # reset internal timer so that game over! segment can be timed from 0.0
-
-# Functions - Sound Management
-func _manageSounds():
-	# manage volume
-	$HitSound.volume_db = settings.getSoundVolumeAsDb()
-	$MissSound.volume_db = settings.getSoundVolumeAsDb()
-	# manage playback
-	if playHitSound:
-		$HitSound.play()
-	elif playMissSound:
-		$MissSound.play()
-	playHitSound = false
-	playMissSound = false
 
 # Functions - GUI Signal Handlers
 func _on_ContinueButton_pressed():

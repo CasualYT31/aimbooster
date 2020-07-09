@@ -20,16 +20,12 @@ font_data = ExtResource( 1 )
 size = 32
 font_data = ExtResource( 1 )
 
-[sub_resource type="DynamicFont" id=11]
+[sub_resource type="DynamicFont" id=4]
 size = 32
 font_data = ExtResource( 1 )
 
-[sub_resource type="DynamicFont" id=4]
-size = 48
-font_data = ExtResource( 1 )
-
 [sub_resource type="DynamicFont" id=5]
-size = 40
+size = 48
 font_data = ExtResource( 1 )
 
 [sub_resource type="DynamicFont" id=6]
@@ -49,6 +45,10 @@ size = 40
 font_data = ExtResource( 1 )
 
 [sub_resource type="DynamicFont" id=10]
+size = 40
+font_data = ExtResource( 1 )
+
+[sub_resource type="DynamicFont" id=11]
 size = 20
 font_data = ExtResource( 1 )
 
@@ -121,7 +121,7 @@ margin_left = 1443.0
 margin_right = 1920.0
 margin_bottom = 40.0
 size_flags_horizontal = 3
-custom_fonts/font = SubResource( 11 )
+custom_fonts/font = SubResource( 4 )
 
 [node name="PauseMenu" type="MarginContainer" parent="GameGUI"]
 pause_mode = 2
@@ -150,7 +150,7 @@ margin_left = 26.0
 margin_right = 261.0
 margin_bottom = 59.0
 size_flags_horizontal = 4
-custom_fonts/font = SubResource( 4 )
+custom_fonts/font = SubResource( 5 )
 text = "Paused"
 
 [node name="ContinueButton" type="Button" parent="GameGUI/PauseMenu/MenuContainer"]
@@ -160,7 +160,7 @@ margin_bottom = 138.0
 custom_styles/hover = ExtResource( 5 )
 custom_styles/pressed = ExtResource( 3 )
 custom_styles/normal = ExtResource( 4 )
-custom_fonts/font = SubResource( 5 )
+custom_fonts/font = SubResource( 6 )
 text = "Continue"
 
 [node name="SettingsButton" type="Button" parent="GameGUI/PauseMenu/MenuContainer"]
@@ -170,7 +170,7 @@ margin_bottom = 217.0
 custom_styles/hover = ExtResource( 5 )
 custom_styles/pressed = ExtResource( 3 )
 custom_styles/normal = ExtResource( 4 )
-custom_fonts/font = SubResource( 6 )
+custom_fonts/font = SubResource( 7 )
 text = "Settings"
 
 [node name="EndButton" type="Button" parent="GameGUI/PauseMenu/MenuContainer"]
@@ -180,7 +180,7 @@ margin_bottom = 296.0
 custom_styles/hover = ExtResource( 5 )
 custom_styles/pressed = ExtResource( 3 )
 custom_styles/normal = ExtResource( 4 )
-custom_fonts/font = SubResource( 7 )
+custom_fonts/font = SubResource( 8 )
 text = "End Game"
 
 [node name="QuitButton" type="Button" parent="GameGUI/PauseMenu/MenuContainer"]
@@ -190,7 +190,7 @@ margin_bottom = 375.0
 custom_styles/hover = ExtResource( 5 )
 custom_styles/pressed = ExtResource( 3 )
 custom_styles/normal = ExtResource( 4 )
-custom_fonts/font = SubResource( 8 )
+custom_fonts/font = SubResource( 9 )
 text = "Main Menu"
 
 [node name="StatisticsMenu" type="MarginContainer" parent="GameGUI"]
@@ -217,7 +217,7 @@ columns = 2
 modulate = Color( 0, 0, 0, 1 )
 margin_right = 227.0
 margin_bottom = 49.0
-custom_fonts/font = SubResource( 9 )
+custom_fonts/font = SubResource( 10 )
 text = "Statistics"
 align = 1
 __meta__ = {
@@ -228,7 +228,7 @@ __meta__ = {
 margin_left = 242.0
 margin_right = 300.0
 margin_bottom = 49.0
-custom_fonts/font = SubResource( 10 )
+custom_fonts/font = SubResource( 11 )
 text = "Exit"
 
 [node name="LivesStartedAtLabel" type="Label" parent="GameGUI/StatisticsMenu/StatisticsContainer"]
