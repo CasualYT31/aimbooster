@@ -48,7 +48,7 @@ var chanceOfPurpleTarget: int = 0
 var chanceOfStationaryTarget: int = 100
 # how long the target should remain on screen for
 # this value is to be gradually made smaller when adjusting difficulty
-var activeLifeOfTarget: float = 1.5 # timeUntilNextSpawn
+var activeLifeOfTarget: float = 2.5 # timeUntilNextSpawn
 
 # Variables - Game Over State Data
 # flag which signifies if the game has ended or not
@@ -141,9 +141,9 @@ func _newTargetShouldBeAnimate():
 	# decrease both activeLifeOfTarget and timeUntilNextSpawn by a small random amount
 func _increaseDifficulty():
 	if timeUntilNextSpawn >= 0.2:
-		timeUntilNextSpawn -= .02
+		timeUntilNextSpawn -= randf() / 10 * 5
 	if activeLifeOfTarget >= 0.3:
-		activeLifeOfTarget -= .02
+		activeLifeOfTarget -= randf() / 10 * 5
 		
 	if chanceOfRedTarget >= chanceOfOrangeTarget:
 		chanceOfRedTarget -= 2
