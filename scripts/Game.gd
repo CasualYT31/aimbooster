@@ -25,7 +25,9 @@ var seconds: float = 0.0
 var minutes: int = 0
 # spawn timing variables
 var spawnTimerCounter: float = 0.0 # timer that counts the number of seconds since last spawn
-var timeUntilNextSpawn: float = 0.0 # <<<defined value in _ready
+var timeUntilNextSpawn: float = 3.0 # <<<defined value in _ready
+
+var decreaseDiffucultyDivisor: float = 0.0
 
 # Variables - Difficulty Data
 # variables that define difficulty
@@ -48,12 +50,12 @@ var chanceOfPurpleTarget: int = 0
 var chanceOfStationaryTarget: int = 100
 # how long the target should remain on screen for
 # this value is to be gradually made smaller when adjusting difficulty
-var activeLifeOfTarget: float = 0.0 # check _ready for value changes <<<< IMPORTANT
+var activeLifeOfTarget: float = 3.0 # check _ready for value changes <<<< IMPORTANT
 # Variables - Game Over State Data
 # flag which signifies if the game has ended or not
 var gameHasEnded := false
 
-var gameOverText: = " " # Text for end of game message
+var gameOverText: String = " " # Text for end of game message
 
 # Functions - Initialisation
 func _ready():
@@ -61,16 +63,12 @@ func _ready():
 	statistics = Statistics.new(settings.lives, settings.time)
 	lives = settings.lives
 	_updateLivesDisplay()
-	
-	timeUntilNextSpawn = settings.startDifficulty # defines the length of time that must elapse until next spawn
-	
-	if timeUntilNextSpawn >= 0.8:
-		activeLifeOfTarget = timeUntilNextSpawn - 0.5
-	else:
-		activeLifeOfTarget = 0.3
+	_determineDifficulty()
 
 # Functions - Game Loop
 func _process(delta):
+	#delta*=10 # time multiplier
+	
 	_incrementTimeCounters(delta)
 	_updateTimeDisplay()
 	if _targetSpawnManager():
@@ -148,11 +146,20 @@ func _newTargetShouldBeAnimate():
 	# target stationary chance
 	# decrease both activeLifeOfTarget and timeUntilNextSpawn by a small random amount
 func _increaseDifficulty():
+	
+	
 	if timeUntilNextSpawn >= 0.2:
-		timeUntilNextSpawn -= randf() / 10 
-	if activeLifeOfTarget >= 0.3:
-		activeLifeOfTarget -= randf() / 10
+		timeUntilNextSpawn -= randf() / int(decreaseDiffucultyDivisor)
+	elif timeUntilNextSpawn < 0.2:
+		timeUntilNextSpawn = 0.2
 		
+	if activeLifeOfTarget >= 0.3:
+		activeLifeOfTarget -= randf() / int(decreaseDiffucultyDivisor)
+	elif activeLifeOfTarget < 0.3:
+		activeLifeOfTarget = 0.3
+	
+	decreaseDiffucultyDivisor -= int(decreaseDiffucultyDivisor * 0.02)
+	
 	if chanceOfRedTarget >= chanceOfOrangeTarget:
 		chanceOfRedTarget -= 2
 		chanceOfOrangeTarget += 2
@@ -173,6 +180,22 @@ func _increaseDifficulty():
 		chanceOfBlueTarget -= 2
 		chanceOfPurpleTarget += 2
 
+func _determineDifficulty():
+	var difficultyMultiplier: float = settings.startDifficulty
+	
+	if difficultyMultiplier == 4:
+		difficultyMultiplier = 1
+	elif difficultyMultiplier == 3.5:
+		difficultyMultiplier = 1.5
+	elif difficultyMultiplier == 3.0:
+		difficultyMultiplier = 2.0
+	elif difficultyMultiplier == 2.0:
+		difficultyMultiplier = 3.0
+	elif difficultyMultiplier == 1.5:
+		difficultyMultiplier = 3.5
+	elif difficultyMultiplier == 1.0:
+		difficultyMultiplier = 4.0
+	decreaseDiffucultyDivisor = 25 * difficultyMultiplier
 
 # Functions - Target Signal Handlers
 func _on_target_hit():
@@ -249,12 +272,12 @@ func _checkIfGameOver(delta):
 	# condition 2: if a time limit is set, and the time is up, end game
 	# REMEMBER THAT THE TIME VARIABLE STORED IN SETTINGS IS IN __MINUTES__!
 	if settings.time != settings.INFINITE_TIME && entireLengthOfGame > settings.time * 60:
-		_endGame()
 		gameOverText = "Time's Up!"
+		_endGame()
 	# condition 3: if a lives limit is set, and lives has reached 0, end game
 	if settings.lives != settings.INFINITE_LIVES && lives == 0:
-		_endGame()
 		gameOverText = "Game Over!"
+		_endGame()
 	# if game has ended, increment internal timer anyway so that we can time Game Over! segment
 	if gameHasEnded:
 		entireLengthOfGame += delta

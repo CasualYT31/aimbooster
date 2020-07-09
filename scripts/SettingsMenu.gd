@@ -146,7 +146,7 @@ func _on_FPSCounterButton_toggled(_button_pressed):
 		settings.fpsCounter = !settings.fpsCounter
 		settings.save()
 
-func _on_StartDifficulty_value_changed(value):
-	settings.startDifficulty = value
+func _on_StartDifficulty_value_changed(newVal):
+	settings.startDifficulty = newVal
 	_updateStartDifficultyLabel()
 	settings.save()
