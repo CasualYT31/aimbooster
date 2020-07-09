@@ -6,8 +6,12 @@
 [ext_resource path="res://graphical/ButtonStyles/ButtonNormal.stylebox" type="StyleBox" id=4]
 [ext_resource path="res://graphical/ButtonStyles/ButtonsHover.stylebox" type="StyleBox" id=5]
 
-[sub_resource type="DynamicFont" id=2]
+[sub_resource type="DynamicFont" id=1]
 size = 200
+font_data = ExtResource( 1 )
+
+[sub_resource type="DynamicFont" id=2]
+size = 32
 font_data = ExtResource( 1 )
 
 [sub_resource type="DynamicFont" id=3]
@@ -15,11 +19,11 @@ size = 32
 font_data = ExtResource( 1 )
 
 [sub_resource type="DynamicFont" id=4]
-size = 32
+size = 48
 font_data = ExtResource( 1 )
 
 [sub_resource type="DynamicFont" id=5]
-size = 48
+size = 40
 font_data = ExtResource( 1 )
 
 [sub_resource type="DynamicFont" id=6]
@@ -31,10 +35,6 @@ size = 40
 font_data = ExtResource( 1 )
 
 [sub_resource type="DynamicFont" id=8]
-size = 40
-font_data = ExtResource( 1 )
-
-[sub_resource type="DynamicFont" id=9]
 size = 40
 font_data = ExtResource( 1 )
 
@@ -55,7 +55,7 @@ anchor_right = 1.0
 anchor_bottom = 0.5
 margin_top = -120.0
 margin_bottom = 120.0
-custom_fonts/font = SubResource( 2 )
+custom_fonts/font = SubResource( 1 )
 align = 1
 __meta__ = {
 "_edit_use_anchors_": false
@@ -89,7 +89,7 @@ margin_left = 484.0
 margin_right = 964.0
 margin_bottom = 40.0
 size_flags_horizontal = 3
-custom_fonts/font = SubResource( 3 )
+custom_fonts/font = SubResource( 2 )
 align = 3
 
 [node name="LivesLabel" type="Label" parent="GameGUI/HUD"]
@@ -97,7 +97,7 @@ margin_left = 968.0
 margin_right = 1448.0
 margin_bottom = 40.0
 size_flags_horizontal = 3
-custom_fonts/font = SubResource( 4 )
+custom_fonts/font = SubResource( 3 )
 align = 3
 
 [node name="EmptyLabel2" type="Label" parent="GameGUI/HUD"]
@@ -133,7 +133,7 @@ margin_left = 26.0
 margin_right = 261.0
 margin_bottom = 59.0
 size_flags_horizontal = 4
-custom_fonts/font = SubResource( 5 )
+custom_fonts/font = SubResource( 4 )
 text = "Paused"
 
 [node name="ContinueButton" type="Button" parent="GameGUI/PauseMenu/MenuContainer"]
@@ -143,7 +143,7 @@ margin_bottom = 138.0
 custom_styles/hover = ExtResource( 5 )
 custom_styles/pressed = ExtResource( 3 )
 custom_styles/normal = ExtResource( 4 )
-custom_fonts/font = SubResource( 6 )
+custom_fonts/font = SubResource( 5 )
 text = "Continue"
 
 [node name="SettingsButton" type="Button" parent="GameGUI/PauseMenu/MenuContainer"]
@@ -153,7 +153,7 @@ margin_bottom = 217.0
 custom_styles/hover = ExtResource( 5 )
 custom_styles/pressed = ExtResource( 3 )
 custom_styles/normal = ExtResource( 4 )
-custom_fonts/font = SubResource( 7 )
+custom_fonts/font = SubResource( 6 )
 text = "Settings"
 
 [node name="EndButton" type="Button" parent="GameGUI/PauseMenu/MenuContainer"]
@@ -163,7 +163,7 @@ margin_bottom = 296.0
 custom_styles/hover = ExtResource( 5 )
 custom_styles/pressed = ExtResource( 3 )
 custom_styles/normal = ExtResource( 4 )
-custom_fonts/font = SubResource( 8 )
+custom_fonts/font = SubResource( 7 )
 text = "End Game"
 
 [node name="QuitButton" type="Button" parent="GameGUI/PauseMenu/MenuContainer"]
@@ -173,7 +173,7 @@ margin_bottom = 375.0
 custom_styles/hover = ExtResource( 5 )
 custom_styles/pressed = ExtResource( 3 )
 custom_styles/normal = ExtResource( 4 )
-custom_fonts/font = SubResource( 9 )
+custom_fonts/font = SubResource( 8 )
 text = "Main Menu"
 [connection signal="pressed" from="GameGUI/PauseMenu/MenuContainer/ContinueButton" to="." method="_on_ContinueButton_pressed"]
 [connection signal="pressed" from="GameGUI/PauseMenu/MenuContainer/SettingsButton" to="." method="_on_SettingsButton_pressed"]

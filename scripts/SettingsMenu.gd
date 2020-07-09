@@ -27,9 +27,12 @@ func _ready():
 	firstFullscreenPress = false
 	get_node("MarginContainer/VBoxContainer/GridContainer/FPSCounterButton").pressed = settings.fpsCounter
 	firstFPSCounterPress = false
+	get_node("MarginContainer/VBoxContainer/GridContainer/StartDifficulty").value = settings.startDifficulty
+	_updateStartDifficultyLabel()
 	if (limit):
 		get_node("MarginContainer/VBoxContainer/GridContainer/ModeContainer/ModeNormal").disabled = true
 		get_node("MarginContainer/VBoxContainer/GridContainer/ModeContainer/ModeEnemy").disabled = true
+		get_node("MarginContainer/VBoxContainer/GridContainer/StartDifficulty").editable = false
 		get_node("MarginContainer/VBoxContainer/GridContainer/Lives").editable = false
 		get_node("MarginContainer/VBoxContainer/GridContainer/Time").editable = false
 
@@ -87,6 +90,9 @@ func _updateTimeLabel():
 	else:
 		get_node("MarginContainer/VBoxContainer/GridContainer/TimeValueLabel").text = str(settings.time) + (" min" if settings.time == 1 else " mins")
 
+func _updateStartDifficultyLabel():
+	get_node("MarginContainer/VBoxContainer/GridContainer/StartDifficultyValueLabel").text = str(settings.startDifficulty)
+
 func _on_BackButton_pressed():
 	emit_signal("open_previous_menu")
 
@@ -139,3 +145,8 @@ func _on_FPSCounterButton_toggled(_button_pressed):
 	if !firstFPSCounterPress:
 		settings.fpsCounter = !settings.fpsCounter
 		settings.save()
+
+func _on_StartDifficulty_value_changed(value):
+	settings.startDifficulty = value
+	_updateStartDifficultyLabel()
+	settings.save()

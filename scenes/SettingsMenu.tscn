@@ -106,7 +106,7 @@ __meta__ = {
 [node name="GridContainer" type="GridContainer" parent="MarginContainer/VBoxContainer"]
 margin_left = 418.0
 margin_right = 1261.0
-margin_bottom = 460.0
+margin_bottom = 520.0
 size_flags_horizontal = 4
 size_flags_vertical = 2
 custom_constants/vseparation = 20
@@ -305,33 +305,60 @@ margin_right = 843.0
 margin_bottom = 340.0
 custom_fonts/font = SubResource( 14 )
 
-[node name="FullscreenLabel" type="Label" parent="MarginContainer/VBoxContainer/GridContainer"]
-margin_left = 74.0
+[node name="StartDifficultyLabel" type="Label" parent="MarginContainer/VBoxContainer/GridContainer"]
 margin_top = 360.0
 margin_right = 299.0
 margin_bottom = 400.0
-size_flags_horizontal = 8
-custom_fonts/font = SubResource( 15 )
-text = "Full Screen"
+custom_fonts/font = SubResource( 14 )
+text = "Start Difficulty"
+align = 2
 
-[node name="Fullscreen" type="CheckBox" parent="MarginContainer/VBoxContainer/GridContainer"]
+[node name="StartDifficulty" type="HSlider" parent="MarginContainer/VBoxContainer/GridContainer"]
 margin_left = 319.0
 margin_top = 360.0
 margin_right = 673.0
 margin_bottom = 400.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
+min_value = 1.0
+max_value = 4.0
+step = 0.1
+value = 1.0
 
-[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer/GridContainer"]
+[node name="StartDifficultyValueLabel" type="Label" parent="MarginContainer/VBoxContainer/GridContainer"]
 margin_left = 693.0
 margin_top = 360.0
 margin_right = 843.0
 margin_bottom = 400.0
+custom_fonts/font = SubResource( 14 )
 
-[node name="FPSCounterLabel" type="Label" parent="MarginContainer/VBoxContainer/GridContainer"]
+[node name="FullscreenLabel" type="Label" parent="MarginContainer/VBoxContainer/GridContainer"]
+margin_left = 74.0
 margin_top = 420.0
 margin_right = 299.0
 margin_bottom = 460.0
+size_flags_horizontal = 8
+custom_fonts/font = SubResource( 15 )
+text = "Full Screen"
+
+[node name="Fullscreen" type="CheckBox" parent="MarginContainer/VBoxContainer/GridContainer"]
+margin_left = 319.0
+margin_top = 420.0
+margin_right = 673.0
+margin_bottom = 460.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer/GridContainer"]
+margin_left = 693.0
+margin_top = 420.0
+margin_right = 843.0
+margin_bottom = 460.0
+
+[node name="FPSCounterLabel" type="Label" parent="MarginContainer/VBoxContainer/GridContainer"]
+margin_top = 480.0
+margin_right = 299.0
+margin_bottom = 520.0
 custom_fonts/font = SubResource( 16 )
 text = "FPS-Counter"
 align = 2
@@ -341,15 +368,15 @@ __meta__ = {
 
 [node name="FPSCounterButton" type="CheckBox" parent="MarginContainer/VBoxContainer/GridContainer"]
 margin_left = 319.0
-margin_top = 420.0
+margin_top = 480.0
 margin_right = 673.0
-margin_bottom = 460.0
+margin_bottom = 520.0
 
 [node name="BackButton" type="Button" parent="MarginContainer/VBoxContainer/GridContainer"]
 margin_left = 693.0
-margin_top = 420.0
+margin_top = 480.0
 margin_right = 843.0
-margin_bottom = 460.0
+margin_bottom = 520.0
 rect_min_size = Vector2( 150, 0 )
 size_flags_horizontal = 3
 size_flags_vertical = 4
@@ -371,6 +398,7 @@ margin_bottom = 840.0
 [connection signal="pressed" from="MarginContainer/VBoxContainer/GridContainer/ModeContainer/ModeEnemy" to="." method="_on_ModeEnemy_pressed"]
 [connection signal="value_changed" from="MarginContainer/VBoxContainer/GridContainer/Lives" to="." method="_on_Lives_value_changed"]
 [connection signal="value_changed" from="MarginContainer/VBoxContainer/GridContainer/Time" to="." method="_on_Time_value_changed"]
+[connection signal="value_changed" from="MarginContainer/VBoxContainer/GridContainer/StartDifficulty" to="." method="_on_StartDifficulty_value_changed"]
 [connection signal="toggled" from="MarginContainer/VBoxContainer/GridContainer/Fullscreen" to="." method="_on_Fullscreen_toggled"]
 [connection signal="toggled" from="MarginContainer/VBoxContainer/GridContainer/FPSCounterButton" to="." method="_on_FPSCounterButton_toggled"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/GridContainer/BackButton" to="." method="_on_BackButton_pressed"]

@@ -25,7 +25,7 @@ var seconds: float = 0.0
 var minutes: int = 0
 # spawn timing variables
 var spawnTimerCounter: float = 0.0 # timer that counts the number of seconds since last spawn
-var timeUntilNextSpawn: float = 3.0 # defines the length of time that must elapse until next spawn
+var timeUntilNextSpawn: float = 0.0 # <<<defined value in _ready
 
 # Variables - Difficulty Data
 # variables that define difficulty
@@ -48,11 +48,12 @@ var chanceOfPurpleTarget: int = 0
 var chanceOfStationaryTarget: int = 100
 # how long the target should remain on screen for
 # this value is to be gradually made smaller when adjusting difficulty
-var activeLifeOfTarget: float = 2.5 # timeUntilNextSpawn
-
+var activeLifeOfTarget: float = 0.0 # check _ready for value changes <<<< IMPORTANT
 # Variables - Game Over State Data
 # flag which signifies if the game has ended or not
 var gameHasEnded := false
+
+var gameOverText: = " " # Text for end of game message
 
 # Functions - Initialisation
 func _ready():
@@ -60,6 +61,13 @@ func _ready():
 	statistics = Statistics.new(settings.lives, settings.time)
 	lives = settings.lives
 	_updateLivesDisplay()
+	
+	timeUntilNextSpawn = settings.startDifficulty # defines the length of time that must elapse until next spawn
+	
+	if timeUntilNextSpawn >= 0.8:
+		activeLifeOfTarget = timeUntilNextSpawn - 0.5
+	else:
+		activeLifeOfTarget = 0.3
 
 # Functions - Game Loop
 func _process(delta):
@@ -141,9 +149,9 @@ func _newTargetShouldBeAnimate():
 	# decrease both activeLifeOfTarget and timeUntilNextSpawn by a small random amount
 func _increaseDifficulty():
 	if timeUntilNextSpawn >= 0.2:
-		timeUntilNextSpawn -= randf() / 10 * 5
+		timeUntilNextSpawn -= randf() / 10 
 	if activeLifeOfTarget >= 0.3:
-		activeLifeOfTarget -= randf() / 10 * 5
+		activeLifeOfTarget -= randf() / 10
 		
 	if chanceOfRedTarget >= chanceOfOrangeTarget:
 		chanceOfRedTarget -= 2
@@ -242,9 +250,11 @@ func _checkIfGameOver(delta):
 	# REMEMBER THAT THE TIME VARIABLE STORED IN SETTINGS IS IN __MINUTES__!
 	if settings.time != settings.INFINITE_TIME && entireLengthOfGame > settings.time * 60:
 		_endGame()
+		gameOverText = "Time's Up!"
 	# condition 3: if a lives limit is set, and lives has reached 0, end game
 	if settings.lives != settings.INFINITE_LIVES && lives == 0:
 		_endGame()
+		gameOverText = "Game Over!"
 	# if game has ended, increment internal timer anyway so that we can time Game Over! segment
 	if gameHasEnded:
 		entireLengthOfGame += delta
@@ -254,11 +264,13 @@ func _checkIfGameOver(delta):
 			# for now, just go back to the main menu
 			_on_QuitButton_pressed()
 
+
+
 # should be called when the game is over
 func _endGame():
 	if !gameHasEnded:
 		gameHasEnded = true
-		$StartCountdown.text = "Game Over!"
+		$StartCountdown.text = gameOverText
 		$TargetParent.visible = false
 		statistics.finishGame(lives, entireLengthOfGame)
 		entireLengthOfGame = 0.0 # reset internal timer so that game over! segment can be timed from 0.0

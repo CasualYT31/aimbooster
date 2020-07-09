@@ -12,6 +12,7 @@ export var lives: int = 3 setget setLives, getLives
 export var time: int = INFINITE_TIME setget setTime, getTime
 export var fullscreen: bool = OS.window_fullscreen setget setFullscreen, getFullscreen
 export var fpsCounter: bool = true setget setFPSVisible, getFPSVisible
+export var startDifficulty: float = 0.0 setget setStartDifficulty, getStartDifficulty
 
 # constructor: loads settings file and updates variables
 func _init():
@@ -45,6 +46,8 @@ func read():
 				self.fullscreen = data["fullscreen"]
 			if (data.has("fpscounter")):
 				self.fpsCounter = data["fpscounter"]
+			if (data.has("startdifficulty")):
+				self.startDifficulty = data["startdifficulty"]
 			file.close()
 
 # saves settings to file
@@ -57,7 +60,8 @@ func save():
 		lives = self.lives,
 		time = self.time,
 		fullscreen = self.fullscreen,
-		fpscounter = self.fpsCounter
+		fpscounter = self.fpsCounter,
+		startdifficulty = self.startDifficulty
 	}
 	var file = File.new()
 	if file.open(SETTINGS_FILE_PATH, File.WRITE) != 0:
@@ -132,3 +136,11 @@ func setFPSVisible(newval):
 
 func getFPSVisible():
 	return fpsCounter
+
+func setStartDifficulty(newval):
+	if (newval < 0):
+		newval = 0
+	startDifficulty = newval
+
+func getStartDifficulty():
+	return startDifficulty
