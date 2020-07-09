@@ -158,9 +158,9 @@ func _increaseDifficulty():
 		activeLifeOfTarget = 0.3
 	
 	if chanceOfStationaryTarget >= 10:
-		activeLifeOfTarget -= randi()%3
+		chanceOfStationaryTarget -= randi()%3
 	elif activeLifeOfTarget < 10:
-		activeLifeOfTarget = 10
+		chanceOfStationaryTarget = 10
 	
 	decreaseDiffucultyDivisor -= int(decreaseDiffucultyDivisor * 0.02)
 	
