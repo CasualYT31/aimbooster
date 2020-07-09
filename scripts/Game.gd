@@ -152,30 +152,30 @@ func _increaseDifficulty():
 		timeUntilNextSpawn -= randf() / int(decreaseDiffucultyDivisor)
 	elif timeUntilNextSpawn < 0.2:
 		timeUntilNextSpawn = 0.2
-		
 	if activeLifeOfTarget >= 0.3:
 		activeLifeOfTarget -= randf() / int(decreaseDiffucultyDivisor)
 	elif activeLifeOfTarget < 0.3:
 		activeLifeOfTarget = 0.3
+	
+	if chanceOfStationaryTarget >= 10:
+		activeLifeOfTarget -= randi()%3
+	elif activeLifeOfTarget < 10:
+		activeLifeOfTarget = 10
 	
 	decreaseDiffucultyDivisor -= int(decreaseDiffucultyDivisor * 0.02)
 	
 	if chanceOfRedTarget >= chanceOfOrangeTarget:
 		chanceOfRedTarget -= 2
 		chanceOfOrangeTarget += 2
-		
 	elif chanceOfOrangeTarget >= chanceOfYellowTarget:
 		chanceOfOrangeTarget -= 2
 		chanceOfYellowTarget += 2
-		
 	elif chanceOfYellowTarget >= chanceOfGreenTarget:
 		chanceOfYellowTarget -= 2
 		chanceOfGreenTarget += 2
-		
 	elif chanceOfGreenTarget >= chanceOfBlueTarget:
 		chanceOfGreenTarget -= 2
 		chanceOfBlueTarget += 2
-		
 	else:
 		chanceOfBlueTarget -= 2
 		chanceOfPurpleTarget += 2
