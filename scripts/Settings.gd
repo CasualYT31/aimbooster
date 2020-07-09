@@ -81,7 +81,7 @@ func getSoundVolume():
 	return soundVolume
 
 func getSoundVolumeAsDb():
-	return -50.0 + soundVolume / 2
+	return -40.0 + soundVolume / 2
 
 func setMusicVolume(newval):
 	if (newval > 100.0):
