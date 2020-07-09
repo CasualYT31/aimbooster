@@ -89,8 +89,8 @@ func _on_Area2D_input_event(_viewport, event, _shape_idx):
 			# move bullet hole graphic and make visible
 			get_node("Area2D/BulletHole" + str(0 if targetHealth < 0 else targetHealth)).offset = (event.position - $Area2D.position) / $Area2D.scale
 			get_node("Area2D/BulletHole" + str(0 if targetHealth < 0 else targetHealth)).visible = true
-			modulate = Color(modulate.r, modulate.g, modulate.b, 0.5)
 			emit_signal("target_hit")
 			if targetHealth <= 0:
+				modulate = Color(modulate.r, modulate.g, modulate.b, 0.5)
 				timeAtWhichDestroyed = internalTimer
 				emit_signal("target_destroy")
