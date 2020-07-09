@@ -48,7 +48,7 @@ var chanceOfBlueTarget: int = 0
 var chanceOfPurpleTarget: int = 0
 # chance of a target being stationary
 # if not stationary, position will be totally random yet confined within the screen
-var chanceOfStationaryTarget: int = 0#100
+var chanceOfStationaryTarget: int = 100
 # how long the target should remain on screen for
 # this value is to be gradually made smaller when adjusting difficulty
 var activeLifeOfTarget: float = 3.0 # check _ready for value changes <<<< IMPORTANT
