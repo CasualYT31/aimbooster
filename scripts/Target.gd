@@ -71,7 +71,7 @@ func initialiseTarget(settingsReference, targetType: int, health: int, startPos:
 
 func _process(delta):
 	internalTimer += delta
-	$PathFollow2D/Area2D.position = curve.interpolate_baked(internalTimer / activeDuration * curve.get_baked_length(), true)
+	$Area2D.position = curve.interpolate_baked(internalTimer / activeDuration * curve.get_baked_length(), true)
 	if internalTimer >= activeDuration:
 		get_parent().remove_child(self)
 		emit_signal("target_miss")
