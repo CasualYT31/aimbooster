@@ -56,7 +56,6 @@ var activeLifeOfTarget: float = 3.0 # check _ready for value changes <<<< IMPORT
 # Variables - Game Over State Data
 # flag which signifies if the game has ended or not
 var gameHasEnded := false
-var gameOverText: String = " " # Text for end of game message
 
 # Functions - Initialisation
 func _ready():
@@ -103,6 +102,7 @@ func _targetSpawnManager():
 		var newTarget = Target.instance()
 		newTarget.initialiseTarget(settings, targetType, targetHealth, targetStartPosition, targetEndPosition, activeLifeOfTarget)
 		$TargetParent.add_child(newTarget)
+		statistics.aTargetHasBeenSpawned()
 		var err = str(newTarget.connect("target_hit", self, "_on_target_hit")) + ","
 		err += str(newTarget.connect("target_miss", self, "_on_target_miss")) + ","
 		err += str(newTarget.connect("target_destroy", self, "_on_target_destroy"))
@@ -212,6 +212,7 @@ func _on_target_hit():
 	_updateLivesDisplay()
 
 func _on_target_miss():
+	statistics.aMissWasMade()
 	lives -= 1
 	if lives < 0:
 		lives = 0
@@ -267,6 +268,21 @@ func _updateTimeDisplay():
 			strSeconds = "0" + strSeconds
 		get_node("GameGUI/HUD/TimeLabel").text = "Time: " + strMinutes + ":" + strSeconds
 
+func _setupStatisticsMenu():
+	$GameGUI/StatisticsMenu/StatisticsContainer/LivesStartedAtValue.text = str(statistics.livesStartedAt) if settings.lives != settings.INFINITE_LIVES else "N/A"
+	$GameGUI/StatisticsMenu/StatisticsContainer/LivesEndedAtValue.text = str(statistics.livesEndedAt) if settings.lives != settings.INFINITE_LIVES else "N/A"
+	$GameGUI/StatisticsMenu/StatisticsContainer/ScheduledTimeValue.text = str(statistics.scheduledLength) if settings.time != settings.INFINITE_TIME else "N/A"
+	$GameGUI/StatisticsMenu/StatisticsContainer/TotalTimeValue.text = str(statistics.actualLength)
+	$GameGUI/StatisticsMenu/StatisticsContainer/TotalHitsValue.text = str(statistics.totalHits)
+	$GameGUI/StatisticsMenu/StatisticsContainer/TotalMissesValue.text = str(statistics.totalMisses)
+	$GameGUI/StatisticsMenu/StatisticsContainer/AccuracyValue.text = str(stepify(statistics.calculateAccuracy(), 0.01)) + "%"
+	$GameGUI/StatisticsMenu/StatisticsContainer/TotalClicksValue.text = str(statistics.totalClicks)
+	$GameGUI/StatisticsMenu/StatisticsContainer/TotalTargetsDestroyedValue.text = str(statistics.totalTargetsDestroyed)
+	$GameGUI/StatisticsMenu/StatisticsContainer/TotalTargetsValue.text = str(statistics.totalTargets)
+	$GameGUI/StatisticsMenu/StatisticsContainer/TotalPointsValue.text = str(statistics.totalPoints)
+	$GameGUI/StatisticsMenu/StatisticsContainer/MaxPointsValue.text = str(statistics.maximumPoints)
+	$GameGUI/StatisticsMenu/StatisticsContainer/PercentageValue.text = str(stepify(statistics.calculatePointPercentage(), 0.01)) + "%"
+
 func _makeAllVisible(flag):
 	get_node("GameGUI").visible = flag
 	get_node("StartCountdown").visible = flag
@@ -277,30 +293,26 @@ func _checkIfGameOver(delta):
 	# condition 2: if a time limit is set, and the time is up, end game
 	# REMEMBER THAT THE TIME VARIABLE STORED IN SETTINGS IS IN __MINUTES__!
 	if settings.time != settings.INFINITE_TIME && entireLengthOfGame > settings.time * 60:
-		gameOverText = "Time's Up!"
-		_endGame()
+		_endGame("Time's Up!")
 	# condition 3: if a lives limit is set, and lives has reached 0, end game
 	if settings.lives != settings.INFINITE_LIVES && lives == 0:
-		gameOverText = "Game Over!"
-		_endGame()
+		_endGame("Game Over!")
 	# if game has ended, increment internal timer anyway so that we can time Game Over! segment
+	# (_incrementTimers() prevents incrementing timers if game is over)
 	if gameHasEnded:
 		entireLengthOfGame += delta
 		if entireLengthOfGame >= 3.0:
-			_makeAllVisible(false)
-			# generate statistics menu in some way - control should be handed off to there
-			# for now, just go back to the main menu
-			_on_QuitButton_pressed()
-
-
+			$GameGUI/StatisticsMenu.visible = true
 
 # should be called when the game is over
-func _endGame():
+func _endGame(gameOverText: String):
 	if !gameHasEnded:
 		gameHasEnded = true
 		$StartCountdown.text = gameOverText
 		$TargetParent.visible = false
+		$GameGUI/HUD.visible = false
 		statistics.finishGame(lives, entireLengthOfGame)
+		_setupStatisticsMenu()
 		entireLengthOfGame = 0.0 # reset internal timer so that game over! segment can be timed from 0.0
 
 # Functions - GUI Signal Handlers
@@ -335,7 +347,7 @@ func _removeSettingsMenu():
 	_makeAllVisible(true)
 
 func _on_EndButton_pressed():
-	_endGame()
+	_endGame("Game Ended")
 	_unpause()
 
 func _on_QuitButton_pressed():
