@@ -210,7 +210,8 @@ func _determineDifficulty():
 
 # Functions - Target Signal Handlers
 func _on_target_hit():
-	playHitSound = true
+	$MissSound.seek(0.45)
+	$HitSound.play()
 	statistics.increasePlayerScore(1)
 	statistics.aHitWasMade()
 	# undo "target miss" that registers in _unhandled_input()
@@ -219,7 +220,7 @@ func _on_target_hit():
 	_updateLivesDisplay()
 
 func _on_target_miss():
-	playMissSound = true
+	$MissSound.play()
 	statistics.aMissWasMade()
 	if settings.lives != settings.INFINITE_LIVES:
 		lives -= 1
