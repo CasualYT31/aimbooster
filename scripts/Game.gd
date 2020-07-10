@@ -203,21 +203,7 @@ func _increaseDifficulty():
 		chanceOfPurpleTarget += 2
 
 func _determineDifficulty():
-	var difficultyMultiplier: float = settings.startDifficulty
-	
-	if difficultyMultiplier == 4:
-		difficultyMultiplier = 1
-	elif difficultyMultiplier == 3.5:
-		difficultyMultiplier = 1.5
-	elif difficultyMultiplier == 3.0:
-		difficultyMultiplier = 2.0
-	elif difficultyMultiplier == 2.0:
-		difficultyMultiplier = 3.0
-	elif difficultyMultiplier == 1.5:
-		difficultyMultiplier = 3.5
-	elif difficultyMultiplier == 1.0:
-		difficultyMultiplier = 4.0
-	decreaseDiffucultyDivisor = 25 * difficultyMultiplier
+	decreaseDiffucultyDivisor = 25 * (float(settings.startDifficulty) / 10.0)
 
 # Functions - Target Signal Handlers
 func _on_target_hit():

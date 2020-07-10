@@ -91,7 +91,24 @@ func _updateTimeLabel():
 		get_node("MarginContainer/VBoxContainer/GridContainer/TimeValueLabel").text = str(settings.time) + (" min" if settings.time == 1 else " mins")
 
 func _updateStartDifficultyLabel():
-	get_node("MarginContainer/VBoxContainer/GridContainer/StartDifficultyValueLabel").text = str(settings.startDifficulty)
+	var val : String
+	if settings.startDifficulty == 40:
+		val = "Baby's First Game"
+	elif settings.startDifficulty == 35:
+		val = "Easy"
+	elif settings.startDifficulty == 30:
+		val = "Easy"
+	elif settings.startDifficulty == 25:
+		val = "Medium"
+	elif settings.startDifficulty == 20:
+		val = "Medium"
+	elif settings.startDifficulty == 15:
+		val = "Hard"
+	elif settings.startDifficulty == 10:
+		val = "Hard"
+	else:
+		val = str(settings.startDifficulty)
+	get_node("MarginContainer/VBoxContainer/GridContainer/StartDifficultyValueLabel").text = val
 
 func _on_BackButton_pressed():
 	emit_signal("open_previous_menu")
