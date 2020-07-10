@@ -15,8 +15,11 @@ func recallWindowPosition():
 				data["x"] = 0
 			if (!data.has("y")):
 				data["y"] = 0
+			if (!data.has("max")):
+				data["max"] = true
 			OS.set_window_size(Vector2(data["w"], data["h"]))
 			OS.set_window_position(Vector2(data["x"], data["y"]))
+			OS.set_window_maximized(data["max"])
 			file.close()
 
 func retainWindowPosition():
@@ -29,7 +32,8 @@ func retainWindowPosition():
 		x = OS.get_window_position().x,
 		y = OS.get_window_position().y,
 		w = OS.get_window_size().x,
-		h = OS.get_window_size().y
+		h = OS.get_window_size().y,
+		max = OS.is_window_maximized()
 	}
 	var file = File.new()
 	if file.open("res://window_size.json", File.WRITE) == 0:
