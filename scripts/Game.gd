@@ -211,7 +211,7 @@ func _determineDifficulty():
 # Functions - Target Signal Handlers
 func _on_target_hit():
 	if !gameHasEnded:
-		$MissSound.seek(0.45) # prevents miss sound from playing since a miss is registered if a hit is registered, too
+		$MissSound.seek(0.55) # prevents miss sound from playing since a miss is registered if a hit is registered, too :(
 		$HitSound.play()
 	statistics.increasePlayerScore(1)
 	statistics.aHitWasMade()
