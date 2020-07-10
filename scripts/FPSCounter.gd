@@ -1,5 +1,4 @@
 extends Label
 
-# warning-ignore:unused_argument
-func _process(delta):
+func _process(_delta):
 	text = "FPS: " + str(Engine.get_frames_per_second())

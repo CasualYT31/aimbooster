@@ -84,7 +84,7 @@ func _process(delta):
 	if _targetSpawnManager():
 		_increaseDifficulty()
 	if entireLengthOfGame - gameOverCheckingDelay >= 0.1:
-		_checkIfGameOver(delta)
+		_checkIfGameOver()
 		gameOverCheckingDelay = entireLengthOfGame
 	
 	# if game has ended, increment internal timer anyway so that we can time Game Over! segment
@@ -297,7 +297,7 @@ func _makeAllVisible(flag):
 	get_node("StartCountdown").visible = flag
 
 # Functions - Game Over Checking
-func _checkIfGameOver(delta):
+func _checkIfGameOver():
 	# condition 1: see _on_EndButton_pressed
 	# condition 2: if a time limit is set, and the time is up, end game
 	# REMEMBER THAT THE TIME VARIABLE STORED IN SETTINGS IS IN __MINUTES__!
