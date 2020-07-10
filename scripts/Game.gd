@@ -209,7 +209,7 @@ func _increaseDifficulty():
 		chanceOfPurpleTarget += 2
 
 func _determineDifficulty():
-	decreaseDiffucultyDivisor = 25 * (float(settings.startDifficulty) / 10.0)
+	decreaseDiffucultyDivisor = 25.0 * settings.startDifficulty
 
 # Functions - Target Signal Handlers
 func _on_target_hit():

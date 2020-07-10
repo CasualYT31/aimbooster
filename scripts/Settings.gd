@@ -12,7 +12,7 @@ export var lives: int = 3 setget setLives, getLives
 export var time: int = INFINITE_TIME setget setTime, getTime
 export var fullscreen: bool = OS.window_fullscreen setget setFullscreen, getFullscreen
 export var fpsCounter: bool = false setget setFPSVisible, getFPSVisible
-export var startDifficulty: int = 40 setget setStartDifficulty, getStartDifficulty
+export var startDifficulty: float = 4.0 setget setStartDifficulty, getStartDifficulty
 export var errorCount := 0 setget , getErrorCount
 
 # constructor: loads settings file and updates variables
@@ -142,10 +142,10 @@ func getFPSVisible():
 	return fpsCounter
 
 func setStartDifficulty(newval):
-	if (newval < 10):
-		newval = 10
-	elif (newval > 40):
-		newval = 40
+	if (newval < 1.0):
+		newval = 1.0
+	elif (newval > 4.0):
+		newval = 4.0
 	startDifficulty = newval
 
 func getStartDifficulty():

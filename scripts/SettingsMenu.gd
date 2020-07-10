@@ -92,19 +92,19 @@ func _updateTimeLabel():
 
 func _updateStartDifficultyLabel():
 	var val : String
-	if settings.startDifficulty == 40:
+	if settings.startDifficulty == 4.0:
 		val = "Baby's First Game"
-	elif settings.startDifficulty == 35:
+	elif settings.startDifficulty == 3.5:
 		val = "Easy"
-	elif settings.startDifficulty == 30:
+	elif settings.startDifficulty == 3.0:
 		val = "Easy"
-	elif settings.startDifficulty == 25:
+	elif settings.startDifficulty == 2.5:
 		val = "Medium"
-	elif settings.startDifficulty == 20:
+	elif settings.startDifficulty == 2.0:
 		val = "Medium"
-	elif settings.startDifficulty == 15:
+	elif settings.startDifficulty == 1.5:
 		val = "Hard"
-	elif settings.startDifficulty == 10:
+	elif settings.startDifficulty == 1.0:
 		val = "Hard"
 	else:
 		val = str(settings.startDifficulty)
