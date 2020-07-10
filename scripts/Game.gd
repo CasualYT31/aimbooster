@@ -29,10 +29,9 @@ var targetParentReappearDelay: float = 0.0
 var gameOverCheckingDelay: float = 0.0
 # spawn timing variables
 var spawnTimerCounter: float = 0.0 # timer that counts the number of seconds since last spawn
-var timeUntilNextSpawn: float = 3.0 # <<<defined value in _ready
+var timeUntilNextSpawn: float = 3.0
 
 # Variables - Difficulty Data
-var decreaseDiffucultyDivisor: float = 0.0
 # chance variables will be a %age from 0-100
 # they represent a chance of a property being a certain way
 # i.e. "50% chance of target being red,
@@ -66,7 +65,6 @@ func _ready():
 	$GameGUI/HUD/MaxTimeLabel.text = "Time Limit: " + (_convertTimeToString(float(settings.time * 60)) if settings.time != settings.INFINITE_TIME else "N/A")
 	$GameGUI/HUD/ModeLabel.text = "Enemy Mode" if settings.isEnemyMode else "Normal Mode"
 	_updateLivesDisplay()
-	_determineDifficulty()
 
 # Functions - Game Loop
 func _process(delta):
@@ -121,7 +119,7 @@ func _targetSpawnManager():
 		var targetType: int = _generateNewTargetType()
 		var targetHealth: int = _generateNewTargetHealth(targetType)
 		var targetStartPosition: Vector2 = _generateNewTargetPosition()
-		var targetEndPosition: Vector2 = targetStartPosition if _newTargetShouldBeStationary() else _generateNewTargetPosition()
+		var targetEndPosition: Vector2 = _generateNewTargetEndPosition(targetStartPosition)
 		statistics.increaseMaxScore(targetHealth)
 		var newTarget = Target.instance()
 		newTarget.initialiseTarget(settings, targetType, targetHealth, targetStartPosition, targetEndPosition, activeLifeOfTarget)
@@ -167,6 +165,27 @@ func _generateNewTargetHealth(targetType: int):
 func _generateNewTargetPosition():
 	return Vector2(float(randi() % int(OS.get_window_size().x)), float(randi() % int(OS.get_window_size().y)))
 
+func _generateNewTargetEndPosition(startPosition: Vector2):
+	if _newTargetShouldBeStationary():
+		return startPosition
+	else:
+		var endPosition : Vector2
+		var maxDistance := 800
+		var distanceToTravel := maxDistance + 1.0
+		while distanceToTravel > maxDistance:
+			endPosition = Vector2(float(randi() % maxDistance * 2 - maxDistance), float(randi() % maxDistance * 2 - maxDistance))
+			endPosition += startPosition
+			if endPosition.x < 0.0:
+				endPosition.x = abs(endPosition.x)
+			elif endPosition.x > OS.get_window_size().x:
+				endPosition.x -= maxDistance
+			if endPosition.y < 0.0:
+				endPosition.y = abs(endPosition.y)
+			elif endPosition.y > OS.get_window_size().y:
+				endPosition.y -= maxDistance
+			distanceToTravel = sqrt(pow(endPosition.x - startPosition.x, 2.0)+pow(endPosition.y - startPosition.y, 2.0))
+		return endPosition
+
 func _newTargetShouldBeStationary():
 	return false if settings.isEnemyMode else (randi() % 100 + 1) <= chanceOfStationaryTarget
 
@@ -174,42 +193,142 @@ func _newTargetShouldBeStationary():
 	# adjust the following variables:
 	# target type chance group - ensure they all add up to 100!!
 	# target stationary chance
-	# decrease both activeLifeOfTarget and timeUntilNextSpawn by a small random amount
+	# decrease both activeLifeOfTarget and timeUntilNextSpawn by a small amount
 func _increaseDifficulty():
-	if timeUntilNextSpawn >= 0.2:
-		timeUntilNextSpawn -= randf() / int(decreaseDiffucultyDivisor)
-	elif timeUntilNextSpawn < 0.2:
-		timeUntilNextSpawn = 0.2
-	if activeLifeOfTarget >= 0.3:
-		activeLifeOfTarget -= randf() / int(decreaseDiffucultyDivisor)
-	elif activeLifeOfTarget < 0.3:
-		activeLifeOfTarget = 0.3
+	if timeUntilNextSpawn > _calculateSpawnDelayCap():
+		timeUntilNextSpawn -= float(settings.startDifficulty) / 35.0
+	if timeUntilNextSpawn < _calculateSpawnDelayCap():
+		timeUntilNextSpawn = _calculateSpawnDelayCap()
 	
-	if chanceOfStationaryTarget >= 10:
-		chanceOfStationaryTarget -= randi()%3
-	elif activeLifeOfTarget < 10:
-		chanceOfStationaryTarget = 10
+	if activeLifeOfTarget > _calculateLifeOfTargetCap():
+		activeLifeOfTarget -= float(settings.startDifficulty) / 50.0
+	if activeLifeOfTarget < _calculateLifeOfTargetCap():
+		activeLifeOfTarget = _calculateLifeOfTargetCap()
 	
-	decreaseDiffucultyDivisor -= int(decreaseDiffucultyDivisor * 0.02)
+	if chanceOfStationaryTarget > _calculateStationaryChanceCap():
+		chanceOfStationaryTarget -= settings.startDifficulty
+	if chanceOfStationaryTarget < _calculateStationaryChanceCap():
+		chanceOfStationaryTarget = _calculateStationaryChanceCap()
 	
-	if chanceOfRedTarget >= chanceOfOrangeTarget:
-		chanceOfRedTarget -= 2
-		chanceOfOrangeTarget += 2
-	elif chanceOfOrangeTarget >= chanceOfYellowTarget:
-		chanceOfOrangeTarget -= 2
-		chanceOfYellowTarget += 2
-	elif chanceOfYellowTarget >= chanceOfGreenTarget:
-		chanceOfYellowTarget -= 2
-		chanceOfGreenTarget += 2
-	elif chanceOfGreenTarget >= chanceOfBlueTarget:
-		chanceOfGreenTarget -= 2
-		chanceOfBlueTarget += 2
-	else:
-		chanceOfBlueTarget -= 2
-		chanceOfPurpleTarget += 2
+	# I'm going to change how these percentage values work \/\/\/\/
+	var m : int = settings.startDifficulty * 3.0
+	if chanceOfRedTarget >= chanceOfOrangeTarget && chanceOfRedTarget > _calculateRedTargetCap():
+		chanceOfRedTarget -= m
+		chanceOfOrangeTarget += m
+		if chanceOfRedTarget < _calculateRedTargetCap():
+			var diff = _calculateRedTargetCap() - chanceOfRedTarget
+			chanceOfRedTarget += diff
+			chanceOfOrangeTarget -= diff
+	elif chanceOfOrangeTarget >= chanceOfYellowTarget && chanceOfOrangeTarget > _calculateOrangeTargetCap():
+		chanceOfOrangeTarget -= m
+		chanceOfYellowTarget += m
+		if chanceOfOrangeTarget < _calculateOrangeTargetCap():
+			var diff = _calculateOrangeTargetCap() - chanceOfOrangeTarget
+			chanceOfOrangeTarget += diff
+			chanceOfYellowTarget -= diff
+	elif settings.startDifficulty != 1.0 && chanceOfYellowTarget >= chanceOfGreenTarget && chanceOfYellowTarget > _calculateYellowTargetCap():
+		chanceOfYellowTarget -= m
+		chanceOfGreenTarget += m
+		if chanceOfYellowTarget < _calculateYellowTargetCap():
+			var diff = _calculateYellowTargetCap() - chanceOfYellowTarget
+			chanceOfYellowTarget += diff
+			chanceOfGreenTarget -= diff
+	elif settings.startDifficulty != 1.0 && chanceOfGreenTarget >= chanceOfBlueTarget && chanceOfGreenTarget > _calculateGreenTargetCap():
+		chanceOfGreenTarget -= m
+		chanceOfBlueTarget += m
+		if chanceOfGreenTarget < _calculateGreenTargetCap():
+			var diff = _calculateGreenTargetCap() - chanceOfGreenTarget
+			chanceOfGreenTarget += diff
+			chanceOfBlueTarget -= diff
+	elif settings.startDifficulty != 1.0 && chanceOfBlueTarget > _calculateBlueTargetCap():
+		chanceOfBlueTarget -= m
+		chanceOfPurpleTarget += m
+		if chanceOfBlueTarget < _calculateBlueTargetCap():
+			var diff = _calculateBlueTargetCap() - chanceOfBlueTarget
+			chanceOfBlueTarget += diff
+			chanceOfPurpleTarget -= diff
+	
+	print(chanceOfRedTarget + chanceOfOrangeTarget + chanceOfYellowTarget + chanceOfGreenTarget + chanceOfBlueTarget + chanceOfPurpleTarget == 100)
 
-func _determineDifficulty():
-	decreaseDiffucultyDivisor = 25.0 * settings.startDifficulty
+func _calculateSpawnDelayCap():
+	if settings.startDifficulty >= 1.0 && settings.startDifficulty < 2.0:
+		return 0.75
+	elif settings.startDifficulty >= 2.0 && settings.startDifficulty < 3.0:
+		return 0.75
+	elif settings.startDifficulty >= 3.0 && settings.startDifficulty < 4.0:
+		return 0.75
+	else:
+		return 0.75
+
+func _calculateLifeOfTargetCap():
+	if settings.startDifficulty >= 1.0 && settings.startDifficulty < 2.0:
+		return 1.5
+	elif settings.startDifficulty >= 2.0 && settings.startDifficulty < 3.0:
+		return 1.5
+	elif settings.startDifficulty >= 3.0 && settings.startDifficulty < 4.0:
+		return 1.5
+	else:
+		return 1.5
+
+func _calculateStationaryChanceCap():
+	if settings.startDifficulty >= 1.0 && settings.startDifficulty < 2.0:
+		return 10
+	elif settings.startDifficulty >= 2.0 && settings.startDifficulty < 3.0:
+		return 10
+	elif settings.startDifficulty >= 3.0 && settings.startDifficulty < 4.0:
+		return 10
+	else:
+		return 10
+
+func _calculateRedTargetCap():
+	if settings.startDifficulty >= 1.0 && settings.startDifficulty < 2.0:
+		return 5
+	elif settings.startDifficulty >= 2.0 && settings.startDifficulty < 3.0:
+		return 5
+	elif settings.startDifficulty >= 3.0 && settings.startDifficulty < 4.0:
+		return 5
+	else:
+		return 5
+
+func _calculateOrangeTargetCap():
+	if settings.startDifficulty >= 1.0 && settings.startDifficulty < 2.0:
+		return 5
+	elif settings.startDifficulty >= 2.0 && settings.startDifficulty < 3.0:
+		return 5
+	elif settings.startDifficulty >= 3.0 && settings.startDifficulty < 4.0:
+		return 5
+	else:
+		return 5
+
+func _calculateYellowTargetCap():
+	if settings.startDifficulty >= 1.0 && settings.startDifficulty < 2.0:
+		return 10
+	elif settings.startDifficulty >= 2.0 && settings.startDifficulty < 3.0:
+		return 10
+	elif settings.startDifficulty >= 3.0 && settings.startDifficulty < 4.0:
+		return 10
+	else:
+		return 10
+
+func _calculateGreenTargetCap():
+	if settings.startDifficulty >= 1.0 && settings.startDifficulty < 2.0:
+		return 25
+	elif settings.startDifficulty >= 2.0 && settings.startDifficulty < 3.0:
+		return 25
+	elif settings.startDifficulty >= 3.0 && settings.startDifficulty < 4.0:
+		return 25
+	else:
+		return 25
+
+func _calculateBlueTargetCap():
+	if settings.startDifficulty >= 1.0 && settings.startDifficulty < 2.0:
+		return 25
+	elif settings.startDifficulty >= 2.0 && settings.startDifficulty < 3.0:
+		return 25
+	elif settings.startDifficulty >= 3.0 && settings.startDifficulty < 4.0:
+		return 25
+	else:
+		return 25
 
 # Functions - Target Signal Handlers
 func _on_target_hit():

@@ -341,9 +341,9 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 min_value = 1.0
 max_value = 4.0
-step = 0.5
-value = 4.0
-tick_count = 7
+step = 1.0
+value = 1.0
+tick_count = 4
 ticks_on_borders = true
 
 [node name="StartDifficultyValueLabel" type="Label" parent="MarginContainer/VBoxContainer/GridContainer"]

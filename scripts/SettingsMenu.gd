@@ -93,19 +93,13 @@ func _updateTimeLabel():
 func _updateStartDifficultyLabel():
 	var val : String
 	if settings.startDifficulty == 4.0:
-		val = "Baby's First Game"
-	elif settings.startDifficulty == 3.5:
-		val = "Easy"
+		val = "Hard"
 	elif settings.startDifficulty == 3.0:
-		val = "Easy"
-	elif settings.startDifficulty == 2.5:
 		val = "Medium"
 	elif settings.startDifficulty == 2.0:
-		val = "Medium"
-	elif settings.startDifficulty == 1.5:
-		val = "Hard"
+		val = "Easy"
 	elif settings.startDifficulty == 1.0:
-		val = "Hard"
+		val = "Baby's First Game"
 	else:
 		val = str(settings.startDifficulty)
 	get_node("MarginContainer/VBoxContainer/GridContainer/StartDifficultyValueLabel").text = val
