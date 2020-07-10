@@ -31,23 +31,23 @@ func read():
 			var data = parse_json(file.get_line())
 			# using self here will call the setget methods
 			if (data.has("sound")):
-				self.soundVolume = data["sound"]
+				self.soundVolume = float(data["sound"])
 			if (data.has("music")):
-				self.musicVolume = data["music"]
+				self.musicVolume = float(data["music"])
 			if (data.has("lefttoshoot")):
-				self.isLeftButtonToShoot = data["lefttoshoot"]
+				self.isLeftButtonToShoot = bool(data["lefttoshoot"])
 			if (data.has("enemymode")):
-				self.isEnemyMode = data["enemymode"]
+				self.isEnemyMode = bool(data["enemymode"])
 			if (data.has("lives")):
-				self.lives = data["lives"]
+				self.lives = int(data["lives"])
 			if (data.has("time")):
-				self.time = data["time"]
+				self.time = int(data["time"])
 			if (data.has("fullscreen")):
-				self.fullscreen = data["fullscreen"]
+				self.fullscreen = bool(data["fullscreen"])
 			if (data.has("fpscounter")):
-				self.fpsCounter = data["fpscounter"]
+				self.fpsCounter = bool(data["fpscounter"])
 			if (data.has("startdifficulty")):
-				self.startDifficulty = data["startdifficulty"]
+				self.startDifficulty = float(data["startdifficulty"])
 			file.close()
 
 # saves settings to file

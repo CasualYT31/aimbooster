@@ -26,3 +26,4 @@ __meta__ = {
 }
 
 [node name="FPSCounter" parent="." instance=ExtResource( 4 )]
+modulate = Color( 0, 0, 0, 1 )

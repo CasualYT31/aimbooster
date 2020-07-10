@@ -41,22 +41,22 @@ func initialiseTarget(settingsReference, targetType: int, health: int, startPos:
 	referenceToSettings = settingsReference
 	match targetType:
 		Global.TargetType.RED:
-			modulate = ColorN("red", 1.0)
+			$Area2D/Sprite.modulate = ColorN("red", 1.0)
 			$Area2D.scale = Vector2(1.5, 1.5)
 		Global.TargetType.ORANGE:
-			modulate = ColorN("orange", 1.0)
+			$Area2D/Sprite.modulate = ColorN("orange", 1.0)
 			$Area2D.scale = Vector2(1.4, 1.4)
 		Global.TargetType.YELLOW:
-			modulate = ColorN("yellow", 1.0)
+			$Area2D/Sprite.modulate = ColorN("yellow", 1.0)
 			$Area2D.scale = Vector2(1.3, 1.3)
 		Global.TargetType.GREEN:
-			modulate = ColorN("green", 1.0)
+			$Area2D/Sprite.modulate = ColorN("green", 1.0)
 			$Area2D.scale = Vector2(1.2, 1.2)
 		Global.TargetType.BLUE:
-			modulate = ColorN("blue", 1.0)
+			$Area2D/Sprite.modulate = ColorN("blue", 1.0)
 			$Area2D.scale = Vector2(1.1, 1.1)
 		Global.TargetType.PURPLE:
-			modulate = ColorN("purple", 1.0)
+			$Area2D/Sprite.modulate = ColorN("purple", 1.0)
 			$Area2D.scale = Vector2(1.0, 1.0)
 		_:
 			OS.alert("Invalid target type!")
@@ -70,6 +70,13 @@ func initialiseTarget(settingsReference, targetType: int, health: int, startPos:
 	newCurve.add_point(startPosition)
 	newCurve.add_point(endPosition)
 	set_curve(newCurve)
+	# if a moving target, setup destination marker
+	if startPosition != endPosition:
+		$DestinationMarker.rect_position = endPosition - $DestinationMarker.rect_size / 2.0
+		$MarkerOutline.rect_position = endPosition - $DestinationMarker.rect_size / 2.0 - ($MarkerOutline.rect_size - $DestinationMarker.rect_size) / 2.0
+		$DestinationMarker.color = $Area2D/Sprite.modulate
+		$DestinationMarker.visible = true
+		$MarkerOutline.visible = true
 
 func _process(delta):
 	internalTimer += delta
@@ -91,6 +98,6 @@ func _on_Area2D_input_event(_viewport, event, _shape_idx):
 			get_node("Area2D/BulletHole" + str(0 if targetHealth < 0 else targetHealth)).visible = true
 			emit_signal("target_hit")
 			if targetHealth <= 0:
-				modulate = Color(modulate.r, modulate.g, modulate.b, 0.5)
+				$Area2D/Sprite.modulate = Color($Area2D/Sprite.modulate.r, $Area2D/Sprite.modulate.g, $Area2D/Sprite.modulate.b, 0.5)
 				timeAtWhichDestroyed = internalTimer
 				emit_signal("target_destroy")
