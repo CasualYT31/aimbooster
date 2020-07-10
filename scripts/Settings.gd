@@ -11,8 +11,9 @@ export var isEnemyMode: bool = false setget setEnemyMode, getEnemyMode
 export var lives: int = 3 setget setLives, getLives
 export var time: int = INFINITE_TIME setget setTime, getTime
 export var fullscreen: bool = OS.window_fullscreen setget setFullscreen, getFullscreen
-export var fpsCounter: bool = true setget setFPSVisible, getFPSVisible
+export var fpsCounter: bool = false setget setFPSVisible, getFPSVisible
 export var startDifficulty: int = 40 setget setStartDifficulty, getStartDifficulty
+export var errorCount := 0 setget , getErrorCount
 
 # constructor: loads settings file and updates variables
 func _init():
@@ -22,10 +23,12 @@ func read():
 	var file = File.new()
 	if !file.file_exists(SETTINGS_FILE_PATH):
 		OS.alert("Settings file does not yet exist: reverting to defaults and saving...")
+		errorCount += 1
 		save()
 	else:
 		if file.open(SETTINGS_FILE_PATH, File.READ) != 0:
 			OS.alert("Error opening settings file: reverting to defaults...")
+			errorCount += 1
 			save()
 		else:
 			var data = parse_json(file.get_line())
@@ -66,6 +69,7 @@ func save():
 	var file = File.new()
 	if file.open(SETTINGS_FILE_PATH, File.WRITE) != 0:
 		OS.alert("Error writing settings file")
+		errorCount += 1
 	else:
 		file.store_line(to_json(data))
 		file.close()
@@ -146,3 +150,6 @@ func setStartDifficulty(newval):
 
 func getStartDifficulty():
 	return startDifficulty
+
+func getErrorCount():
+	return errorCount

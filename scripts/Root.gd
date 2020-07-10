@@ -7,10 +7,8 @@ var SettingsScene = preload("res://scenes/SettingsMenu.tscn")
 var GameScene = preload("res://scenes/GameMenu.tscn")
 var HelpScene = preload("res://scenes/HelpMenu.tscn")
 
-var tracker: bool = false
-
-onready var musicNode = get_node("BGM")
-onready var fpsNode = get_node("FPSCounter")
+var tracker := false
+var errorTracker := false
 
 var mainMenu
 var settingsMenu
@@ -73,21 +71,22 @@ func _openHelpMenu():
 	helpMenu.connect("open_main_menu", self, "_on_HelpMenu_open_main_menu")
 	add_child(helpMenu)
 
-# manages background music continuously.
-# there is a danger that alert dialogs will be produced continuously
-# if loading settings fails, then the subsequent saving fails, continuously...
-# see Settings._init() and Settings.save()
+# manages background music and FPS counter visibility continuously
 func _process(_delta):
 	var settings = Settings.new()
-	musicNode.volume_db = settings.getMusicVolumeAsDb()
-	if settings.musicVolume < 1.0:
-		musicNode.stop()
-		tracker = false
-	else:
-		if (!tracker):
-			musicNode.play()
-			tracker = true
-	fpsNode.visible = settings.getFPSVisible()
+	if settings.errorCount < 2:
+		$BGM.volume_db = settings.getMusicVolumeAsDb()
+		if settings.musicVolume < 1.0:
+			$BGM.stop()
+			tracker = false
+		else:
+			if (!tracker):
+				$BGM.play()
+				tracker = true
+	elif !errorTracker:
+		# prevent endless cicle of error dialogs
+		errorTracker = true
+	$FPSCounter.visible = settings.getFPSVisible()
 
 func _notification(what):
 	if (what == MainLoop.NOTIFICATION_WM_QUIT_REQUEST):
