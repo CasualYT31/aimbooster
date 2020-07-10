@@ -155,6 +155,9 @@ func _on_Time_value_changed(value):
 
 func _on_Fullscreen_toggled(_button_pressed):
 	if !firstFullscreenPress:
+		# retain window position before switching
+		# (automatically doesn't do so if switching from fullscreen)
+		Global.retainWindowPosition()
 		settings.fullscreen = !settings.fullscreen
 		settings.save()
 

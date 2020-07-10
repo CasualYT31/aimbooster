@@ -20,6 +20,11 @@ func recallWindowPosition():
 			file.close()
 
 func retainWindowPosition():
+	# don't retain window position if in full screen mode
+	var settings = preload("res://scripts/Settings.gd").new()
+	if settings.fullscreen:
+		return
+	# only retain window position if in windowed mode
 	var data = {
 		x = OS.get_window_position().x,
 		y = OS.get_window_position().y,

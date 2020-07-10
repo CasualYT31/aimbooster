@@ -105,7 +105,7 @@ func _incrementTimeCounters(delta):
 
 func _convertTimeToString(timeValue: float):
 	var strSeconds = str(int(timeValue) % 60)
-	var strMinutes = str(int(timeValue) / 60)
+	var strMinutes = str(int(timeValue / 60.0))
 	if len(strMinutes) == 1:
 		strMinutes = "0" + strMinutes
 	if len(strSeconds) == 1:
