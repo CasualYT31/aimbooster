@@ -9,7 +9,7 @@
 [ext_resource path="res://audio/Oof.wav" type="AudioStream" id=7]
 
 [sub_resource type="DynamicFont" id=1]
-size = 200
+size = 100
 font_data = ExtResource( 1 )
 
 [sub_resource type="DynamicFont" id=2]

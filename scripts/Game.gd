@@ -23,6 +23,10 @@ var entireLengthOfGame: float = -3.0
 # keeps track of how long the game is running after unpausing
 # helps combat a "bug" within the Godot engine (input events queuing up in pause mode)
 var targetParentReappearDelay: float = 0.0
+# because there doesn't seem to be an easy way to separate hit and miss mouse click collisions
+# we have to delay game over checking to ensure that when a hit-and-miss is registered and one life is left
+# the game doesn't game over before the hit code portion runs which counteracts the miss
+var gameOverCheckingDelay: float = 0.0
 # HUD timer variables
 var seconds: float = 0.0
 var minutes: int = 0
@@ -79,7 +83,16 @@ func _process(delta):
 	_updateTimeDisplay()
 	if _targetSpawnManager():
 		_increaseDifficulty()
-	_checkIfGameOver(delta)
+	if entireLengthOfGame - gameOverCheckingDelay >= 0.1:
+		_checkIfGameOver(delta)
+		gameOverCheckingDelay = entireLengthOfGame
+	
+	# if game has ended, increment internal timer anyway so that we can time Game Over! segment
+	# (_incrementTimers() prevents incrementing timers if game is over)
+	if gameHasEnded:
+		entireLengthOfGame += delta
+		if entireLengthOfGame >= 3.0:
+			$GameGUI/StatisticsMenu.visible = true
 	
 	# manage sound volumes
 	$HitSound.volume_db = settings.getSoundVolumeAsDb()
@@ -307,12 +320,6 @@ func _checkIfGameOver(delta):
 	# condition 3: if a lives limit is set, and lives has reached 0, end game
 	if settings.lives != settings.INFINITE_LIVES && lives == 0:
 		_endGame("Game Over!")
-	# if game has ended, increment internal timer anyway so that we can time Game Over! segment
-	# (_incrementTimers() prevents incrementing timers if game is over)
-	if gameHasEnded:
-		entireLengthOfGame += delta
-		if entireLengthOfGame >= 3.0:
-			$GameGUI/StatisticsMenu.visible = true
 
 # should be called when the game is over
 func _endGame(gameOverText: String):
