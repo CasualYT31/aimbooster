@@ -44,7 +44,7 @@ func initialiseTarget(settingsReference, targetType: int, health: int, startPos:
 			$Area2D/Sprite.modulate = ColorN("red", 1.0)
 			$Area2D.scale = Vector2(1.5, 1.5)
 		Global.TargetType.ORANGE:
-			$Area2D/Sprite.modulate = ColorN("orange", 1.0)
+			$Area2D/Sprite.modulate = Color("DB7900")
 			$Area2D.scale = Vector2(1.4, 1.4)
 		Global.TargetType.YELLOW:
 			$Area2D/Sprite.modulate = ColorN("yellow", 1.0)

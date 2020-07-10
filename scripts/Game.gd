@@ -27,9 +27,6 @@ var targetParentReappearDelay: float = 0.0
 # we have to delay game over checking to ensure that when a hit-and-miss is registered and one life is left
 # the game doesn't game over before the hit code portion runs which counteracts the miss
 var gameOverCheckingDelay: float = 0.0
-# HUD timer variables
-var seconds: float = 0.0
-var minutes: int = 0
 # spawn timing variables
 var spawnTimerCounter: float = 0.0 # timer that counts the number of seconds since last spawn
 var timeUntilNextSpawn: float = 3.0 # <<<defined value in _ready
@@ -66,6 +63,7 @@ func _ready():
 	settings = Settings.new()
 	statistics = Statistics.new(settings.lives, settings.time)
 	lives = settings.lives
+	$GameGUI/HUD/MaxTimeLabel.text = "Time Limit: " + (_convertTimeToString(float(settings.time * 60)) if settings.time != settings.INFINITE_TIME else "N/A")
 	$GameGUI/HUD/ModeLabel.text = "Enemy Mode" if settings.isEnemyMode else "Normal Mode"
 	_updateLivesDisplay()
 	_determineDifficulty()
@@ -103,8 +101,16 @@ func _incrementTimeCounters(delta):
 	if !_isPaused(): # not likely required but include just to be extra safe...
 		entireLengthOfGame += delta
 		if entireLengthOfGame >= 0:
-			seconds += delta
 			spawnTimerCounter += delta
+
+func _convertTimeToString(timeValue: float):
+	var strSeconds = str(int(timeValue) % 60)
+	var strMinutes = str(int(timeValue) / 60)
+	if len(strMinutes) == 1:
+		strMinutes = "0" + strMinutes
+	if len(strSeconds) == 1:
+		strSeconds = "0" + strSeconds
+	return strMinutes + ":" + strSeconds
 
 # Functions - Target Management
 # returns TRUE if a target was spawned, FALSE if not
@@ -266,16 +272,7 @@ func _updateTimeDisplay():
 	else:
 		if $StartCountdown.text == "1": # not the best way of doing it...
 			get_node("StartCountdown").text = ""
-		var strSeconds = str(int(seconds))
-		if int(seconds) == 60:
-			seconds = 0.0
-			minutes += 1
-		var strMinutes = str(minutes)
-		if len(strMinutes) == 1:
-			strMinutes = "0" + strMinutes
-		if len(strSeconds) == 1:
-			strSeconds = "0" + strSeconds
-		get_node("GameGUI/HUD/TimeLabel").text = "Time: " + strMinutes + ":" + strSeconds
+		get_node("GameGUI/HUD/TimeLabel").text = "Time: " + _convertTimeToString(entireLengthOfGame)
 
 func _setupStatisticsMenu():
 	$GameGUI/StatisticsMenu/StatisticsContainer/LivesStartedAtValue.text = str(statistics.livesStartedAt) if settings.lives != settings.INFINITE_LIVES else "N/A"
