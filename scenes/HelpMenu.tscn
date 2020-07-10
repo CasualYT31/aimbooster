@@ -1,0 +1,145 @@
+[gd_scene load_steps=11 format=2]
+
+[ext_resource path="res://scripts/HelpMenu.gd" type="Script" id=1]
+[ext_resource path="res://graphical/Orange Juice.ttf" type="DynamicFontData" id=2]
+[ext_resource path="res://scenes/CopyrightLabel.tscn" type="PackedScene" id=3]
+[ext_resource path="res://graphical/ButtonStyles/ButtonNormal.stylebox" type="StyleBox" id=4]
+[ext_resource path="res://graphical/ButtonStyles/ButtonPressed.stylebox" type="StyleBox" id=5]
+[ext_resource path="res://graphical/ButtonStyles/ButtonsHover.stylebox" type="StyleBox" id=6]
+
+[sub_resource type="DynamicFont" id=1]
+size = 40
+font_data = ExtResource( 2 )
+
+[sub_resource type="DynamicFont" id=5]
+font_data = ExtResource( 2 )
+
+[sub_resource type="DynamicFont" id=3]
+font_data = ExtResource( 2 )
+
+[sub_resource type="DynamicFont" id=4]
+size = 38
+font_data = ExtResource( 2 )
+
+[node name="Control" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 120.0
+margin_top = 120.0
+margin_right = -120.0
+margin_bottom = -120.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+margin_right = 1680.0
+margin_bottom = 840.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HelpTitle" type="Label" parent="MarginContainer/VBoxContainer"]
+modulate = Color( 0, 0, 0, 1 )
+margin_right = 1680.0
+margin_bottom = 49.0
+custom_fonts/font = SubResource( 1 )
+text = "Instructions"
+
+[node name="HelpBody" type="RichTextLabel" parent="MarginContainer/VBoxContainer"]
+margin_top = 53.0
+margin_right = 1680.0
+margin_bottom = 378.0
+size_flags_vertical = 3
+custom_fonts/normal_font = SubResource( 5 )
+custom_colors/default_color = Color( 0, 0, 0, 1 )
+bbcode_enabled = true
+bbcode_text = "Your goal is to click on as many targets as accurately as possible, within the configured time limit.
+
+If a target disappears, or if you click outside of a target, a miss is registered and you lose a life!
+
+In normal mode, all targets must be clicked once. In enemy mode, different types of targets require a different number of clicks to destroy:
+[color=red]Red[/color] and [color=#DB7900]Orange[/color] - 2 Hits
+[color=yellow]Yellow[/color] and [color=green]Green[/color] - 3 Hits
+[color=blue]Blue[/color] and [color=purple]Purple[/color] - 4 Hits
+Also, in enemy mode, targets [u]always[/u] move, whereas in normal mode, targets can sometimes move, other times remain stationary."
+text = "Your goal is to click on as many targets as accurately as possible, within the configured time limit.
+
+If a target disappears, or if you click outside of a target, a miss is registered and you lose a life!
+
+In normal mode, all targets must be clicked once. In enemy mode, different types of targets require a different number of clicks to destroy:
+Red and Orange - 2 Hits
+Yellow and Green - 3 Hits
+Blue and Purple - 4 Hits
+Also, in enemy mode, targets always move, whereas in normal mode, targets can sometimes move, other times remain stationary."
+
+[node name="CopyrightTitle" type="Label" parent="MarginContainer/VBoxContainer"]
+modulate = Color( 0, 0, 0, 1 )
+margin_top = 382.0
+margin_right = 1680.0
+margin_bottom = 431.0
+custom_fonts/font = SubResource( 1 )
+text = "Acknowledgements"
+
+[node name="CopyrightBody" type="RichTextLabel" parent="MarginContainer/VBoxContainer"]
+margin_top = 435.0
+margin_right = 1680.0
+margin_bottom = 760.0
+size_flags_vertical = 3
+custom_fonts/normal_font = SubResource( 3 )
+custom_colors/default_color = Color( 0, 0, 0, 1 )
+bbcode_enabled = true
+bbcode_text = "Developers/Coding - Atlantic Studios - [url=https://www.youtube.com/channel/UCHOYmbXZ7VCTLDJLbxQbtwg]CasualYouTuber31[/url] and [url=https://www.twitch.tv/maskedforgas]MaskedForGas[/url]
+
+Graphics - MaskedForGas and those found within the Godot Game Engine
+
+Font - AAAAA WE NEED TO CREDIT
+
+Tools Used - Godot Game Engine, Audacity, [url=https://github.com/CasualYT31/aimbooster]Git[/url], Discord
+
+Music - [url=https://youtu.be/7f9x4pziXWE]\"Mistake the Getaway\" by Kevin MacLeod[/url]
+
+Sounds - [url=https://www.youtube.com/watch?v=2ZIpFytCSVc]Bruh[/url] - [url=https://www.youtube.com/watch?v=f49ELvryhao]Oof[/url]
+
+Special Thanks - Google"
+text = "Developers/Coding - Atlantic Studios - CasualYouTuber31 and MaskedForGas
+
+Graphics - MaskedForGas and those found within the Godot Game Engine
+
+Font - AAAAA WE NEED TO CREDIT
+
+Tools Used - Godot Game Engine, Audacity, Git, Discord
+
+Music - \"Mistake the Getaway\" by Kevin MacLeod
+
+Sounds - Bruh - Oof
+
+Special Thanks - Google"
+
+[node name="ReturnButton" type="Button" parent="MarginContainer/VBoxContainer"]
+margin_top = 764.0
+margin_right = 1680.0
+margin_bottom = 811.0
+custom_styles/hover = ExtResource( 6 )
+custom_styles/pressed = ExtResource( 5 )
+custom_styles/normal = ExtResource( 4 )
+custom_fonts/font = SubResource( 4 )
+text = "Main Menu"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="CopyrightLabel" parent="MarginContainer/VBoxContainer" instance=ExtResource( 3 )]
+margin_top = 815.0
+margin_right = 1680.0
+margin_bottom = 840.0
+[connection signal="meta_clicked" from="MarginContainer/VBoxContainer/CopyrightBody" to="." method="_on_RichTextLabel_meta_clicked"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/ReturnButton" to="." method="_on_ReturnButton_pressed"]

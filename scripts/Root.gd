@@ -5,6 +5,7 @@ var Settings = preload("res://scripts/Settings.gd")
 var MainMenuScene = preload("res://scenes/MainMenu.tscn")
 var SettingsScene = preload("res://scenes/SettingsMenu.tscn")
 var GameScene = preload("res://scenes/GameMenu.tscn")
+var HelpScene = preload("res://scenes/HelpMenu.tscn")
 
 var tracker: bool = false
 
@@ -14,6 +15,7 @@ onready var fpsNode = get_node("FPSCounter")
 var mainMenu
 var settingsMenu
 var gameMenu
+var helpMenu
 
 func _on_MainMenu_open_settings_menu():
 	_close(mainMenu)
@@ -23,12 +25,20 @@ func _on_MainMenu_open_game_menu():
 	_close(mainMenu)
 	_openGameMenu()
 
+func _on_MainMenu_open_help_menu():
+	_close(mainMenu)
+	_openHelpMenu()
+
 func _on_SettingsMenu_open_previous_menu():
 	_close(settingsMenu)
 	_openMainMenu()
 
 func _on_GameMenu_open_main_menu():
 	_close(gameMenu)
+	_openMainMenu()
+
+func _on_HelpMenu_open_main_menu():
+	_close(helpMenu)
 	_openMainMenu()
 
 func _ready():
@@ -44,6 +54,7 @@ func _openMainMenu():
 	mainMenu = MainMenuScene.instance()
 	mainMenu.connect("open_settings_menu", self, "_on_MainMenu_open_settings_menu")
 	mainMenu.connect("open_game_menu", self, "_on_MainMenu_open_game_menu")
+	mainMenu.connect("open_help_menu", self, "_on_MainMenu_open_help_menu")
 	add_child(mainMenu)
 
 func _openSettingsMenu():
@@ -56,6 +67,11 @@ func _openGameMenu():
 	gameMenu = GameScene.instance()
 	gameMenu.connect("open_main_menu", self, "_on_GameMenu_open_main_menu")
 	add_child(gameMenu)
+
+func _openHelpMenu():
+	helpMenu = HelpScene.instance()
+	helpMenu.connect("open_main_menu", self, "_on_HelpMenu_open_main_menu")
+	add_child(helpMenu)
 
 # manages background music continuously.
 # there is a danger that alert dialogs will be produced continuously

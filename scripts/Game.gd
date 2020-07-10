@@ -48,7 +48,7 @@ var chanceOfBlueTarget: int = 0
 var chanceOfPurpleTarget: int = 0
 # chance of a target being stationary
 # if not stationary, position will be totally random yet confined within the screen
-var chanceOfStationaryTarget: int = 0#100
+var chanceOfStationaryTarget: int = 100
 # how long the target should remain on screen for
 # this value is to be gradually made smaller when adjusting difficulty
 var activeLifeOfTarget: float = 3.0 # check _ready for value changes <<<< IMPORTANT
@@ -149,7 +149,7 @@ func _generateNewTargetPosition():
 	return Vector2(float(randi() % int(OS.get_window_size().x)), float(randi() % int(OS.get_window_size().y)))
 
 func _newTargetShouldBeStationary():
-	return (randi() % 100 + 1) <= chanceOfStationaryTarget
+	return false if settings.isEnemyMode else (randi() % 100 + 1) <= chanceOfStationaryTarget
 
 # Functions - Difficulty Management
 	# adjust the following variables:
@@ -208,7 +208,7 @@ func _determineDifficulty():
 
 # Functions - Target Signal Handlers
 func _on_target_hit():
-	if !gameHasEnded:
+	if settings.soundVolume >= 1.0 && !gameHasEnded:
 		$MissSound.seek(0.55) # prevents miss sound from playing since a miss is registered if a hit is registered, too :(
 		$HitSound.play()
 	statistics.increasePlayerScore(1)
@@ -219,7 +219,7 @@ func _on_target_hit():
 	_updateLivesDisplay()
 
 func _on_target_miss():
-	if !gameHasEnded:
+	if settings.soundVolume >= 1.0 && !gameHasEnded:
 		$MissSound.play()
 	statistics.aMissWasMade()
 	if settings.lives != settings.INFINITE_LIVES:
