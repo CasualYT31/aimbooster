@@ -88,24 +88,24 @@ __meta__ = {
 [node name="MarginContainer" type="MarginContainer" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = 120.0
-margin_top = 120.0
-margin_right = -120.0
-margin_bottom = -120.0
+margin_left = 60.0
+margin_top = 60.0
+margin_right = -60.0
+margin_bottom = -60.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
-margin_right = 1680.0
-margin_bottom = 840.0
+margin_right = 1800.0
+margin_bottom = 960.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="GridContainer" type="GridContainer" parent="MarginContainer/VBoxContainer"]
-margin_left = 306.0
-margin_right = 1374.0
+margin_left = 366.0
+margin_right = 1434.0
 margin_bottom = 520.0
 size_flags_horizontal = 4
 size_flags_vertical = 2
@@ -341,7 +341,6 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 min_value = 1.0
 max_value = 4.0
-step = 1.0
 value = 1.0
 tick_count = 4
 ticks_on_borders = true
@@ -411,9 +410,9 @@ custom_fonts/font = SubResource( 17 )
 text = "Back"
 
 [node name="CopyrightLabel" parent="MarginContainer/VBoxContainer" instance=ExtResource( 4 )]
-margin_top = 815.0
-margin_right = 1680.0
-margin_bottom = 840.0
+margin_top = 935.0
+margin_right = 1800.0
+margin_bottom = 960.0
 [connection signal="value_changed" from="MarginContainer/VBoxContainer/GridContainer/SoundVolume" to="." method="_on_SoundVolume_value_changed"]
 [connection signal="value_changed" from="MarginContainer/VBoxContainer/GridContainer/MusicVolume" to="." method="_on_MusicVolume_value_changed"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/GridContainer/ShootContainer/ShootLeft" to="." method="_on_ShootLeft_pressed"]

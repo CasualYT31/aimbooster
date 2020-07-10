@@ -34,13 +34,9 @@ var timeUntilNextSpawn: float = 3.0
 # Variables - Difficulty Data
 # chance variables will be a %age from 0-100
 # they represent a chance of a property being a certain way
-# i.e. "50% chance of target being red,
-#       45% chance of it being orange,
+# i.e. "55% chance of it being orange,
 #       5% chance of it being yellow,
 #       0% chance of it being green, etc."
-# each group of chance variables should add up to 100
-# this is the target type group
-var chanceOfRedTarget: int = 100
 var chanceOfOrangeTarget: int = 0
 var chanceOfYellowTarget: int = 0
 var chanceOfGreenTarget: int = 0
@@ -136,19 +132,22 @@ func _targetSpawnManager():
 		return false
 
 func _generateNewTargetType():
-	var random: int = (randi() % 100) + 1 # random number between 1 and 100
-	if random <= chanceOfRedTarget:
-		return Global.TargetType.RED
-	elif random <= chanceOfRedTarget + chanceOfOrangeTarget:
-		return Global.TargetType.ORANGE
-	elif random <= chanceOfRedTarget + chanceOfOrangeTarget + chanceOfYellowTarget:
-		return Global.TargetType.YELLOW
-	elif random <= chanceOfRedTarget + chanceOfOrangeTarget + chanceOfYellowTarget + chanceOfGreenTarget:
-		return Global.TargetType.GREEN
-	elif random <= chanceOfRedTarget + chanceOfOrangeTarget + chanceOfYellowTarget + chanceOfGreenTarget + chanceOfBlueTarget:
-		return Global.TargetType.BLUE
-	else:
+	if settings.startDifficulty > 2.0 && randi() % 100 + 1 <= chanceOfPurpleTarget:
 		return Global.TargetType.PURPLE
+	else:
+		if settings.startDifficulty > 2.0 && randi() % 100 + 1 <= chanceOfBlueTarget:
+			return Global.TargetType.BLUE
+		else:
+			if settings.startDifficulty > 1.0 && randi() % 100 + 1 <= chanceOfGreenTarget:
+				return Global.TargetType.GREEN
+			else:
+				if randi() % 100 + 1 <= chanceOfYellowTarget:
+					return Global.TargetType.YELLOW
+				else:
+					if randi() % 100 + 1 <= chanceOfOrangeTarget:
+						return Global.TargetType.ORANGE
+					else:
+						return Global.TargetType.RED
 
 func _generateNewTargetHealth(targetType: int):
 	if settings.isEnemyMode:
@@ -210,125 +209,47 @@ func _increaseDifficulty():
 	if chanceOfStationaryTarget < _calculateStationaryChanceCap():
 		chanceOfStationaryTarget = _calculateStationaryChanceCap()
 	
-	# I'm going to change how these percentage values work \/\/\/\/
 	var m : int = settings.startDifficulty * 3.0
-	if chanceOfRedTarget >= chanceOfOrangeTarget && chanceOfRedTarget > _calculateRedTargetCap():
-		chanceOfRedTarget -= m
+	if chanceOfOrangeTarget < 75:
 		chanceOfOrangeTarget += m
-		if chanceOfRedTarget < _calculateRedTargetCap():
-			var diff = _calculateRedTargetCap() - chanceOfRedTarget
-			chanceOfRedTarget += diff
-			chanceOfOrangeTarget -= diff
-	elif chanceOfOrangeTarget >= chanceOfYellowTarget && chanceOfOrangeTarget > _calculateOrangeTargetCap():
-		chanceOfOrangeTarget -= m
+	elif chanceOfYellowTarget < 75:
 		chanceOfYellowTarget += m
-		if chanceOfOrangeTarget < _calculateOrangeTargetCap():
-			var diff = _calculateOrangeTargetCap() - chanceOfOrangeTarget
-			chanceOfOrangeTarget += diff
-			chanceOfYellowTarget -= diff
-	elif settings.startDifficulty != 1.0 && chanceOfYellowTarget >= chanceOfGreenTarget && chanceOfYellowTarget > _calculateYellowTargetCap():
-		chanceOfYellowTarget -= m
+	elif chanceOfGreenTarget < 75:
 		chanceOfGreenTarget += m
-		if chanceOfYellowTarget < _calculateYellowTargetCap():
-			var diff = _calculateYellowTargetCap() - chanceOfYellowTarget
-			chanceOfYellowTarget += diff
-			chanceOfGreenTarget -= diff
-	elif settings.startDifficulty != 1.0 && chanceOfGreenTarget >= chanceOfBlueTarget && chanceOfGreenTarget > _calculateGreenTargetCap():
-		chanceOfGreenTarget -= m
+	elif chanceOfBlueTarget < 75:
 		chanceOfBlueTarget += m
-		if chanceOfGreenTarget < _calculateGreenTargetCap():
-			var diff = _calculateGreenTargetCap() - chanceOfGreenTarget
-			chanceOfGreenTarget += diff
-			chanceOfBlueTarget -= diff
-	elif settings.startDifficulty != 1.0 && chanceOfBlueTarget > _calculateBlueTargetCap():
-		chanceOfBlueTarget -= m
+	elif chanceOfPurpleTarget < 75:
 		chanceOfPurpleTarget += m
-		if chanceOfBlueTarget < _calculateBlueTargetCap():
-			var diff = _calculateBlueTargetCap() - chanceOfBlueTarget
-			chanceOfBlueTarget += diff
-			chanceOfPurpleTarget -= diff
-	
-	print(chanceOfRedTarget + chanceOfOrangeTarget + chanceOfYellowTarget + chanceOfGreenTarget + chanceOfBlueTarget + chanceOfPurpleTarget == 100)
 
 func _calculateSpawnDelayCap():
 	if settings.startDifficulty >= 1.0 && settings.startDifficulty < 2.0:
-		return 0.75
+		return 1.2
 	elif settings.startDifficulty >= 2.0 && settings.startDifficulty < 3.0:
-		return 0.75
+		return 1.0
 	elif settings.startDifficulty >= 3.0 && settings.startDifficulty < 4.0:
-		return 0.75
+		return 0.8
 	else:
-		return 0.75
+		return 0.6
 
 func _calculateLifeOfTargetCap():
 	if settings.startDifficulty >= 1.0 && settings.startDifficulty < 2.0:
-		return 1.5
+		return 2.25
 	elif settings.startDifficulty >= 2.0 && settings.startDifficulty < 3.0:
-		return 1.5
+		return 2.0
 	elif settings.startDifficulty >= 3.0 && settings.startDifficulty < 4.0:
-		return 1.5
+		return 1.75
 	else:
 		return 1.5
 
 func _calculateStationaryChanceCap():
 	if settings.startDifficulty >= 1.0 && settings.startDifficulty < 2.0:
-		return 10
+		return 100
 	elif settings.startDifficulty >= 2.0 && settings.startDifficulty < 3.0:
-		return 10
-	elif settings.startDifficulty >= 3.0 && settings.startDifficulty < 4.0:
-		return 10
-	else:
-		return 10
-
-func _calculateRedTargetCap():
-	if settings.startDifficulty >= 1.0 && settings.startDifficulty < 2.0:
-		return 5
-	elif settings.startDifficulty >= 2.0 && settings.startDifficulty < 3.0:
-		return 5
-	elif settings.startDifficulty >= 3.0 && settings.startDifficulty < 4.0:
-		return 5
-	else:
-		return 5
-
-func _calculateOrangeTargetCap():
-	if settings.startDifficulty >= 1.0 && settings.startDifficulty < 2.0:
-		return 5
-	elif settings.startDifficulty >= 2.0 && settings.startDifficulty < 3.0:
-		return 5
-	elif settings.startDifficulty >= 3.0 && settings.startDifficulty < 4.0:
-		return 5
-	else:
-		return 5
-
-func _calculateYellowTargetCap():
-	if settings.startDifficulty >= 1.0 && settings.startDifficulty < 2.0:
-		return 10
-	elif settings.startDifficulty >= 2.0 && settings.startDifficulty < 3.0:
-		return 10
-	elif settings.startDifficulty >= 3.0 && settings.startDifficulty < 4.0:
-		return 10
-	else:
-		return 10
-
-func _calculateGreenTargetCap():
-	if settings.startDifficulty >= 1.0 && settings.startDifficulty < 2.0:
-		return 25
-	elif settings.startDifficulty >= 2.0 && settings.startDifficulty < 3.0:
-		return 25
+		return 55
 	elif settings.startDifficulty >= 3.0 && settings.startDifficulty < 4.0:
 		return 25
 	else:
-		return 25
-
-func _calculateBlueTargetCap():
-	if settings.startDifficulty >= 1.0 && settings.startDifficulty < 2.0:
-		return 25
-	elif settings.startDifficulty >= 2.0 && settings.startDifficulty < 3.0:
-		return 25
-	elif settings.startDifficulty >= 3.0 && settings.startDifficulty < 4.0:
-		return 25
-	else:
-		return 25
+		return 10
 
 # Functions - Target Signal Handlers
 func _on_target_hit():
