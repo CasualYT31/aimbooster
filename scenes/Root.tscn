@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://scripts/Root.gd" type="Script" id=1]
-[ext_resource path="res://graphical/Untitled-1.png" type="Texture" id=2]
+[ext_resource path="res://graphical/background.png" type="Texture" id=2]
 [ext_resource path="res://audio/Mistake the Getaway.ogg" type="AudioStream" id=3]
 [ext_resource path="res://scenes/FPSCounter.tscn" type="PackedScene" id=4]
 
