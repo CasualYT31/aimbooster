@@ -105,21 +105,21 @@ size_flags_vertical = 3
 custom_fonts/normal_font = SubResource( 3 )
 custom_colors/default_color = Color( 0, 0, 0, 1 )
 bbcode_enabled = true
-bbcode_text = "Developers/Coding - Atlantic Studios - [url=https://www.youtube.com/channel/UCHOYmbXZ7VCTLDJLbxQbtwg]CasualYouTuber31[/url] and [url=https://www.twitch.tv/maskedforgas]MaskedForGas[/url]
+bbcode_text = "Developers/Coding - Atlantic Studios - [color=blue][url=https://www.youtube.com/channel/UCHOYmbXZ7VCTLDJLbxQbtwg]CasualYouTuber31[/url][/color] and [color=blue][url=https://www.twitch.tv/maskedforgas]MaskedForGas[/url][/color]
 
 Graphics - MaskedForGas and those found within the Godot Game Engine
 
 Font - Monster Mech by Darrell Flood, please see font licence file that should have come with the game.
 
-Tools Used - Godot Game Engine, Audacity, [url=https://github.com/CasualYT31/aimbooster]Git[/url], Discord
+Tools Used - Godot Game Engine, Audacity, [color=blue][url=https://github.com/CasualYT31/aimbooster]Git[/url][/color], Discord
 
-Music - [url=https://youtu.be/7f9x4pziXWE]\"Mistake the Getaway\" by Kevin MacLeod[/url]
+Music - [color=blue][url=https://youtu.be/7f9x4pziXWE]\"Mistake the Getaway\" by Kevin MacLeod[/url][/color]
 
-Sounds - [url=https://www.youtube.com/watch?v=2ZIpFytCSVc]Bruh[/url] - [url=https://www.youtube.com/watch?v=f49ELvryhao]Oof[/url]
+Sounds - [color=blue][url=https://www.youtube.com/watch?v=2ZIpFytCSVc]Bruh[/url][/color] - [color=blue][url=https://www.youtube.com/watch?v=f49ELvryhao]Oof[/url][/color]
 
 Special Thanks - Google
 
-We're aiming to develop more games in the future, so please join our [url=https://discord.gg/kMzg4MX]Discord server[/url] if you're interested!"
+We're aiming to develop more games in the future, so please join our [color=blue][url=https://discord.gg/kMzg4MX]Discord server[/url][/color] if you're interested!"
 text = "Developers/Coding - Atlantic Studios - CasualYouTuber31 and MaskedForGas
 
 Graphics - MaskedForGas and those found within the Godot Game Engine
