@@ -29,7 +29,8 @@ var targetParentReappearDelay: float = 0.0
 var gameOverCheckingDelay: float = 0.0
 # spawn timing variables
 var spawnTimerCounter: float = 0.0 # timer that counts the number of seconds since last spawn
-var timeUntilNextSpawn: float = 3.0
+var highestTimeUntilNextSpawn: float = 3.0
+var timeUntilNextSpawn: float = 1.0 # this specific value represents the delay from end of countdown to first target spawn
 
 # Variables - Difficulty Data
 # chance variables will be a %age from 0-100
@@ -110,6 +111,9 @@ func _convertTimeToString(timeValue: float):
 # returns TRUE if a target was spawned, FALSE if not
 func _targetSpawnManager():
 	if spawnTimerCounter >= timeUntilNextSpawn:
+		# if this is the first target, then readjust to the highestTimeUntilNextSpawn
+		if entireLengthOfGame < timeUntilNextSpawn + highestTimeUntilNextSpawn:
+			timeUntilNextSpawn = highestTimeUntilNextSpawn + _calculateTimeUntilNextSpawnDecrement() # will be adjusted when we increase difficulty
 		# spawn a target here!
 		# we should design our code so that we don't have to explicitly store references to targets
 		var targetType: int = _generateNewTargetType()
@@ -195,12 +199,12 @@ func _newTargetShouldBeStationary():
 	# decrease both activeLifeOfTarget and timeUntilNextSpawn by a small amount
 func _increaseDifficulty():
 	if timeUntilNextSpawn > _calculateSpawnDelayCap():
-		timeUntilNextSpawn -= float(settings.startDifficulty) / 35.0
+		timeUntilNextSpawn -= _calculateTimeUntilNextSpawnDecrement()
 	if timeUntilNextSpawn < _calculateSpawnDelayCap():
 		timeUntilNextSpawn = _calculateSpawnDelayCap()
 	
 	if activeLifeOfTarget > _calculateLifeOfTargetCap():
-		activeLifeOfTarget -= float(settings.startDifficulty) / 50.0
+		activeLifeOfTarget -= _calculateActiveLifeOfTargetDecrement()
 	if activeLifeOfTarget < _calculateLifeOfTargetCap():
 		activeLifeOfTarget = _calculateLifeOfTargetCap()
 	
@@ -220,6 +224,12 @@ func _increaseDifficulty():
 		chanceOfBlueTarget += m
 	elif chanceOfPurpleTarget < 75:
 		chanceOfPurpleTarget += m
+
+func _calculateTimeUntilNextSpawnDecrement():
+	return float(settings.startDifficulty) / 35.0
+
+func _calculateActiveLifeOfTargetDecrement():
+	return float(settings.startDifficulty) / 50.0
 
 func _calculateSpawnDelayCap():
 	if settings.startDifficulty >= 1.0 && settings.startDifficulty < 2.0:
