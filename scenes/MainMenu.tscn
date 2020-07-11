@@ -1,6 +1,6 @@
 [gd_scene load_steps=12 format=2]
 
-[ext_resource path="res://graphical/title.png" type="Texture" id=1]
+[ext_resource path="res://graphical/title_with_background.png" type="Texture" id=1]
 [ext_resource path="res://graphical/Monster Mech.ttf" type="DynamicFontData" id=2]
 [ext_resource path="res://graphical/ButtonStyles/ButtonsHover.stylebox" type="StyleBox" id=3]
 [ext_resource path="res://scripts/MainMenu.gd" type="Script" id=4]
