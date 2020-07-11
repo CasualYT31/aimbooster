@@ -5,7 +5,7 @@
 [ext_resource path="res://graphical/ButtonStyles/ButtonNormal.stylebox" type="StyleBox" id=4]
 [ext_resource path="res://graphical/ButtonStyles/ButtonsHover.stylebox" type="StyleBox" id=5]
 [ext_resource path="res://audio/Bruh.wav" type="AudioStream" id=6]
-[ext_resource path="res://audio/Oof.wav" type="AudioStream" id=7]
+[ext_resource path="res://audio/Hit.wav" type="AudioStream" id=7]
 [ext_resource path="res://graphical/Monster Mech.ttf" type="DynamicFontData" id=9]
 
 [sub_resource type="DynamicFont" id=1]
