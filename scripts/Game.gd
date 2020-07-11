@@ -23,6 +23,7 @@ var entireLengthOfGame: float = -3.0
 # keeps track of how long the game is running after unpausing
 # helps combat a "bug" within the Godot engine (input events queuing up in pause mode)
 var targetParentReappearDelay: float = 0.0
+var targetParentReappearDelayEnabled := false
 # because there doesn't seem to be an easy way to separate hit and miss mouse click collisions
 # we have to delay game over checking to ensure that when a hit-and-miss is registered and one life is left
 # the game doesn't game over before the hit code portion runs which counteracts the miss
@@ -65,12 +66,10 @@ func _ready():
 
 # Functions - Game Loop
 func _process(delta):
-	#delta*=10 # time multiplier
-	
 	# delay reappearing targets when unpausing so that the input event queue can be cleared out
-	if targetParentReappearDelay > 0.0 && entireLengthOfGame - targetParentReappearDelay >= 0.0001:
+	if targetParentReappearDelayEnabled && entireLengthOfGame - targetParentReappearDelay >= 0.0001:
 		$TargetParent.show()
-		targetParentReappearDelay = 0.0
+		targetParentReappearDelayEnabled = false
 	
 	_incrementTimeCounters(delta)
 	_updateTimeDisplay()
@@ -308,6 +307,7 @@ func _pause():
 
 func _unpause():
 	targetParentReappearDelay = entireLengthOfGame # delay reappearing of TargetParent
+	targetParentReappearDelayEnabled = true
 	get_node("GameGUI/PauseMenu").visible = false
 	get_tree().paused = false
 
