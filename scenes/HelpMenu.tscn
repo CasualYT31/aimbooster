@@ -109,7 +109,7 @@ bbcode_text = "Developers/Coding - Atlantic Studios - [url=https://www.youtube.c
 
 Graphics - MaskedForGas and those found within the Godot Game Engine
 
-Font - AAAAA WE NEED TO CREDIT
+Font - Monster Mech by Darrell Flood, please see font licence file that should have come with the game.
 
 Tools Used - Godot Game Engine, Audacity, [url=https://github.com/CasualYT31/aimbooster]Git[/url], Discord
 
@@ -119,12 +119,12 @@ Sounds - [url=https://www.youtube.com/watch?v=2ZIpFytCSVc]Bruh[/url] - [url=http
 
 Special Thanks - Google
 
-We're aiming to develop more games in the near future, so please join our [url=https://discord.gg/kMzg4MX]Discord server[/url] if you're interested!"
+We're aiming to develop more games in the future, so please join our [url=https://discord.gg/kMzg4MX]Discord server[/url] if you're interested!"
 text = "Developers/Coding - Atlantic Studios - CasualYouTuber31 and MaskedForGas
 
 Graphics - MaskedForGas and those found within the Godot Game Engine
 
-Font - AAAAA WE NEED TO CREDIT
+Font - Monster Mech by Darrell Flood, please see font licence file that should have come with the game.
 
 Tools Used - Godot Game Engine, Audacity, Git, Discord
 
@@ -134,7 +134,7 @@ Sounds - Bruh - Oof
 
 Special Thanks - Google
 
-We're aiming to develop more games in the near future, so please join our Discord server if you're interested!"
+We're aiming to develop more games in the future, so please join our Discord server if you're interested!"
 
 [node name="ReturnButton" type="Button" parent="MarginContainer/VBoxContainer"]
 margin_top = 882.0
