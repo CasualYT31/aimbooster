@@ -17,7 +17,10 @@ _global_script_class_icons={
 
 config/name="aimbooster"
 run/main_scene="res://scenes/Root.tscn"
-config/icon="res://graphical/icon.png"
+run/disable_stdout=true
+run/disable_stderr=true
+config/icon="res://graphical/target.png"
+config/windows_native_icon="res://graphical/target.ico"
 
 [autoload]
 
