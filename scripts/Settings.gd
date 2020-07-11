@@ -12,7 +12,7 @@ export var lives: int = 3 setget setLives, getLives
 export var time: int = INFINITE_TIME setget setTime, getTime
 export var fullscreen: bool = OS.window_fullscreen setget setFullscreen, getFullscreen
 export var fpsCounter: bool = false setget setFPSVisible, getFPSVisible
-export var startDifficulty: float = 4.0 setget setStartDifficulty, getStartDifficulty
+export var startDifficulty: float = 2.0 setget setStartDifficulty, getStartDifficulty
 export var errorCount := 0 setget , getErrorCount
 
 # constructor: loads settings file and updates variables
