@@ -1,4 +1,4 @@
-extends Node
+extends Reference
 
 export var livesStartedAt: int setget , getLivesStartedAt
 export var livesEndedAt: int setget , getLivesEndedAt

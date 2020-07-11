@@ -1,4 +1,4 @@
-extends Node
+extends Reference
 
 const INFINITE_LIVES: int = 0
 const INFINITE_TIME: int = 0
