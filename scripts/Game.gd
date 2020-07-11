@@ -67,7 +67,7 @@ func _ready():
 # Functions - Game Loop
 func _process(delta):
 	# delay reappearing targets when unpausing so that the input event queue can be cleared out
-	if targetParentReappearDelayEnabled && entireLengthOfGame - targetParentReappearDelay >= 0.0001:
+	if targetParentReappearDelayEnabled && entireLengthOfGame - targetParentReappearDelay >= 0.1:
 		$TargetParent.show()
 		targetParentReappearDelayEnabled = false
 	
@@ -75,7 +75,8 @@ func _process(delta):
 	_updateTimeDisplay()
 	if _targetSpawnManager():
 		_increaseDifficulty()
-	if entireLengthOfGame - gameOverCheckingDelay >= 0.1:
+	if entireLengthOfGame - gameOverCheckingDelay >= 0.5:
+		_updateLivesDisplay()
 		_checkIfGameOver()
 		gameOverCheckingDelay = entireLengthOfGame
 	
@@ -270,7 +271,6 @@ func _on_target_hit():
 	# undo "target miss" that registers in _unhandled_input()
 	if settings.lives != settings.INFINITE_LIVES:
 		lives += 1
-	_updateLivesDisplay()
 
 func _on_target_miss():
 	if settings.soundVolume >= 1.0 && !gameHasEnded:
@@ -280,7 +280,6 @@ func _on_target_miss():
 		lives -= 1
 		if lives < 0:
 			lives = 0
-	_updateLivesDisplay()
 
 func _on_target_destroy():
 	statistics.aTargetWasDestroyed()
