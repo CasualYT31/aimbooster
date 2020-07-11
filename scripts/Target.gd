@@ -83,9 +83,9 @@ func _process(delta):
 	if targetHealth > 0:
 		$Area2D.position = curve.interpolate_baked(internalTimer / activeDuration * curve.get_baked_length(), true)
 		if internalTimer >= activeDuration:
+			emit_signal("target_miss")
 			get_parent().remove_child(self)
 			queue_free()
-			emit_signal("target_miss")
 	else:
 		if internalTimer - timeAtWhichDestroyed >= 1.0:
 			get_parent().remove_child(self)
