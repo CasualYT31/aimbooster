@@ -12,9 +12,9 @@ func recallWindowPosition():
 			if (!data.has("h")):
 				data["h"] = 1080
 			if (!data.has("x")):
-				data["x"] = 0
+				data["x"] = 1920/2
 			if (!data.has("y")):
-				data["y"] = 0
+				data["y"] = 1080/2
 			if (!data.has("max")):
 				data["max"] = true
 			OS.set_window_size(Vector2(data["w"], data["h"]))

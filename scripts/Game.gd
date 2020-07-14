@@ -67,6 +67,7 @@ func _ready():
 # Functions - Game Loop
 func _process(delta):
 	# delay reappearing targets when unpausing so that the input event queue can be cleared out
+	
 	if targetParentReappearDelayEnabled && entireLengthOfGame - targetParentReappearDelay >= 0.1:
 		$TargetParent.show()
 		targetParentReappearDelayEnabled = false
@@ -166,17 +167,28 @@ func _generateNewTargetHealth(targetType: int):
 		return 1
 
 func _generateNewTargetPosition():
-	return Vector2(float(randi() % int(OS.get_window_size().x)), float(randi() % int(OS.get_window_size().y)))
+	var x: float = float(randi() % int(OS.get_window_size().x))
+	var y: float = float(randi() % int(OS.get_window_size().y))
+	if y < 25:
+		y = 25
+	elif y > (OS.get_window_size().y - 25):
+		y = (OS.get_window_size().y - 25)
+	if x < 25:
+		x = 25
+	elif x > (OS.get_window_size().x - 25):
+		x = (OS.get_window_size().x - 25)
+	
+	return Vector2(x, y)
 
 func _generateNewTargetEndPosition(startPosition: Vector2):
 	if _newTargetShouldBeStationary():
 		return startPosition
 	else:
 		var endPosition : Vector2
-		var maxDistance := 800
+		var maxDistance := 500
 		var distanceToTravel := maxDistance + 1.0
 		while distanceToTravel > maxDistance:
-			endPosition = Vector2(float(randi() % maxDistance * 2 - maxDistance), float(randi() % maxDistance * 2 - maxDistance))
+			endPosition = Vector2(float(randi() % maxDistance), float(randi() % maxDistance))
 			endPosition += startPosition
 			if endPosition.x < 0.0:
 				endPosition.x = abs(endPosition.x)
@@ -232,28 +244,28 @@ func _calculateActiveLifeOfTargetDecrement():
 	return float(settings.startDifficulty) / 50.0
 
 func _calculateSpawnDelayCap():
-	if settings.startDifficulty >= 1.0 && settings.startDifficulty < 2.0:
+	if settings.startDifficulty == 1.0:
 		return 1.2
-	elif settings.startDifficulty >= 2.0 && settings.startDifficulty < 3.0:
+	elif settings.startDifficulty == 2:
 		return 1.0
-	elif settings.startDifficulty >= 3.0 && settings.startDifficulty < 4.0:
+	elif settings.startDifficulty == 3:
 		return 0.8
 	else:
 		return 0.6
 
 func _calculateLifeOfTargetCap():
-	if settings.startDifficulty >= 1.0 && settings.startDifficulty < 2.0:
+	if settings.startDifficulty == 1.0:
 		return 2.25
-	elif settings.startDifficulty >= 2.0 && settings.startDifficulty < 3.0:
+	elif settings.startDifficulty == 2.0:
 		return 2.0
-	elif settings.startDifficulty >= 3.0 && settings.startDifficulty < 4.0:
+	elif settings.startDifficulty == 3.0:
 		return 1.75
 	else:
 		return 1.5
 
 func _calculateStationaryChanceCap():
 	if settings.startDifficulty >= 1.0 && settings.startDifficulty < 2.0:
-		return 100
+		return 85
 	elif settings.startDifficulty >= 2.0 && settings.startDifficulty < 3.0:
 		return 55
 	elif settings.startDifficulty >= 3.0 && settings.startDifficulty < 4.0:
